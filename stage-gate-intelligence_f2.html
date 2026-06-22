@@ -3,7 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stage Gate Intelligence — Dashboard</title>
+<title>Stage Gate Intelligence</title>
+<meta name="description" content="Stage Gate Intelligence — AI-powered stage gate reporting and quality assurance for capital investment projects.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Stage Gate Intelligence">
+<meta property="og:description" content="AI-powered stage gate reporting and quality assurance for capital investment projects.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#001B72">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -128,27 +134,22 @@ html[data-brand="curiosity"] .ws-files .ws-tag--amber{background:var(--blue-soft
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
-  background:#E7EAEF;                 /* neutral surround so the frame reads as an artboard */
+  background:var(--bg);
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   color:var(--heading);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
-.proto-banner{position:sticky;top:0;z-index:300;box-sizing:border-box;width:100%;height:28px;display:flex;align-items:center;justify-content:center;background:#D2433F;color:#fff;font-size:12px;font-weight:600;letter-spacing:.2px;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;border-bottom:1px solid rgba(0,0,0,.12);}
 
 /* The 1387 × frame, matched 1:1 to the export */
 .app{
-  width:1387px;
-  margin:24px auto;
+  width:100%;
   background:var(--bg);
   display:flex;
   flex-direction:column;
-  height:calc(100vh - 76px);
+  height:100vh;
   min-height:520px;
-  max-height:937px;
-  border-radius:10px;
   overflow:hidden;
-  box-shadow:0 10px 40px rgba(16,42,67,.12);
 }
 
 /* ---------------- Top bar (light theme) ---------------- */
@@ -1190,13 +1191,12 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 </style>
 </head>
 <body>
-<div class="proto-banner">This prototype is for illustrative purposes only.</div>
 <div class="app" data-persona="project">
 
   <!-- ===== Top bar ===== -->
   <header class="topbar">
     <div class="nav-left">
-      <div class="logomark" data-reset title="Back to start">SGI</div>
+      <div class="logomark" data-reset>SGI</div>
       <div class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
@@ -1241,7 +1241,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       <button class="side-icon" aria-label="Settings">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
       </button>
-      <button class="avatar" data-persona-switch="secretariat" aria-label="R. Hassan" title="Switch to Secretariat dashboard">RH</button>
+      <button class="avatar" data-persona-switch="secretariat" aria-label="R. Hassan" >RH</button>
     </nav>
 
     <!-- ===== Main ===== -->
@@ -1251,7 +1251,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       <!-- Greeting -->
       <section class="greeting">
         <h1 class="greeting__title">Good morning, Hassan</h1>
-        <p class="greeting__sub">Thursday, 11 June 2026 · Sports BU Project Manager</p>
+        <p class="greeting__sub">Thursday, 11 June 2026</p>
       </section>
 
       <!-- Next action banner -->
@@ -2710,7 +2710,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   <!-- ===== Top bar (Secretariat) ===== -->
   <header class="topbar">
     <div class="nav-left">
-      <div class="logomark" data-reset title="Back to start">SGI</div>
+      <div class="logomark" data-reset>SGI</div>
       <div class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
@@ -2749,7 +2749,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       <button class="side-icon" aria-label="Settings">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
       </button>
-      <button class="avatar" data-persona-switch="project" aria-label="F. Osman" title="Switch to Project team dashboard">FO</button>
+      <button class="avatar" data-persona-switch="project" aria-label="F. Osman" >FO</button>
     </nav>
 
     <!-- ===== Main (Secretariat control tower) ===== -->
@@ -2994,9 +2994,9 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                   <span class="ws-tag ws-tag--green sec-rep-item__pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Ready</span>
                   <svg class="sec-rep-item__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-                <div class="sec-rep-item" data-name="Qiddiya Performing Arts Center" data-stage="Stage Gate 5" data-received="8 Jun 2026" data-status="complete">
+                <div class="sec-rep-item" data-name="Qiddiya Performing Arts Centre" data-stage="Stage Gate 5" data-received="8 Jun 2026" data-status="complete">
                   <div class="sec-rep-item__body">
-                    <p class="sec-rep-item__name">Qiddiya Performing Arts Center</p>
+                    <p class="sec-rep-item__name">Qiddiya Performing Arts Centre</p>
                     <p class="sec-rep-item__sub">Stage Gate 5</p>
                     <p class="sec-rep-item__date">8 Jun</p>
                   </div>
@@ -3343,7 +3343,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                     </div>
                   </div>
                 </div>
-                <div class="sec-rep-sumpane" data-pane="Qiddiya Performing Arts Center">
+                <div class="sec-rep-sumpane" data-pane="Qiddiya Performing Arts Centre">
                   <div class="sec-sum-facts">
                     <div class="sec-sum-fact"><span class="sec-sum-fact__k">Submitted by</span><span class="sec-sum-fact__v">A. Faris</span></div>
                     <div class="sec-sum-fact"><span class="sec-sum-fact__k">Sector</span><span class="sec-sum-fact__v">Arts &amp; Culture</span></div>
@@ -3443,7 +3443,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                 </div>
                 <div class="sec-out-item" data-outpane="SME">
                   <div class="sec-out-item__body">
-                    <p class="sec-out-item__name">Qiddiya Performing Arts Center</p>
+                    <p class="sec-out-item__name">Qiddiya Performing Arts Centre</p>
                     <p class="sec-out-item__sub">Stage Gate 5</p>
                     <p class="sec-out-item__date">9 Jun</p>
                   </div>
@@ -3622,7 +3622,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                 <div class="sec-out-pane" data-outpane="SME">
                   <div class="sec-out-head">
                     <div>
-                      <h2 class="sec-out-name">Qiddiya Performing Arts Center SG5</h2>
+                      <h2 class="sec-out-name">Qiddiya Performing Arts Centre SG5</h2>
                       <p class="sec-out-sess">SGRP Session 15 - 9 Jun 2026</p>
                     </div>
                     <div class="sec-out-headactions">
@@ -3631,13 +3631,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                       <button class="sec-rep-iconcta" title="Send letter"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg></button>
                     </div>
                   </div>
-                  <div class="sec-out-trace"><span class="sec-out-trace__ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/><path d="M18.5 14l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></svg></span><span class="sec-out-teams" aria-label="Microsoft Teams">T</span><span>AI drafted from Qiddiya Performing Arts Center SG5 Review Minutes (9 Jun 2026) &middot; Decision logged to repository &middot; Traceable to transcript timestamp 0:48:30</span></div>
+                  <div class="sec-out-trace"><span class="sec-out-trace__ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/><path d="M18.5 14l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></svg></span><span class="sec-out-teams" aria-label="Microsoft Teams">T</span><span>AI drafted from Qiddiya Performing Arts Centre SG5 Review Minutes (9 Jun 2026) &middot; Decision logged to repository &middot; Traceable to transcript timestamp 0:48:30</span></div>
                   <div class="card sec-out-letter">
                     <p class="sec-out-to">To: Faris, Cultural Venues Delivery</p>
                     <p class="sec-out-date">9 June 2026</p>
-                    <p class="sec-out-subj">SGRP Stage Gate 5 - Endorsement notice - Qiddiya Performing Arts Center</p>
+                    <p class="sec-out-subj">SGRP Stage Gate 5 - Endorsement notice - Qiddiya Performing Arts Centre</p>
                     <p>Dear Idris,</p>
-                    <p>We are writing to confirm that the Stage Gate 5 submission for the Qiddiya Performing Arts Center was reviewed by the SGRP Committee on 9 June 2026 and has been granted <strong>full endorsement</strong>. The detailed design is endorsed and the project may proceed to Stage Gate 6.</p>
+                    <p>We are writing to confirm that the Stage Gate 5 submission for the Qiddiya Performing Arts Centre was reviewed by the SGRP Committee on 9 June 2026 and has been granted <strong>full endorsement</strong>. The detailed design is endorsed and the project may proceed to Stage Gate 6.</p>
                     <p>The project is endorsed to proceed into construction procurement. A pre-construction review will be scheduled in line with the QIC delivery framework.</p>
                     <p>For any queries regarding this notice, please contact the SGRP Secretariat directly.</p>
                     <p class="sec-out-sign"><strong>Osman</strong><br>SGRP Secretariat</p>
@@ -3647,12 +3647,12 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                       <span class="sec-out-mins__ticon" aria-label="Microsoft Teams">T</span>
                       <div class="sec-out-mins__htext">
                         <h3 class="sec-out-mins__title">Teams review meeting minutes</h3>
-                        <p class="sec-out-mins__meta">Qiddiya Performing Arts Center SG5 Review &middot; Microsoft Teams &middot; 9 Jun 2026</p>
+                        <p class="sec-out-mins__meta">Qiddiya Performing Arts Centre SG5 Review &middot; Microsoft Teams &middot; 9 Jun 2026</p>
                       </div>
                       <span class="sec-out-mins__ai"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/><path d="M18.5 14l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></svg> AI summary</span>
                     </div>
                     <div class="sec-out-mins__body">
-                      <p class="sec-out-mins__summary">The Stage Gate Review Panel met over Microsoft Teams to review the Qiddiya Performing Arts Center Stage Gate 5 submission. The panel endorsed the detailed design and granted a full pass, approving the project to move into construction procurement at Stage Gate 6.</p>
+                      <p class="sec-out-mins__summary">The Stage Gate Review Panel met over Microsoft Teams to review the Qiddiya Performing Arts Centre Stage Gate 5 submission. The panel endorsed the detailed design and granted a full pass, approving the project to move into construction procurement at Stage Gate 6.</p>
                       <p class="sec-out-mins__kh">Key points</p>
                       <ul class="sec-out-mins__keys">
                         <li><strong>Detailed design endorsed.</strong> The acoustic and theatre specifications were reviewed and accepted in full.</li>
@@ -3873,7 +3873,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       else if(phase === 'loading'){ if(bt){ bt.textContent = 'Scanning…'; } if(btn){ btn.disabled = true; } }
       else { if(bt){ bt.textContent = 'Scan'; } if(btn){ btn.disabled = false; } }
     }
-    var SCAN = {"Arena": {"checklist": "SG3 Arena Checklist v2.3", "asset": "Core/Hospitality/Landmark assets", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Executive Summary", "short": "Executive Summary", "items": [{"n": "SG3 Executive summary", "f": "pptx"}]}, {"label": "2. Stage Gate Report", "short": "Stage Gate Report", "items": [{"n": "Concept Design Report - Exterior", "f": "pptx"}, {"n": "Design Strategy - Interior", "f": "pptx"}, {"n": "Business Plan", "f": "pptx"}, {"n": "Financial Model", "f": "pptx"}, {"n": "Cost Plan", "f": "pptx"}, {"n": "Development Program", "f": "pptx"}, {"n": "Sales &amp; Leasing Strategy", "f": "pptx"}, {"n": "Marketing Strategy", "f": "pptx"}, {"n": "Consultant Procurement Strategy", "f": "pptx"}, {"n": "Contractor Procurement Strategy", "f": "pptx"}, {"n": "Project Execution Plan", "f": "pptx"}, {"n": "Risks &amp; Opportunities Register", "f": "pptx"}, {"n": "Approvals", "f": "pptx"}, {"n": "Legal Report", "f": "pptx"}, {"n": "Operator Onboarding", "f": "pptx"}, {"n": "IP Strategy", "f": "pptx"}, {"n": "Technology Partner Strategy", "f": "pptx"}, {"n": "Design Compliance Strategy", "f": "pptx"}, {"n": "Operational Readiness Plan", "f": "pptx"}]}]}, "Sports park infrastructure": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Feasibility Model", "f": "XLSX"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Velodrome": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Feasibility Model", "f": "XLSX"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Music Theme Park": {"checklist": "SG3 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 3 Report", "f": "PDF"}, {"n": "Concept Design Report", "f": "PDF"}, {"n": "Business Plan", "f": "PDF"}, {"n": "Financial Model", "f": "XLSX"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Onboarding", "f": "DOCX"}, {"n": "IP Strategy", "f": "DOCX"}]}]}, "Public Golf Apartments Phase 2": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}], "missing": [{"n": "Feasibility Model", "f": "XLSX", "desc": "Financial feasibility and viability model", "full": "A feasibility model demonstrating the financial viability of the development is mandatory at Stage Gate 2. It must set out the funding plan, cost envelope, and return assumptions. This document was not in the submitted pack."}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}], "missing": [{"n": "Cost Plan", "f": "XLSX", "desc": "Stage-gate development cost plan", "full": "A stage gate cost plan is required for all SG2 submissions. It must set out the estimated development cost across every work package at Class 4 confidence. This document was not in the submitted pack."}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Community arts centre": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Feasibility Model", "f": "XLSX"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Qiddiya Performing Arts Center": {"checklist": "SG5 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 5 Report", "f": "PDF"}, {"n": "Detailed Design Report", "f": "PDF"}, {"n": "Business Plan", "f": "PDF"}, {"n": "Financial Model", "f": "XLSX"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement", "f": "DOCX"}, {"n": "Contractor Procurement", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Engagement", "f": "DOCX"}, {"n": "IP Plan", "f": "DOCX"}]}]}};
+    var SCAN = {"Arena": {"checklist": "SG3 Arena Checklist v2.3", "asset": "Core/Hospitality/Landmark assets", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Executive Summary", "short": "Executive Summary", "items": [{"n": "SG3 Executive summary", "f": "pptx"}]}, {"label": "2. Stage Gate Report", "short": "Stage Gate Report", "items": [{"n": "Concept Design Report - Exterior", "f": "pptx"}, {"n": "Design Strategy - Interior", "f": "pptx"}, {"n": "Business Plan", "f": "pptx"}, {"n": "Financial Model", "f": "pptx"}, {"n": "Cost Plan", "f": "pptx"}, {"n": "Development Program", "f": "pptx"}, {"n": "Sales &amp; Leasing Strategy", "f": "pptx"}, {"n": "Marketing Strategy", "f": "pptx"}, {"n": "Consultant Procurement Strategy", "f": "pptx"}, {"n": "Contractor Procurement Strategy", "f": "pptx"}, {"n": "Project Execution Plan", "f": "pptx"}, {"n": "Risks &amp; Opportunities Register", "f": "pptx"}, {"n": "Approvals", "f": "pptx"}, {"n": "Legal Report", "f": "pptx"}, {"n": "Operator Onboarding", "f": "pptx"}, {"n": "IP Strategy", "f": "pptx"}, {"n": "Technology Partner Strategy", "f": "pptx"}, {"n": "Design Compliance Strategy", "f": "pptx"}, {"n": "Operational Readiness Plan", "f": "pptx"}]}]}, "Sports park infrastructure": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Feasibility Model", "f": "XLSX"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Velodrome": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Feasibility Model", "f": "XLSX"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Music Theme Park": {"checklist": "SG3 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 3 Report", "f": "PDF"}, {"n": "Concept Design Report", "f": "PDF"}, {"n": "Business Plan", "f": "PDF"}, {"n": "Financial Model", "f": "XLSX"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Onboarding", "f": "DOCX"}, {"n": "IP Strategy", "f": "DOCX"}]}]}, "Public Golf Apartments Phase 2": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}], "missing": [{"n": "Feasibility Model", "f": "XLSX", "desc": "Financial feasibility and viability model", "full": "A feasibility model demonstrating the financial viability of the development is mandatory at Stage Gate 2. It must set out the funding plan, cost envelope, and return assumptions. This document was not in the submitted pack."}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}], "missing": [{"n": "Cost Plan", "f": "XLSX", "desc": "Stage-gate development cost plan", "full": "A stage gate cost plan is required for all SG2 submissions. It must set out the estimated development cost across every work package at Class 4 confidence. This document was not in the submitted pack."}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Community arts centre": {"checklist": "SG2 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 2 Report", "f": "PDF"}, {"n": "Development Overview", "f": "PDF"}, {"n": "Feasibility Model", "f": "XLSX"}, {"n": "Pre-Concept Options Assessment", "f": "PDF"}, {"n": "Pre-Concept Design Report", "f": "PDF"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement Strategy", "f": "DOCX"}, {"n": "Contractor Procurement Strategy", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Selection", "f": "DOCX"}, {"n": "IP Head of Terms", "f": "DOCX"}]}]}, "Qiddiya Performing Arts Centre": {"checklist": "SG5 Infrastructure Checklist v2.3", "scanned": "10 Jun 10:22", "cats": [{"label": "1. Reports and design", "short": "Reports &amp; design", "items": [{"n": "Stage Gate 5 Report", "f": "PDF"}, {"n": "Detailed Design Report", "f": "PDF"}, {"n": "Business Plan", "f": "PDF"}, {"n": "Financial Model", "f": "XLSX"}]}, {"label": "2. Commercial and delivery", "short": "Commercial &amp; delivery", "items": [{"n": "Development Program", "f": "DOCX"}, {"n": "Cost Plan", "f": "XLSX"}, {"n": "Sales, Leasing, Marketing Strategy", "f": "DOCX"}, {"n": "Consultant Procurement", "f": "DOCX"}, {"n": "Contractor Procurement", "f": "DOCX"}]}, {"label": "3. Governance and legal", "short": "Governance &amp; legal", "items": [{"n": "Project Execution Plan", "f": "DOCX"}, {"n": "Risks &amp; Opportunities Register", "f": "XLSX"}, {"n": "Regulatory Approvals", "f": "PDF"}, {"n": "Legal Report", "f": "PDF"}, {"n": "Operator Engagement", "f": "DOCX"}, {"n": "IP Plan", "f": "DOCX"}]}]}};
     var SVG_CHK='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>';
     var SVG_CHKB='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>';
     var SVG_X='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>';
