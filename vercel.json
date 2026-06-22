@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/stage-gate-intelligence_f2.html" }
+  ]
+}
