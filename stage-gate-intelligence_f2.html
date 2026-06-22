@@ -14,6 +14,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* Disable all transitions during initial load to prevent button flash */
+html.no-trans *, html.no-trans *::before, html.no-trans *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 /* ============================================================
    DESIGN TOKENS  —  the shared system. Every screen reuses this.
    (Colours sampled from the Figma export; add new tokens here
@@ -188,8 +194,12 @@ body{
   transition:background .14s ease;
 }
 .nav-search:hover{background:#E6EAF0;}
+.nav-search:focus-within{background:#fff;box-shadow:0 0 0 2px var(--navy-bar);}
 .nav-search__icon{color:var(--muted-2);flex:0 0 auto;}
-.nav-search__placeholder{flex:1 1 auto;font-size:13.5px;color:var(--muted);}
+.nav-search__input{flex:1 1 auto;background:transparent;border:none;outline:none;font-size:13.5px;color:var(--heading);font-family:inherit;min-width:0;cursor:text;}
+.nav-search__input::placeholder{color:var(--muted);}
+.nav-search__input::-webkit-search-cancel-button{-webkit-appearance:none;}
+.nav-search__input::-ms-clear{display:none;}
 
 /* Right cluster */
 .topbar__right{display:flex;align-items:center;gap:12px;flex:0 0 auto;margin-left:auto;}
@@ -249,7 +259,7 @@ body{
 .side-spacer{flex:1 1 auto;}
 .avatar{
   width:32px;height:32px;border-radius:999px;background:var(--navy-bar);
-  color:#fff;font-size:11px;font-weight:700;
+  color:#fff;font-size:11px;font-weight:700;border:none;
   display:flex;align-items:center;justify-content:center;margin-top:6px;cursor:pointer;
 }
 
@@ -1189,6 +1199,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-out-footbtns{display:flex;gap:10px;flex:0 0 auto;}
 .sec-out-empty{padding:48px 24px;text-align:center;color:var(--muted);font-size:13px;}
 </style>
+<script>document.documentElement.classList.add('no-trans');</script>
 </head>
 <body>
 <div class="app" data-persona="project">
@@ -1205,9 +1216,9 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
     <span class="nav-divider"></span>
 
-    <div class="nav-search" role="search" tabindex="0">
+    <div class="nav-search" role="search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <span class="nav-search__placeholder">Search...</span>
+      <input class="nav-search__input" type="search" placeholder="Search..." aria-label="Search" autocomplete="off">
     </div>
 
     <div class="topbar__right"><span class="persona-label">Project team</span>
@@ -2717,9 +2728,9 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       </div>
     </div>
     <span class="nav-divider"></span>
-    <div class="nav-search" role="search" tabindex="0">
+    <div class="nav-search" role="search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <span class="nav-search__placeholder">Search...</span>
+      <input class="nav-search__input" type="search" placeholder="Search..." aria-label="Search" autocomplete="off">
     </div>
     <div class="topbar__right"><span class="persona-label">Secretariat</span>
       <button class="icon-btn" aria-label="Notifications">
@@ -3803,6 +3814,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 </div>
 
 <script>
+  // Remove transition-suppression class after two animation frames
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.documentElement.classList.remove('no-trans');
+    });
+  });
+
   var projApp = document.querySelector('.app[data-persona="project"]') || document;
   // Workspace "Back to dashboard" arrow shows only when authoring was entered from the dashboard, not the sidebar
   var cameFromDashboard = false;
