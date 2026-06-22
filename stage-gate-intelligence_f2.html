@@ -331,7 +331,6 @@ body{
 .dot--blue{background:#0BC0FF;}
 .dot--grey{background:var(--grey-dot);}
 .dot--red{background:var(--red);}
-.dot--amber{background:var(--orange);}
 
 /* pills */
 .badge-pill{display:inline-flex;align-items:center;height:22px;padding:0 10px;
@@ -623,8 +622,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .ws-att__ok{color:var(--green-text);display:inline-flex;flex:0 0 auto;}
 .ws-out-note{font-size:12px;color:var(--red);margin:12px 0 0;line-height:1.4;}
 
-/* Brand preview toggle — a neutral dev/eval control, not part of the product UI */
-
 /* ============================================================
    SCREEN 3 — Readiness scan results
    Chrome (top nav, side nav, ws-head, ws-tabs) + cards/buttons/
@@ -908,7 +905,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .ws-avatar--soft{background:var(--blue-soft);color:var(--navy-bar);}
 
 /* ===== Secretariat persona / Control Tower ===== */
-.app[hidden]{display:none;}
 [hidden]{display:none !important;}
 .sec-dash{padding-top:20px;}
 .sec-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;}
@@ -1090,7 +1086,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-rep-item__pill{margin-right:2px;}
 .avatar{transition:box-shadow .14s ease;}
 .avatar:hover{box-shadow:0 0 0 3px rgba(141,197,255,.6);}
-.logomark{cursor:pointer;transition:filter .12s ease;}
+.logomark{cursor:pointer;transition:filter .12s ease;border:none;padding:0;font-family:inherit;}
 .logomark:hover{filter:brightness(1.07);}
 .persona-label{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;background:var(--chip-bg);color:var(--chip-text);font-size:12px;font-weight:600;white-space:nowrap;}
 .persona-label::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--navy-bar);flex:0 0 auto;}
@@ -1213,7 +1209,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   <!-- ===== Top bar ===== -->
   <header class="topbar">
     <div class="nav-left">
-      <div class="logomark" data-reset>SGI</div>
+      <button class="logomark" data-reset aria-label="Reset and reload dashboard" type="button">SGI</button>
       <div class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
@@ -1224,7 +1220,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
     <label class="nav-search" aria-label="Search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input class="nav-search__input" type="search" placeholder="Search..." aria-label="Search" autocomplete="off">
+      <input class="nav-search__input" type="search" placeholder="Search…" aria-label="Search" autocomplete="off">
     </label>
 
     <span class="proto-notice">Prototype &middot; For illustrative purposes only</span>
@@ -1674,7 +1670,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               </div>
               <span class="has-tip has-tip--block" data-tip="Make changes to uploaded deliverables or settings before re-generating a draft"><button class="btn btn--navy ws-generate" disabled>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/><path d="M18.5 14l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></svg>
-                Re-generate draft
+                Regenerate draft
               </button></span>
             </section>
 
@@ -1734,7 +1730,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                 <textarea class="es-edit__input" rows="3" placeholder="e.g. Lead with the IRR and flag the Phase 2 contingency gap explicitly."></textarea>
                 <div class="es-edit__row">
                   <button class="btn btn--ghost btn--sm es-edit__cancel">Cancel</button>
-                  <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Re-generate</button>
+                  <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Regenerate</button>
                 </div>
               </div>
             </section>
@@ -1937,7 +1933,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               <div class="ws-section__right">
                 <span class="ws-tag ws-tag--amber"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Gap</span>
                 <span class="ws-tag ws-tag--amber"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Action needed</span>
-                <button class="ws-chev" aria-label="Expand"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                <button class="ws-chev" aria-label="Section options"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
               </div>
             </div>
             <div class="ws-section ws-section--ok" id="sec4-ok" style="display:none">
@@ -1959,7 +1955,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               <div class="ws-section__right">
                 <span class="ws-tag ws-tag--amber"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Gap</span>
                 <span class="ws-tag ws-tag--amber"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Action needed</span>
-                <button class="ws-chev" aria-label="Expand"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                <button class="ws-chev" aria-label="Section options"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
               </div>
             </div>
             <div class="ws-section ws-section--ok" id="sec5-ok" style="display:none">
@@ -2008,7 +2004,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
             </section>
 
             <section class="ws-panel">
-              <h2 class="ws-panel__t">Quality Checks</h2>
+              <h2 class="ws-panel__t">Quality checks</h2>
               <div class="ws-check"><span class="ws-check__ic ws-check__ic--ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Template structure intact</span></div>
               <div class="ws-check"><span class="ws-check__ic ws-check__ic--ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>No fabricated content — all statements sourced</span></div>
               <div class="ws-check" id="qcConflict"><span class="ws-check__ic ws-check__ic--warn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span><span>1 date conflict between business plan and cost schedule<br><span class="ws-link">View conflict</span></span></div>
@@ -2174,7 +2170,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
           <!-- RIGHT -->
           <aside class="ws-right">
             <section class="ws-panel">
-              <h2 class="ws-panel__t">Readiness Scan Result</h2>
+              <h2 class="ws-panel__t">Readiness scan result</h2>
               <div class="rs-result-top">
                 <div class="rs-result-banner">
                   <span class="rs-result-banner__ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
@@ -2334,7 +2330,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                   <textarea class="es-edit__input" rows="2" placeholder="e.g. Lead with the IRR and tighten this to three sentences."></textarea>
                   <div class="es-edit__row">
                     <button class="btn btn--ghost btn--sm es-edit__cancel">Cancel</button>
-                    <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Re-generate</button>
+                    <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Regenerate</button>
                   </div>
                 </div>
               </section>
@@ -2362,7 +2358,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                   <textarea class="es-edit__input" rows="2" placeholder="e.g. Lead with the IRR and tighten this to three sentences."></textarea>
                   <div class="es-edit__row">
                     <button class="btn btn--ghost btn--sm es-edit__cancel">Cancel</button>
-                    <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Re-generate</button>
+                    <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Regenerate</button>
                   </div>
                 </div>
               </section>
@@ -2385,7 +2381,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                   <textarea class="es-edit__input" rows="2" placeholder="e.g. Lead with the IRR and tighten this to three sentences."></textarea>
                   <div class="es-edit__row">
                     <button class="btn btn--ghost btn--sm es-edit__cancel">Cancel</button>
-                    <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Re-generate</button>
+                    <button class="btn btn--navy btn--sm es-edit__regen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Regenerate</button>
                   </div>
                 </div>
               </section>
@@ -2432,7 +2428,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
       <!-- Header -->
       <section class="greeting">
-        <h1 class="greeting__title">My Reports</h1>
+        <h1 class="greeting__title">My reports</h1>
         <p class="greeting__sub">Track your active reports, respond to reviewer requests, and view past decisions.</p>
       </section>
 
@@ -2672,7 +2668,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                 <span style="font-size:13.5px;font-weight:600;color:var(--green-text);">On track &mdash; no action needed from you</span>
               </div>
-              <p class="rp-rfi__msg" style="margin-top:14px;">Velodrome passed all completeness checks and has been submitted to the secretariat. It is now in the review queue. There is nothing for you to action right now &mdash; the SGRP will review the pack at <strong>Session 16 on 24 Jun 2026</strong>.</p>
+              <p class="rp-rfi__msg" style="margin-top:14px;">Velodrome passed all completeness checks and has been submitted to the secretariat. It is now in the review queue. There is nothing for you to do right now &mdash; the SGRP will review the pack at <strong>Session 16 on 24 Jun 2026</strong>.</p>
               <div class="rp-infobar"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> You will be notified here as soon as a reviewer is assigned or raises a request.</div>
             </section>
 
@@ -2729,7 +2725,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   <!-- ===== Top bar (Secretariat) ===== -->
   <header class="topbar">
     <div class="nav-left">
-      <div class="logomark" data-reset>SGI</div>
+      <button class="logomark" data-reset aria-label="Reset and reload dashboard" type="button">SGI</button>
       <div class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
@@ -2738,7 +2734,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
     <span class="nav-divider"></span>
     <label class="nav-search" aria-label="Search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input class="nav-search__input" type="search" placeholder="Search..." aria-label="Search" autocomplete="off">
+      <input class="nav-search__input" type="search" placeholder="Search…" aria-label="Search" autocomplete="off">
     </label>
     <span class="proto-notice">Prototype &middot; For illustrative purposes only</span>
     <div class="topbar__right"><span class="persona-label">Secretariat</span>
@@ -2780,7 +2776,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
         <!-- Greeting -->
         <section class="greeting">
           <h1 class="greeting__title">Good morning, Farhan</h1>
-          <p class="greeting__sub">Monday, 10 June 2026</p>
+          <p class="greeting__sub">Wednesday, 10 June 2026</p>
         </section>
 
         <!-- Next action -->
@@ -2855,7 +2851,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               <div class="sec-sub">
                 <span class="dot dot--blue"></span>
                 <div class="sec-sub__text"><p class="sec-sub__name">Arena</p><p class="sec-sub__sub">Stage Gate 3</p></div>
-                <div class="sec-sub__act"><span class="sec-chip">New Intake</span></div>
+                <div class="sec-sub__act"><span class="sec-chip">New intake</span></div>
               </div>
               <div class="sec-sub">
                 <span class="dot" style="background:var(--amber);"></span>
@@ -2960,7 +2956,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
             <aside class="card sec-rep-list">
               <div class="sec-rep-list__head">
-                <h2 class="ws-h">Active Submissions</h2>
+                <h2 class="ws-h">Active submissions</h2>
               </div>
               <div class="sec-rep-items">
                 <div class="sec-rep-item is-selected" data-name="Arena" data-stage="Stage Gate 3" data-received="10 Jun 2026" data-status="unscanned">
@@ -4239,7 +4235,22 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       + '<button class="ws-file-del" aria-label="Remove deliverable"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>';
   });
 
-  /* Pre-meeting: clicking "Send to SGRP" opens a draft-email popup for the panel */
+  // Activate role-less interactive rows on Enter/Space (tabindex=0 elements)
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    var t = e.target;
+    if(!t || !t.classList) return;
+    if(t.classList.contains('report-row') || t.classList.contains('action-row') ||
+       t.classList.contains('deadline-row') || t.classList.contains('tool-card') ||
+       t.classList.contains('rp-item') || t.classList.contains('sec-rep-item') ||
+       t.classList.contains('sec-out-item') || t.classList.contains('sec-sub') ||
+       t.classList.contains('sec-rec')){
+      e.preventDefault();
+      t.click();
+    }
+  });
+
+    /* Pre-meeting: clicking "Send to SGRP" opens a draft-email popup for the panel */
   (function(){
     var modal = document.querySelector('[data-sgrp-modal]');
     if(!modal) return;
