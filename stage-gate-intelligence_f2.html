@@ -128,7 +128,6 @@ html[data-brand="curiosity"] h3,
 html[data-brand="curiosity"] .banner__title,
 html[data-brand="curiosity"] .logo-title,
 html[data-brand="curiosity"] .logo-sub{font-family:'Montserrat',Arial,sans-serif;}   /* titles & headings → Montserrat */
-html[data-brand="curiosity"] .logomark{color:#fff;}            /* white SGI on the blue mark */
 html[data-brand="curiosity"] .logo-sub{color:#0072BC;}         /* "intelligence" → brand azure, not ochre */
 
 /* Curiosity — Source documents section: file names regular weight; icons + Processing pill in the light-blue / dark-blue AI-icon treatment */
@@ -149,18 +148,19 @@ body{
 
 /* Red prototype banner at the very top of the page */
 .proto-bar{
-  height:24px;
+  height:26px;
   background:#C8202C;
   color:#fff;
-  font-size:11.5px;
+  font-size:11px;
   font-weight:600;
-  letter-spacing:.2px;
+  letter-spacing:.4px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-transform:uppercase;
   user-select:none;
   flex:0 0 auto;
+  box-shadow:inset 0 -1px 0 rgba(0,0,0,.12);
 }
 
 /* App fills the viewport below the red bar */
@@ -169,7 +169,7 @@ body{
   background:var(--bg);
   display:flex;
   flex-direction:column;
-  height:calc(100vh - 24px);
+  height:calc(100vh - 26px);
   min-height:520px;
   overflow:hidden;
 }
@@ -183,6 +183,7 @@ body{
   align-items:center;
   padding:0 18px;
   flex:0 0 auto;
+  box-shadow:0 1px 0 rgba(16,42,67,.02);
 }
 
 /* Logomark + wordmark */
@@ -190,9 +191,9 @@ body{
 .logomark{
   width:40px;height:40px;border-radius:11px;flex:0 0 auto;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.04) 45%, rgba(255,255,255,0) 55%),
+    linear-gradient(135deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,.05) 45%, rgba(255,255,255,0) 55%),
     var(--logo-grad);
-  color:#15325A;font-size:13px;font-weight:700;letter-spacing:.6px;
+  color:#fff;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 2px 5px rgba(16,42,67,.15), inset 0 1px 0 rgba(255,255,255,.38);
 }
@@ -433,14 +434,14 @@ body{
 .view--dashboard{padding-top:20px;}
 
 /* Workspace header */
-.ws-head{display:flex;align-items:center;gap:14px;background:#fff;margin:0 -27px 0 -22px;padding:18px 27px 10px 22px;}
+.ws-head{display:flex;align-items:center;gap:14px;background:#fff;margin:0 -27px 0 -22px;padding:20px 27px 12px 22px;}
 .ws-back{
   width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:#fff;
   color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;
   transition:background .14s ease,color .14s ease;
 }
 .ws-back:hover{background:var(--bg);color:var(--heading);}
-.ws-title{font-size:20px;font-weight:700;color:var(--heading);margin:0;}
+.ws-title{font-size:var(--fs-h1);font-weight:700;color:var(--heading);margin:0;line-height:1.2;}
 .ws-sub{font-size:12px;color:var(--muted);margin:1px 0 0;}
 .ws-head-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
 .ws-projsel{position:relative;flex:0 0 auto;}
@@ -459,7 +460,7 @@ body{
 .ws-projsel__opt.is-current .ws-projsel__sg{background:rgba(27,57,107,.12);color:var(--navy-bar);}
 
 /* Tabs */
-.ws-tabs{display:flex;gap:28px;background:#fff;border-bottom:1px solid var(--border);margin:0 -27px 20px -22px;padding:12px 27px 0 22px;position:sticky;top:0;z-index:5;}
+.ws-tabs{display:flex;gap:28px;background:#fff;border-bottom:1px solid var(--border);margin:0 -27px 20px -22px;padding:10px 27px 0 22px;position:sticky;top:0;z-index:5;}
 .ws-tab{position:relative;display:inline-flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0 0 13px;font-size:14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .14s ease;}
 .ws-tab:hover{color:var(--heading);}
 .ws-tab.is-active{color:var(--heading);}
@@ -832,7 +833,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
 /* ===== My Reports (view--reports) ===== */
 .view--reports{padding-top:0;}
-.view--reports .greeting{background:#fff;margin:0 -27px 0 -22px;padding:22px 27px 16px 22px;}
+.view--reports .greeting{background:#fff;margin:0 -27px 0 -22px;padding:20px 27px 14px 22px;}
 .rp-tcount{display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:var(--r-pill);font-size:11px;font-weight:600;background:var(--chip-bg);color:var(--chip-text);}
 .rp-tcount--amber{background:var(--amber-soft);color:var(--amber-pill-text);}
 .rp-tcount--blue{background:var(--blue-soft);color:var(--blue-text);}
@@ -979,7 +980,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-view{display:none;}
 .sec-view.is-active{display:block;}
 .sec-reports{padding-top:0;}
-.sec-reports .greeting{background:#fff;margin:0 -27px 0 -22px;padding:22px 27px 16px 22px;}
+.sec-reports .greeting{background:#fff;margin:0 -27px 0 -22px;padding:20px 27px 14px 22px;}
 .sec-rep-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:start;margin-top:0;}
 .sec-rep-list{padding:0;overflow:hidden;}
 .sec-rep-list__head{padding:18px 20px 14px;}
@@ -1096,9 +1097,10 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-rep-item__pill{margin-right:2px;}
 .avatar{transition:box-shadow .14s ease;}
 .avatar:hover{box-shadow:0 0 0 3px rgba(141,197,255,.6);}
-.logomark{cursor:pointer;transition:filter .12s ease;border:none;padding:0;font-family:inherit;}
-.logomark:hover{filter:brightness(1.07);}
-.persona-label{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;background:var(--chip-bg);color:var(--chip-text);font-size:12px;font-weight:600;white-space:nowrap;}
+.logomark{cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;border:none;padding:0;font-family:inherit;}
+.logomark:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(16,42,67,.22), inset 0 1px 0 rgba(255,255,255,.42);filter:brightness(1.05);}
+.logomark:active{transform:translateY(0);}
+.persona-label{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;background:var(--chip-bg);color:var(--chip-text);font-size:12px;font-weight:600;white-space:nowrap;letter-spacing:.1px;}
 .persona-label::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--navy-bar);flex:0 0 auto;}
 .sec-sum-scan{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;margin-bottom:18px;background:#FDEEEE;border:1px solid #F4D0D0;border-radius:10px;}
 .sec-sum-scan__ic{flex:0 0 auto;width:30px;height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#F8D7D7;color:var(--red);}
@@ -1131,8 +1133,8 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-scan[data-scan-phase="loading"] .scan-loader{display:flex;}
 .sec-sum-scan__links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
 .sec-rep-titlewrap{min-width:0;}
-.sec-rep-name{font-size:20px;font-weight:700;color:var(--heading);margin:0;line-height:1.2;}
-.sec-rep-subline{margin:4px 0 0;font-size:13px;color:var(--muted);}
+.sec-rep-name{font-size:var(--fs-h1);font-weight:700;color:var(--heading);margin:0;line-height:1.2;}
+.sec-rep-subline{margin:4px 0 0;font-size:12px;color:var(--muted);}
 .sec-out-grid{display:grid;grid-template-columns:350px minmax(0,1fr);gap:20px;align-items:start;}
 .sec-out-list{padding:0;overflow:hidden;}
 .sec-out-list__head{padding:18px 20px 14px;}
@@ -1220,7 +1222,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   <!-- ===== Top bar ===== -->
   <header class="topbar">
     <div class="nav-left">
-      <button class="logomark" data-reset aria-label="Reset and reload dashboard" type="button">SGI</button>
+      <button class="logomark" data-reset aria-label="Stage Gate Intelligence — reset and reload" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 18V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M10 18V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 5.5l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z" fill="currentColor"/></svg></button>
       <div class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
@@ -2735,7 +2737,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   <!-- ===== Top bar (Secretariat) ===== -->
   <header class="topbar">
     <div class="nav-left">
-      <button class="logomark" data-reset aria-label="Reset and reload dashboard" type="button">SGI</button>
+      <button class="logomark" data-reset aria-label="Stage Gate Intelligence — reset and reload" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 18V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M10 18V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 5.5l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z" fill="currentColor"/></svg></button>
       <div class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
