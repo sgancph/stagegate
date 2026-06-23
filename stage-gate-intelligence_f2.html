@@ -231,14 +231,7 @@ body{
 
 /* Right cluster */
 .topbar__right{display:flex;align-items:center;gap:12px;flex:0 0 auto;margin-left:auto;}
-.pill-btn{
-  display:inline-flex;align-items:center;gap:7px;
-  height:32px;padding:0 14px;border-radius:var(--r-pill);
-  background:#fff;border:1px solid var(--border);
-  color:var(--heading);font-size:13px;font-weight:600;cursor:pointer;
-  transition:background .14s ease,border-color .14s ease;
-}
-.pill-btn:hover{background:var(--bg);border-color:#D2D7E0;}
+
 .icon-btn{
   position:relative;width:36px;height:36px;border-radius:8px;border:none;
   background:transparent;color:var(--muted);cursor:pointer;
@@ -260,8 +253,7 @@ body{
   transition:background .14s ease,box-shadow .14s ease,transform .14s ease;
 }
 .btn:active{transform:translateY(1px);}
-.btn--amber{background:var(--amber);color:#3a2a00;}
-.btn--amber:hover{background:var(--amber-hover);}
+
 .btn--navy{background:var(--navy-btn);color:#fff;}
 .btn--navy:hover{background:var(--navy-btn-hover);}
 .btn--white{background:#fff;color:var(--navy-bar);}
@@ -277,6 +269,7 @@ body{
   padding:14px 0 16px;gap:6px;
 }
 .side-icon{
+  position:relative;
   width:38px;height:38px;border-radius:10px;border:none;background:transparent;
   color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:background .14s ease,color .14s ease;
@@ -284,6 +277,9 @@ body{
 .side-icon:hover{background:var(--bg);color:var(--heading);}
 .side-icon.is-active{background:color-mix(in srgb,var(--persona,var(--navy-bar)) 11%,transparent);color:var(--persona,var(--navy-bar));}
 .side-icon.is-active:hover{background:color-mix(in srgb,var(--persona,var(--navy-bar)) 11%,transparent);}
+/* Hover/focus tooltip — surfaces each icon's aria-label so nav is legible before clicking */
+.side-icon[aria-label]::after{content:attr(aria-label);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%) translateX(-4px);background:var(--heading);color:#fff;font-size:12px;font-weight:600;line-height:1;white-space:nowrap;padding:7px 10px;border-radius:7px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease;z-index:40;box-shadow:0 6px 18px rgba(16,42,67,.22);}
+.side-icon[aria-label]:hover::after,.side-icon[aria-label]:focus-visible::after{opacity:1;visibility:visible;transform:translateY(-50%) translateX(0);}
 .side-spacer{flex:1 1 auto;}
 .avatar{
   width:32px;height:32px;border-radius:999px;background:var(--persona,var(--navy-bar));
@@ -416,8 +412,7 @@ body{
   transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease;
 }
 .tool-card:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);border-color:#DCE0E8;}
-.tool-card.is-muted{cursor:default;}
-.tool-card.is-muted:hover{box-shadow:none;transform:none;border-color:var(--border);}
+
 .tool-illus{height:118px;width:100%;flex:0 0 auto;}
 .tool-illus svg{display:block;width:100%;height:100%;}
 .tool-body{display:flex;flex-direction:column;flex:1 1 auto;padding:16px 18px 18px;}
@@ -429,10 +424,6 @@ body{
 .tool-desc{font-size:var(--fs-sub);color:var(--muted);margin:0 0 16px;line-height:1.45;}
 .tool-chip{display:inline-block;align-self:flex-start;margin-top:auto;font-size:12px;padding:8px 12px;border-radius:7px;
   background:var(--chip-bg);color:var(--chip-text);}
-.tool-chip--blue{background:var(--blue-soft);color:var(--blue-text);}
-.tool-card.is-muted .tool-title{color:#9AA3AE;}
-.tool-card.is-muted .tool-desc{color:#A9B2BE;}
-.tool-card.is-muted .tool-chip{background:transparent;color:#A9B2BE;padding-left:0;}
 
 /* ---------------- a11y / motion ---------------- */
 :focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:6px;}
@@ -453,7 +444,7 @@ body{
 }
 .ws-back:hover{background:var(--bg);color:var(--heading);}
 .ws-title{font-size:var(--fs-h1);font-weight:700;color:var(--heading);margin:0;line-height:1.2;}
-.ws-sub{font-size:12px;color:var(--muted);margin:1px 0 0;}
+
 .ws-head-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
 .ws-projsel{position:relative;flex:0 0 auto;}
 .ws-projsel__btn{display:inline-flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-btn);padding:8px 12px;font-size:13px;font-weight:600;color:var(--heading);cursor:pointer;transition:border-color .14s ease,box-shadow .14s ease;}
@@ -480,7 +471,6 @@ body{
 .ws-tab.is-static{cursor:default;color:var(--muted-2);}
 .ws-tab.is-static:hover{color:var(--muted-2);}
 @keyframes tabDraw{from{transform:scaleX(0);}to{transform:scaleX(1);}}
-.ws-tab-pill{display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:var(--r-pill);background:rgba(27,57,107,.09);color:var(--navy-bar);font-size:11px;font-weight:600;}
 
 /* 3-column grid — everything scrolls with the page */
 .ws-grid{display:grid;grid-template-columns:252px minmax(0,1fr) 256px;gap:20px;align-items:start;}
@@ -502,16 +492,12 @@ body{
 .ws-file__ic--red{background:#FCE9E9;color:#D2433F;}
 .ws-file-del{width:24px;height:24px;border-radius:50%;border:1.5px solid #BFC7D2;background:none;color:#8C96A4;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;padding:0;transition:border-color .14s ease,color .14s ease,background .14s ease;}
 .ws-file-del:hover{border-color:#D2433F;color:#D2433F;background:#FDF1F1;}
-.ws-file-proc{width:24px;height:24px;border-radius:50%;border:1.5px solid #BFC7D2;display:inline-flex;align-items:center;justify-content:center;gap:2.5px;flex:0 0 auto;}
-.ws-file-proc i{width:3px;height:3px;border-radius:50%;background:#8C96A4;display:block;animation:procDot 1s infinite ease-in-out;}
-.ws-file-proc i:nth-child(2){animation-delay:.16s;}
-.ws-file-proc i:nth-child(3){animation-delay:.32s;}
+
 @keyframes procDot{0%,80%,100%{opacity:.3;}40%{opacity:1;}}
 .ws-file__body{flex:1 1 auto;min-width:0;}
 .ws-file__name{font-size:12.5px;font-weight:600;color:var(--heading);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ws-file__size{font-size:11px;color:var(--muted-2);margin:0;}
-.ws-file-link{display:block;font-size:12px;font-weight:600;color:var(--blue-text);margin:6px 0 0 41px;cursor:pointer;}
-.ws-file-link:hover{text-decoration:underline;}
+
 .ws-tag{display:inline-flex;align-items:center;gap:5px;height:21px;padding:0 9px;border-radius:var(--r-pill);font-size:11px;font-weight:600;white-space:nowrap;flex:0 0 auto;}
 .ws-tag--green{background:var(--green-soft);color:var(--green-text);}
 .ws-tag--amber{background:var(--amber-soft);color:var(--amber-pill-text);}
@@ -536,20 +522,18 @@ body{
 .ws-draft-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
 .ws-draft-title{font-size:15px;font-weight:700;color:var(--heading);margin:0;}
 .ws-draft-sub{font-size:12px;color:var(--muted);margin:3px 0 0;}
-.ws-draft-meta{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+
 .ws-draft-meta__count{font-size:12px;color:var(--muted-2);white-space:nowrap;}
 .ws-steps{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0 0;}
 .ws-step{width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:0 0 auto;cursor:pointer;transition:transform .14s ease,box-shadow .14s ease;}
 .ws-step:hover{transform:translateY(-2px);box-shadow:0 3px 8px rgba(16,42,67,.16);}
 .ws-step--done{background:var(--green-soft);color:var(--green-text);}
-.ws-step--current{background:var(--navy-bar);color:#fff;}
-.ws-step--warn{background:var(--amber-soft);color:var(--amber-pill-text);}
-.ws-step--todo{background:var(--bg);color:var(--muted-2);}
+
 .ws-sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
 .ws-sec-title{font-size:14.5px;font-weight:700;color:var(--heading);margin:0;}
 .ws-sec-meta{display:flex;align-items:center;gap:12px;flex:0 0 auto;}
 .ws-pill-soft{display:inline-flex;align-items:center;height:21px;padding:0 9px;border-radius:var(--r-pill);background:var(--grey-soft);color:#5B6573;font-size:11px;font-weight:600;}
-.ws-source-chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted-2);}
+
 .ws-prose{font-size:13px;line-height:1.6;color:#2B3A4D;margin:0 0 16px;}
 .ws-prose strong{font-weight:700;color:var(--heading);}
 .ws-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:0 0 16px;}
@@ -580,10 +564,7 @@ body{
 /* buttons (variants reused on this screen) */
 .btn--ghost{background:#fff;border:1px solid var(--border);color:var(--heading);}
 .btn--ghost:hover{background:var(--bg);}
-.btn--green{background:var(--green-text);color:#fff;}
-.btn--green:hover{background:#527A24;}
-html[data-brand="curiosity"] .btn--green{background:#66D403;color:#001B72;}
-html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
+
 .btn--sm{height:34px;padding:0 14px;font-size:13px;}
 
 /* collapsed section rows */
@@ -595,14 +576,14 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 #sec3-expanded,#sec3-collapsed{order:3;}
 #sec4-warn,#sec4-ok{order:4;}
 #sec5-warn,#sec5-ok{order:5;}
-.ws-tab-pill.is-complete{background:var(--green-soft);color:var(--green-text);}
+
 .ws-section--warn:hover{background:#FFFDF8;}
 .ws-section__title{font-size:14.5px;font-weight:600;color:var(--heading);margin:0 0 3px;}
 .ws-section__sub{font-size:12px;color:var(--muted-2);margin:0;}
 .ws-section__sub a{color:var(--blue-text);font-weight:500;text-decoration:none;cursor:pointer;}
 .ws-section__sub a:hover{text-decoration:underline;}
 .ws-section__right{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
-.ws-lock{color:var(--muted-2);display:flex;}
+
 .ws-chev{color:var(--muted-2);background:none;border:none;cursor:pointer;display:flex;padding:2px;}
 
 /* Right — panels */
@@ -640,9 +621,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .has-tip::before{content:"";position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--heading);opacity:0;visibility:hidden;transition:opacity .16s ease;z-index:31;}
 .has-tip:hover::after,.has-tip:hover::before{opacity:1;visibility:visible;}
 .has-tip:hover::after{transform:translateX(-50%) translateY(0);}
-.ws-att--done{background:var(--green-soft);color:var(--green-text);font-weight:500;margin-top:2px;}
-.ws-att__ok{color:var(--green-text);display:inline-flex;flex:0 0 auto;}
-.ws-out-note{font-size:12px;color:var(--red);margin:12px 0 0;line-height:1.4;}
 
 /* ============================================================
    SCREEN 3 — Readiness scan results
@@ -666,23 +644,19 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .rs-hist{position:relative;padding-left:20px;}
 .rs-hist::before{content:"";position:absolute;left:4px;top:8px;bottom:14px;width:2px;background:var(--border);}
 .rs-hist__item{position:relative;padding:7px 10px;border-radius:9px;margin-bottom:6px;}
-.rs-hist__item--pass{background:var(--green-soft);}
+
 .rs-hist__dot{position:absolute;left:-20px;top:11px;width:11px;height:11px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 0 0 1px var(--border);}
 .rs-hist__dot--fail{background:var(--red);}
 .rs-hist__dot--pass{background:var(--green);}
-.rs-hist__top{display:flex;align-items:center;gap:8px;}
+
 .rs-hist__name{font-size:13px;font-weight:600;color:var(--heading);}
 .rs-hist__date{font-size:11.5px;color:var(--muted);margin:3px 0 0;}
-.rs-hist__meta{font-size:11.5px;color:var(--muted-2);margin:1px 0 0;}
-.rs-hist-pill{display:inline-flex;align-items:center;height:18px;padding:0 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;text-transform:capitalize;}
-.rs-hist-pill--fail{background:#FCE4E4;color:#D2433F;}
-.rs-hist-pill--pass{background:var(--green-soft);color:var(--green-text);}
 
 /* Middle column */
 .rs-results-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
 .rs-results-title{font-size:15px;font-weight:700;color:var(--heading);margin:0;}
 .rs-results-sub{font-size:12.5px;color:var(--muted);margin:4px 0 0;}
-.rs-bigpill{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 13px;border-radius:var(--r-pill);background:var(--green-soft);color:var(--green-text);font-size:12.5px;font-weight:700;flex:0 0 auto;}
+
 .rs-statpills{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 14px;}
 .rs-statpill{display:inline-flex;align-items:center;gap:6px;height:29px;padding:0 13px;border-radius:var(--r-pill);font-size:12.5px;font-weight:600;}
 .rs-statpill--green{background:var(--green-soft);color:var(--green-text);}
@@ -691,17 +665,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .rs-ai__ic{color:var(--navy-bar);flex:0 0 auto;margin-top:1px;}
 .rs-ai__t{font-size:12.5px;line-height:1.45;color:#3C4A5C;margin:0;}
 .rs-ai__t strong{font-weight:700;color:var(--heading);}
-.rs-eyebrow{font-size:11px;font-weight:700;letter-spacing:.6px;color:var(--muted-2);text-transform:uppercase;margin:0 0 2px;padding-top:18px;margin-top:20px;border-top:1px solid var(--border);}
-.rs-item{display:flex;align-items:flex-start;gap:11px;padding:11px 2px;border-bottom:1px solid var(--border);}
-.rs-item--plainlast{border-bottom:none;}
-.rs-item--warn{background:var(--amber-soft);border-left:3px solid var(--orange);border-bottom:none;border-radius:0 8px 8px 0;padding:11px 14px;margin:6px 0;}
-.rs-item__ic{flex:0 0 auto;margin-top:1px;}
-.rs-item__ic--ok{color:var(--green-text);}
-.rs-item__ic--warn{color:var(--amber-pill-text);}
-.rs-item__body{flex:1 1 auto;min-width:0;}
-.rs-item__text{font-size:13px;color:var(--heading);line-height:1.4;}
-.rs-item__sub{font-size:12px;color:var(--amber-pill-text);line-height:1.45;margin:5px 0 0;}
-.rs-req{flex:0 0 auto;font-size:10.5px;font-weight:600;color:var(--chip-text);background:var(--chip-bg);border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:1px;}
+
 .rs-fixed{display:inline-flex;align-items:center;height:18px;padding:0 8px;border-radius:var(--r-pill);background:var(--green-soft);color:var(--green-text);font-size:10.5px;font-weight:600;margin-left:7px;vertical-align:middle;}
 
 /* Right column */
@@ -715,11 +679,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .scan-tick{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--green-soft);color:var(--green-text);flex:0 0 auto;margin-top:1px;}
 .scan-na{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--grey-soft);color:var(--muted-2);flex:0 0 auto;margin-top:1px;}
 .scan-cat__count--na{color:var(--muted-2);}
-.rs-ring{display:block;margin:2px auto 6px;}
-.rs-ring__track{stroke:var(--border);}
-.rs-ring__bar{stroke:var(--green);}
-.rs-ring__check{stroke:var(--green);}
-.rs-passed{font-size:15px;font-weight:700;letter-spacing:.4px;color:var(--green);margin:4px 0 0;}
+
 .rs-statrow{display:flex;align-items:center;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid var(--border);}
 .rs-statrow:first-of-type{border-top:none;margin-top:6px;}
 .rs-statrow__k{color:var(--muted);}
@@ -769,15 +729,12 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .rs-progress{width:280px;height:6px;border-radius:999px;background:var(--grey-soft);overflow:hidden;margin:22px auto 0;}
 .rs-progress__bar{height:100%;width:4%;background:var(--navy-bar);border-radius:999px;animation:rs-fill 5s ease-out forwards;}
 @keyframes rs-fill{0%{width:4%;}25%{width:34%;}55%{width:64%;}85%{width:90%;}100%{width:100%;}}
-.rs-tab-scanning{display:none;align-items:center;gap:6px;margin-left:4px;font-size:11px;font-weight:600;color:var(--muted);}
-.view--readiness.is-scanning .rs-tab-passed{display:none;}
-.view--readiness.is-scanning .rs-tab-scanning{display:inline-flex;}
-.rs-tab-spin{width:11px;height:11px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--navy-bar);animation:rs-spin .8s linear infinite;display:inline-block;}
 
 /* Pre-action empty state for config screens (readiness / exec summary) */
-.ws-empty{display:none;grid-column:2 / -1;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+.ws-empty{display:none;grid-column:2 / -1;grid-row:1;flex-direction:column;align-items:center;justify-content:center;text-align:center;
   min-height:440px;padding:48px 40px;border:1px solid var(--border);border-radius:var(--r-card);
   background:linear-gradient(180deg,#fff 0%,var(--row-hover) 100%);}
+.ws-empty ~ .ws-left{grid-row:1;}   /* keep the config column beside the placeholder */
 .view--readiness.is-config .ws-empty{display:flex;}
 .view--execsummary .ws-empty{display:flex;}
 .view--execsummary.is-generated .ws-empty{display:none;}
@@ -792,7 +749,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 /* ============ SCREEN 4: EXEC SUMMARY GENERATOR ============ */
 /* Uppercase panel labels (left + right columns) */
 .es-label{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin:0 0 10px;}
-.es-label--top{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);}
+
 .es-note{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 14px;}
 .es-est{font-size:11.5px;color:var(--muted-2);text-align:center;margin:10px 0 0;}
 .es-gen-btn{width:100%;justify-content:center;margin-top:12px;}
@@ -815,13 +772,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .es-ai__t strong{font-weight:700;color:var(--heading);}
 
 /* Middle column — sections */
-.es-doc-title{font-size:14px;font-weight:700;color:var(--heading);margin:0 0 12px;}
+
 .es-sec{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);box-shadow:var(--shadow-card);padding:15px 18px 16px;}
 .es-sec + .es-sec{margin-top:15px;}
-.es-sec--warn{background:#FEFAF1;}
+
 .es-sec__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px;}
 .es-sec__num{font-size:11.5px;font-weight:700;letter-spacing:.4px;color:var(--heading);text-transform:uppercase;margin:0;}
-.es-sec__num--warn{color:var(--orange);}
+
 .es-chip{font-size:10.5px;font-weight:600;color:var(--chip-text);background:var(--chip-bg);border-radius:6px;padding:3px 8px;white-space:nowrap;flex:0 0 auto;}
 .es-sec__sub{font-size:13px;font-weight:400;color:var(--heading);margin:0 0 13px;line-height:1.45;}
 .es-prose{font-size:13px;line-height:1.6;color:#2B3A4D;margin:0;}
@@ -1022,7 +979,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-rep-detail{display:flex;flex-direction:column;gap:16px;}
 .sec-rep-detailhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 2px;}
 .sec-rep-actions{display:flex;align-items:center;gap:12px;flex:0 0 auto;}
-.sec-rep-date{font-size:12.5px;color:var(--muted);white-space:nowrap;}
+
 .sec-rep-summary{min-height:340px;}
 .sec-rep-sumpane{display:none;}
 .sec-rep-sumpane.is-active{display:block;}
@@ -1039,15 +996,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-sum-list{margin:0;padding-left:18px;}
 .sec-sum-list li{font-size:13px;line-height:1.6;color:#3C4A5C;margin-bottom:6px;}
 .sec-sum-list li:last-child{margin-bottom:0;}
-.sec-docs{display:flex;flex-direction:column;}
-.sec-doc{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
-.sec-doc:last-child{border-bottom:none;padding-bottom:0;}
-.sec-doc__ic{width:30px;height:30px;border-radius:7px;background:var(--bg);color:var(--muted);display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
-.sec-doc__body{flex:1;min-width:0;}
-.sec-doc__name{font-size:12.5px;font-weight:600;color:var(--heading);margin:0;}
-.sec-doc__meta{font-size:11px;color:var(--muted-2);margin:1px 0 0;}
-.btn--amber-outline{background:#FFFDF6;border:1px solid var(--amber);color:var(--amber-pill-text);box-sizing:border-box;}
-.btn--amber-outline:hover{background:#FFF8E6;}
 
 /* ===== Completeness scan (secretariat) ===== */
 .sec-scan{padding-top:0;}
@@ -1089,7 +1037,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .scan-cat--toggle[aria-expanded="true"] .scan-cat__chev{transform:rotate(180deg);}
 .scan-deliv{display:flex;align-items:flex-start;gap:11px;padding:14px 0 0;}
 .scan-deliv__ic{color:var(--red);flex:0 0 auto;margin-top:1px;}
-.scan-deliv__ic--ok{color:var(--green-text);}
+
 .scan-deliv__ic--warn{color:var(--amber-pill-text);}
 .scan-cat__count--warn{color:var(--amber-pill-text);}
 .scan-deliv__body{flex:1 1 auto;min-width:0;}
@@ -1098,10 +1046,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .scan-deliv__tag{flex:0 0 auto;font-size:10.5px;font-weight:600;color:var(--chip-text);background:var(--chip-bg);border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:1px;}
 .scan-missing{background:#FDEEEE;border-radius:8px;padding:10px 12px;margin:9px 0 0 27px;font-size:12px;line-height:1.5;color:#A2453F;}
 .scan-missing strong{color:#8C3A35;font-weight:700;}
-.scan-verdict{font-size:23px;font-weight:700;color:var(--red);text-align:center;margin:6px 0 0;}
-.scan-verdict-pillrow{display:flex;justify-content:center;margin:12px 0 0;}
-.scan-verdict-pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 12px;border-radius:var(--r-pill);background:#FCE4E4;color:#D2433F;font-size:12px;font-weight:600;}
-.scan-verdict-note{font-size:12.5px;line-height:1.5;color:var(--heading);text-align:center;margin:14px 0 0;}
+
 .scan-sum-t{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);}
 .scan-sum-t + .rs-statrow{border-top:none;margin-top:6px;}
 .scan-dllink{display:block;width:100%;text-align:center;background:none;border:none;font-size:13px;font-weight:600;color:var(--navy-bar);cursor:pointer;margin-top:11px;padding:4px;}
@@ -1114,18 +1059,15 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .scan-alert--ok .scan-alert__ic{color:var(--green-text);}
 .scan-alert--ok .scan-alert__t{color:#3F6A12;}
 .scan-alert--ok .scan-alert__t strong{color:#2F5410;}
-.scan-verdict--pass{color:var(--green-text);}
-.scan-verdict-pill--pass{background:var(--green-soft);color:var(--green-text);}
-.sec-rep-status-pill{height:34px;padding:0 16px;font-size:13.5px;gap:7px;}
-.sec-rep-status-pill svg{width:14px;height:14px;stroke-width:2.4;}
+
 .sec-rep-viewlink{display:inline-flex;align-items:center;gap:5px;border:none;background:none;padding:0;color:var(--navy-bar);font-size:13px;font-weight:600;cursor:pointer;}
 .sec-rep-viewlink:hover{text-decoration:underline;text-underline-offset:3px;}
 .sec-rep-item__pill{margin-right:2px;}
 .avatar{transition:box-shadow .14s ease;}
 .avatar:hover{box-shadow:0 0 0 3px rgba(141,197,255,.6);}
 .logomark{cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;border:none;padding:0;font-family:inherit;}
-.logomark:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(16,42,67,.22), inset 0 1px 0 rgba(255,255,255,.42);filter:brightness(1.05);}
-.logomark:active{transform:translateY(0);}
+.nav-left:hover .logomark{transform:translateY(-1px);box-shadow:0 4px 10px rgba(16,42,67,.22), inset 0 1px 0 rgba(255,255,255,.42);filter:brightness(1.05);}
+.nav-left:active .logomark{transform:translateY(0);}
 .persona-label{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;background:var(--chip-bg);color:var(--chip-text);font-size:12px;font-weight:600;white-space:nowrap;letter-spacing:.1px;}
 .persona-label::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--persona,var(--navy-bar));flex:0 0 auto;}
 .sec-sum-scan{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;margin-bottom:18px;background:#FDEEEE;border:1px solid #F4D0D0;border-radius:10px;}
@@ -1148,7 +1090,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-sum-scan--ok .sec-sum-scan__ic{background:#D7ECC0;color:var(--green-text);}
 .sec-sum-scan--ok .sec-sum-scan__title{color:var(--green-text);}
 .sec-sum-scan--ok .sec-sum-scan__text{color:var(--muted);}
-.sec-rep-readycta{display:inline-flex;align-items:center;gap:8px;}
+
 .sec-rep-iconcta{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--navy-bar);cursor:pointer;transition:background .12s;}
 .sec-rep-iconcta:hover{background:var(--row-hover);}
 .sec-scan[data-scan-phase="config"] .ws-mid,
@@ -1215,7 +1157,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sgrp-modal__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;border-top:1px solid var(--border);background:var(--grey-soft);}
 .sgrp-modal__note{font-size:12px;color:var(--muted);}
 .sgrp-modal__footbtns{display:flex;gap:10px;flex:0 0 auto;}
-.sec-out-condcard{padding:18px 22px;margin-top:16px;}
+
 .sec-out-mins{padding:0;overflow:hidden;margin-top:16px;}
 .sec-out-mins__head{display:flex;align-items:center;gap:12px;padding:15px 22px;border-bottom:1px solid var(--border);}
 .sec-out-mins__ticon{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;background:#5059C9;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;line-height:1;}
@@ -1231,13 +1173,10 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-out-mins__keys li strong{color:var(--heading);font-weight:700;}
 .sec-out-mins__link{display:inline-flex;align-items:center;gap:7px;margin-top:16px;background:none;border:none;padding:0;font-size:13px;font-weight:600;color:var(--blue-text);cursor:pointer;}
 .sec-out-mins__link:hover{text-decoration:underline;}
-.sec-out-condt{font-size:14px;font-weight:700;color:var(--heading);margin:0 0 10px;}
-.sec-out-cond{display:flex;align-items:center;gap:10px;font-size:13px;color:#3C4A5C;padding:6px 0;cursor:pointer;}
-.sec-out-cond input{width:15px;height:15px;accent-color:var(--navy-bar);cursor:pointer;flex:0 0 auto;}
+
 .sec-out-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 22px;margin-top:16px;}
 .sec-out-footnote{font-size:12px;color:var(--muted);margin:0;line-height:1.5;max-width:580px;}
 .sec-out-footbtns{display:flex;gap:10px;flex:0 0 auto;}
-.sec-out-empty{padding:48px 24px;text-align:center;color:var(--muted);font-size:13px;}
 
 /* ============================================================
    PERSONA IDENTITY  —  each user shell carries its own accent.
@@ -1276,6 +1215,24 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 }
 .usermenu__item:hover{background:var(--row-hover);}
 .usermenu__item svg{color:var(--muted);flex:0 0 auto;}
+
+/* ===== Notifications popover (bell) ===== */
+.notif{position:relative;display:flex;}
+.notif__pop{position:absolute;top:calc(100% + 8px);right:0;z-index:60;width:330px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(16,42,67,.18),0 2px 6px rgba(16,42,67,.08);padding:6px;}
+.notif__pop[hidden]{display:none;}
+.notif__head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px 10px;border-bottom:1px solid var(--border);margin-bottom:4px;}
+.notif__title{font-size:13px;font-weight:700;color:var(--heading);}
+.notif__clear{border:none;background:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--blue-text);font-family:inherit;padding:0;}
+.notif__clear:hover{text-decoration:underline;}
+.notif__list{display:flex;flex-direction:column;max-height:330px;overflow-y:auto;}
+.notif__item{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:none;background:none;cursor:pointer;border-radius:8px;padding:9px 10px;font-family:inherit;transition:background .12s ease;}
+.notif__item:hover{background:var(--row-hover);}
+.notif__dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-top:5px;background:var(--persona,var(--navy-bar));}
+.notif__item.is-read .notif__dot{background:var(--grey-dot);}
+.notif__body{flex:1;min-width:0;}
+.notif__t{font-size:12.5px;font-weight:600;color:var(--heading);margin:0;line-height:1.35;}
+.notif__meta{font-size:11.5px;color:var(--muted-2);margin:2px 0 0;}
+.notif__foot{border-top:1px solid var(--border);margin-top:4px;padding:8px 4px 4px;text-align:center;}
 
 /* ===== Settings page (overlay) ===== */
 .settings-overlay{
@@ -1323,12 +1280,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .set-switch.is-on{background:var(--persona-active,var(--navy-bar));}
 .set-switch.is-on::after{left:21px;}
 
-.set-themes{display:flex;gap:14px;margin:8px 0 4px;}
-.set-theme{flex:1 1 0;border:2px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;background:#fff;text-align:left;font-family:inherit;transition:border-color .12s;}
-.set-theme.is-on{border-color:var(--persona-active,var(--navy-bar));}
-.set-theme__sw{height:48px;border-radius:8px;margin-bottom:9px;border:1px solid var(--border);}
-.set-theme__name{font-size:13px;font-weight:600;color:var(--heading);}
-
 .set-switchuser{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 16px;margin-top:18px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--heading);font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
 .set-switchuser:hover{background:var(--bg);border-color:#D2D7E0;}
 .set-switchuser svg{color:var(--persona-active,var(--navy-bar));}
@@ -1337,6 +1288,16 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 </head>
 <body>
 <div class="proto-bar">Prototype &middot; For illustrative purposes only</div>
+<datalist id="search-suggestions">
+  <option value="Arena · Stage Gate 3"></option>
+  <option value="Velodrome · Stage Gate 2"></option>
+  <option value="National Tennis Centre · Stage Gate 4"></option>
+  <option value="Completeness scan"></option>
+  <option value="Readiness scan"></option>
+  <option value="Pending actions"></option>
+  <option value="SGRP Session 15"></option>
+  <option value="Outcome letters"></option>
+</datalist>
 <div class="app" data-persona="project">
 
   <!-- ===== Top bar ===== -->
@@ -1353,15 +1314,26 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
     <label class="nav-search" aria-label="Search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input class="nav-search__input" type="search" placeholder="Search…" aria-label="Search" autocomplete="off">
+      <input class="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autocomplete="off" list="search-suggestions">
     </label>
 
 
     <div class="topbar__right"><span class="persona-label">Project team</span>
-      <button class="icon-btn" aria-label="Notifications">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-        <span class="badge">2</span>
-      </button>
+      <div class="notif">
+        <button class="icon-btn" data-notif-btn aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="badge" data-notif-badge>2</span>
+        </button>
+        <div class="notif__pop" data-notif-pop hidden role="menu">
+          <div class="notif__head"><span class="notif__title">Notifications</span><button class="notif__clear" data-notif-clear type="button">Mark all read</button></div>
+          <div class="notif__list">
+            <button class="notif__item" role="menuitem" data-go="reports"><span class="notif__dot"></span><span class="notif__body"><p class="notif__t">A. ElHusseini requested a change on Arena SG3</p><p class="notif__meta">Review · 2h ago</p></span></button>
+            <button class="notif__item" role="menuitem" data-go="reports"><span class="notif__dot"></span><span class="notif__body"><p class="notif__t">Velodrome SG2 passed the completeness scan</p><p class="notif__meta">Intake · Yesterday</p></span></button>
+            <button class="notif__item is-read" role="menuitem" data-go="reports"><span class="notif__dot"></span><span class="notif__body"><p class="notif__t">SGRP Session 15 scheduled for 17 Jun</p><p class="notif__meta">Schedule · 2 days ago</p></span></button>
+          </div>
+          <div class="notif__foot"><button class="link" data-go="reports">View all in My reports</button></div>
+        </div>
+      </div>
       <button class="btn btn--navy" data-go="authoring">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         New SG Report Draft
@@ -1379,15 +1351,12 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       <button class="side-icon" aria-label="Drafts" data-nav="authoring">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
       </button>
-      <button class="side-icon" aria-label="My Reports" data-nav="reports">
+      <button class="side-icon" aria-label="My reports" data-nav="reports">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.9A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.1Z"/></svg>
       </button>
 
       <span class="side-spacer"></span>
 
-      <button class="side-icon" aria-label="Settings" data-open-settings>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-      </button>
       <div class="usermenu">
         <button class="avatar" data-usermenu-btn aria-label="R. Hassan — account menu" aria-haspopup="true" aria-expanded="false">RH</button>
         <div class="usermenu__pop" data-usermenu-pop hidden role="menu">
@@ -1424,7 +1393,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/><path d="M18.5 14l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></svg>
           </span>
           <div class="banner__content">
-            <p class="banner__title">Continue drafting <strong>Arena SG3</strong> to stay on schedule.</p>
+            <p class="banner__title">Continue your <strong>Arena · Stage Gate 3</strong> submission to stay on schedule.</p>
             <div class="banner__pills">
               <span class="banner-pill"><span class="pdot pdot--green"></span>2 sections reviewed</span>
               <span class="banner-pill"><span class="pdot pdot--amber"></span>2 gaps need fixing</span>
@@ -1446,8 +1415,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
         <section class="card">
           <div class="card__head">
             <div>
-              <h2 class="card__title">My reports</h2>
-              <p class="card__sub">All your active and recent stage gate reports.</p>
+              <h2 class="card__title">My stage gate reports</h2>
             </div>
             <button class="link" data-go="authoring" data-from-dashboard>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -1456,7 +1424,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
           </div>
 
           <div class="reports">
-            <div class="report-row" tabindex="0">
+            <div class="report-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
               <div class="report-main">
                 <span class="dot dot--orange"></span>
                 <div class="report-text">
@@ -1470,7 +1438,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               </div>
             </div>
 
-            <div class="report-row" tabindex="0">
+            <div class="report-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
               <div class="report-main">
                 <span class="dot dot--green"></span>
                 <div class="report-text">
@@ -1484,7 +1452,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               </div>
             </div>
 
-            <div class="report-row" tabindex="0">
+            <div class="report-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
               <div class="report-main">
                 <span class="dot dot--grey"></span>
                 <div class="report-text">
@@ -1498,7 +1466,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               </div>
             </div>
 
-            <div class="report-row" tabindex="0">
+            <div class="report-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
               <div class="report-main">
                 <span class="dot dot--green"></span>
                 <div class="report-text">
@@ -1521,7 +1489,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
           <section class="card">
             <div class="card__head"><h2 class="card__title">Pending actions</h2></div>
             <div class="actions">
-              <div class="action-row" tabindex="0">
+              <div class="action-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
                 <span class="dot dot--red action-dot"></span>
                 <div class="action-body">
                   <p class="action-title">Fix ESG commitments gap: upload environmental impact report</p>
@@ -1529,15 +1497,15 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
                 </div>
                 <span class="action-due action-due--red">Due today</span>
               </div>
-              <div class="action-row" tabindex="0">
-                <span class="dot dot--amber action-dot"></span>
+              <div class="action-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
+                <span class="dot dot--orange action-dot"></span>
                 <div class="action-body">
                   <p class="action-title">Add contingency justification: required for SG3 readiness scan</p>
                   <p class="action-sub">Arena SG3</p>
                 </div>
                 <span class="action-due action-due--amber">Due 15 Jun</span>
               </div>
-              <div class="action-row" tabindex="0">
+              <div class="action-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
                 <span class="dot dot--grey action-dot"></span>
                 <div class="action-body">
                   <p class="action-title">Review Financial summary section traceability</p>
@@ -1547,7 +1515,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               </div>
             </div>
             <div class="card__foot">
-              <button class="link">View all actions
+              <button class="link" data-go="reports">View all actions
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
               </button>
             </div>
@@ -2226,6 +2194,18 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
         <!-- 3-column grid -->
         <div class="ws-grid">
 
+          <!-- Pre-scan placeholder (shown until the scan is run) -->
+          <div class="ws-empty">
+            <span class="ws-empty__ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <h3 class="ws-empty__t">Run a readiness scan to see results</h3>
+            <p class="ws-empty__d">Confirm the checklist on the left, then run the scan. We'll check your report against the Stage Gate mandatory checklist and show what passes, what's missing, and any advisory warnings right here.</p>
+            <div class="ws-empty__steps">
+              <span class="ws-empty__step"><span class="ws-empty__num">1</span>Confirm checklist</span>
+              <span class="ws-empty__step"><span class="ws-empty__num">2</span>Run scan</span>
+              <span class="ws-empty__step"><span class="ws-empty__num">3</span>Review passes &amp; gaps</span>
+            </div>
+          </div>
+
           <!-- LEFT -->
           <aside class="ws-left">
             <section class="ws-panel">
@@ -2428,6 +2408,18 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
         <div class="ws-grid">
 
+          <!-- Pre-generation placeholder (shown until a summary is generated) -->
+          <div class="ws-empty">
+            <span class="ws-empty__ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/><path d="M18.5 14l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></svg></span>
+            <h3 class="ws-empty__t">Generate a summary to see it here</h3>
+            <p class="ws-empty__d">Choose an output format on the left and generate. We'll draft a committee-ready executive summary from your approved source documents — you can review and edit every section before it's finalised.</p>
+            <div class="ws-empty__steps">
+              <span class="ws-empty__step"><span class="ws-empty__num">1</span>Choose format</span>
+              <span class="ws-empty__step"><span class="ws-empty__num">2</span>Generate summary</span>
+              <span class="ws-empty__step"><span class="ws-empty__num">3</span>Review &amp; edit</span>
+            </div>
+          </div>
+
           <!-- LEFT -->
           <aside class="ws-left">
             <section class="ws-panel">
@@ -2582,11 +2574,12 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
       <!-- Tabs -->
       <div class="ws-tabs">
-        <button class="ws-tab is-active">Active reports <span class="rp-tcount rp-tcount--amber">1 action needed</span></button>
-        <button class="ws-tab">Drafts <span class="rp-tcount">2 drafts</span></button>
-        <button class="ws-tab">Completed <span class="rp-tcount">3 decisions</span></button>
+        <button class="ws-tab is-active" data-rptab="active">Active reports <span class="rp-tcount rp-tcount--amber">1 action needed</span></button>
+        <button class="ws-tab" data-rptab="drafts">Drafts <span class="rp-tcount">2 drafts</span></button>
+        <button class="ws-tab" data-rptab="completed">Completed <span class="rp-tcount">3 decisions</span></button>
       </div>
 
+      <div class="rp-tabpane" data-rppane="active">
       <div class="rp-grid">
 
         <!-- LEFT: Active reports list -->
@@ -2861,6 +2854,34 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
         </div>
       </div>
+      </div><!-- /rp-tabpane active -->
+
+      <div class="rp-tabpane" data-rppane="drafts" hidden>
+        <section class="ws-panel">
+          <h2 class="ws-h">Drafts</h2>
+          <p class="ws-h-sub">Reports you're still preparing — not yet submitted to the secretariat.</p>
+          <div class="rp-list">
+            <div class="rp-item" tabindex="0" role="button" data-go="authoring" data-from-dashboard title="Open in the authoring workspace">
+              <div class="rp-item__head"><span class="dot dot--orange"></span><div><p class="rp-item__name">Arena</p><p class="rp-item__sub">Stage Gate 3 · Drafting 16 of 19 sections</p></div></div>
+            </div>
+            <div class="rp-item" tabindex="0" role="button" data-go="authoring" data-from-dashboard title="Open in the authoring workspace">
+              <div class="rp-item__head"><span class="dot dot--grey"></span><div><p class="rp-item__name">National Tennis Centre</p><p class="rp-item__sub">Stage Gate 4 · Not started</p></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="rp-tabpane" data-rppane="completed" hidden>
+        <section class="ws-panel">
+          <h2 class="ws-h">Completed</h2>
+          <p class="ws-h-sub">Reports with a final committee decision.</p>
+          <div class="rp-list">
+            <div class="rp-item"><div class="rp-item__head"><span class="dot dot--green"></span><div><p class="rp-item__name">National Aquatic Centre</p><p class="rp-item__sub">Stage Gate 2 · Approved 2 May 2026</p></div></div><div class="rp-item__pills"><span class="badge-pill badge-pill--green">Approved</span></div></div>
+            <div class="rp-item"><div class="rp-item__head"><span class="dot dot--green"></span><div><p class="rp-item__name">Sports Park Infrastructure</p><p class="rp-item__sub">Stage Gate 1 · Approved 14 Mar 2026</p></div></div><div class="rp-item__pills"><span class="badge-pill badge-pill--green">Approved</span></div></div>
+            <div class="rp-item"><div class="rp-item__head"><span class="dot dot--orange"></span><div><p class="rp-item__name">Music Theme Park</p><p class="rp-item__sub">Stage Gate 3 · Approved with conditions, 10 Jun 2026</p></div></div><div class="rp-item__pills"><span class="badge-pill badge-pill--amber">Approved w/ conditions</span></div></div>
+          </div>
+        </section>
+      </div>
 
       </div><!-- /view--reports -->
 
@@ -2882,13 +2903,24 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
     <span class="nav-divider"></span>
     <label class="nav-search" aria-label="Search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input class="nav-search__input" type="search" placeholder="Search…" aria-label="Search" autocomplete="off">
+      <input class="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autocomplete="off" list="search-suggestions">
     </label>
     <div class="topbar__right"><span class="persona-label">Secretariat</span>
-      <button class="icon-btn" aria-label="Notifications">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-        <span class="badge">3</span>
-      </button>
+      <div class="notif">
+        <button class="icon-btn" data-notif-btn aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="badge" data-notif-badge>3</span>
+        </button>
+        <div class="notif__pop" data-notif-pop hidden role="menu">
+          <div class="notif__head"><span class="notif__title">Notifications</span><button class="notif__clear" data-notif-clear type="button">Mark all read</button></div>
+          <div class="notif__list">
+            <button class="notif__item" role="menuitem" data-sview="reports"><span class="notif__dot"></span><span class="notif__body"><p class="notif__t">New submission: Arena · Stage Gate 3 arrived in intake</p><p class="notif__meta">Intake · 08:30</p></span></button>
+            <button class="notif__item" role="menuitem" data-sview="reports"><span class="notif__dot"></span><span class="notif__body"><p class="notif__t">Music Theme Park SG3 review outcome synced from Teams</p><p class="notif__meta">Review · 1h ago</p></span></button>
+            <button class="notif__item" role="menuitem" data-sview="reports"><span class="notif__dot"></span><span class="notif__body"><p class="notif__t">3 reviews are overdue and need a reminder</p><p class="notif__meta">Action · Today</p></span></button>
+          </div>
+          <div class="notif__foot"><button class="link" data-sview="reports">View all submissions</button></div>
+        </div>
+      </div>
       <button class="btn btn--navy" data-sview="reports">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
         New submission
@@ -2909,9 +2941,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
       <span class="side-spacer"></span>
 
-      <button class="side-icon" aria-label="Settings" data-open-settings>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-      </button>
       <div class="usermenu">
         <button class="avatar" data-usermenu-btn aria-label="F. Osman — account menu" aria-haspopup="true" aria-expanded="false">FO</button>
         <div class="usermenu__pop" data-usermenu-pop hidden role="menu">
@@ -4000,10 +4029,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Profile
         </button>
-        <button class="settings__navitem" data-spane="appearance" role="tab" aria-selected="false">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"/></svg>
-          Appearance
-        </button>
         <button class="settings__navitem" data-spane="notifications" role="tab" aria-selected="false">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
           Notifications
@@ -4033,18 +4058,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M21 3 13 11"/><path d="M8 21H3v-5"/><path d="M3 21 11 13"/></svg>
             <span data-set-switchlabel>Switch to Secretariat</span>
           </button>
-        </section>
-
-        <section class="settings__pane" data-spane="appearance" role="tabpanel">
-          <h2 class="set-h">Appearance</h2>
-          <p class="set-sub">Personalise how the workspace looks and feels.</p>
-          <div class="set-row" style="border-bottom:none;padding-bottom:4px;"><div><p class="set-row__t">Theme</p><p class="set-row__d">Choose a light interface or match your system setting.</p></div></div>
-          <div class="set-themes">
-            <button class="set-theme is-on" data-set-theme type="button"><span class="set-theme__sw" style="background:#F5F6F8;"></span><span class="set-theme__name">Light</span></button>
-            <button class="set-theme" data-set-theme type="button"><span class="set-theme__sw" style="background:linear-gradient(135deg,#F5F6F8 50%,#0D1E3A 50%);"></span><span class="set-theme__name">System</span></button>
-          </div>
-          <div class="set-row"><div><p class="set-row__t">Reduce motion</p><p class="set-row__d">Minimise non-essential animations and transitions.</p></div><button class="set-switch" data-set-toggle role="switch" aria-checked="false" aria-label="Reduce motion"></button></div>
-          <div class="set-row"><div><p class="set-row__t">Compact density</p><p class="set-row__d">Tighten spacing to fit more on screen.</p></div><button class="set-switch" data-set-toggle role="switch" aria-checked="false" aria-label="Compact density"></button></div>
         </section>
 
         <section class="settings__pane" data-spane="notifications" role="tabpanel">
@@ -4083,6 +4096,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   // Workspace "Back to dashboard" arrow shows only when authoring was entered from the dashboard, not the sidebar
   var cameFromDashboard = false;
   function showView(name){
+    closeUserMenus(); closeNotif();
     projApp.querySelectorAll('.view').forEach(function(v){ v.classList.remove('is-active'); });
     var view = projApp.querySelector('.view--' + name);
     if(view){ view.classList.add('is-active'); }
@@ -4113,6 +4127,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   var secApp = document.querySelector('.app[data-persona="secretariat"]');
   function showSecView(name){
     if(!secApp){ return; }
+    closeUserMenus(); closeNotif();
     secApp.querySelectorAll('.sec-view').forEach(function(v){ v.classList.toggle('is-active', v.getAttribute('data-sview') === name); });
     var sideName = (name === 'scan') ? 'reports' : name;
     secApp.querySelectorAll('.side-icon[data-sview]').forEach(function(b){
@@ -4268,6 +4283,15 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
     el.addEventListener('click', function(){
       if(el.hasAttribute('data-from-dashboard')){ cameFromDashboard = true; }
       showView(el.getAttribute('data-go'));
+    });
+  });
+
+  // My reports tabs (Active / Drafts / Completed)
+  projApp.querySelectorAll('.view--reports .ws-tab[data-rptab]').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var k = tab.getAttribute('data-rptab');
+      projApp.querySelectorAll('.view--reports .ws-tab[data-rptab]').forEach(function(t){ t.classList.toggle('is-active', t === tab); });
+      projApp.querySelectorAll('.view--reports [data-rppane]').forEach(function(p){ p.hidden = (p.getAttribute('data-rppane') !== k); });
     });
   });
 
@@ -4436,9 +4460,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
     });
   });
 
-  // Reset — clicking the SGI logomark reloads the prototype to its initial state
+  // Logo — returns to the active persona's dashboard, same as the Home icon
   document.querySelectorAll('[data-reset]').forEach(function(el){
-    el.addEventListener('click', function(){ location.reload(); });
+    el.addEventListener('click', function(){
+      if(activePersona() === 'secretariat'){ showSecView('dashboard'); }
+      else { showView('dashboard'); }
+      window.scrollTo(0, 0);
+    });
   });
 
   // ===== Account menu (avatar popover) + Settings page =====
@@ -4461,13 +4489,40 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
     if(btn){
       var pop = btn.parentNode.querySelector('[data-usermenu-pop]');
       var willOpen = pop && pop.hidden;
-      closeUserMenus();
+      closeUserMenus(); closeNotif();
       if(willOpen){ pop.hidden = false; btn.setAttribute('aria-expanded','true'); }
       e.stopPropagation();
       return;
     }
     if(!e.target.closest || !e.target.closest('[data-usermenu-pop]')){ closeUserMenus(); }
   });
+
+  // ===== Notifications popover =====
+  function closeNotif(){
+    document.querySelectorAll('[data-notif-pop]').forEach(function(p){ p.hidden = true; });
+    document.querySelectorAll('[data-notif-btn]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('[data-notif-btn]');
+    if(btn){
+      var pop = btn.parentNode.querySelector('[data-notif-pop]');
+      var willOpen = pop && pop.hidden;
+      closeNotif(); closeUserMenus();
+      if(willOpen){ pop.hidden = false; btn.setAttribute('aria-expanded','true'); }
+      e.stopPropagation();
+      return;
+    }
+    var clear = e.target.closest && e.target.closest('[data-notif-clear]');
+    if(clear){
+      var shell = clear.closest('.notif');
+      shell.querySelectorAll('.notif__item').forEach(function(i){ i.classList.add('is-read'); });
+      var badge = shell.querySelector('[data-notif-badge]'); if(badge){ badge.style.display = 'none'; }
+      e.stopPropagation();
+      return;
+    }
+    if(!e.target.closest || !e.target.closest('[data-notif-pop]')){ closeNotif(); }
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' || e.key === 'Esc'){ closeNotif(); } });
 
   // Settings overlay
   var setOverlay = document.querySelector('[data-settings-overlay]');
@@ -4512,13 +4567,6 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       sw.addEventListener('click', function(){
         var on = sw.classList.toggle('is-on');
         sw.setAttribute('aria-checked', on ? 'true' : 'false');
-      });
-    });
-    // Theme cards (single-select)
-    setOverlay.querySelectorAll('[data-set-theme]').forEach(function(card){
-      card.addEventListener('click', function(){
-        setOverlay.querySelectorAll('[data-set-theme]').forEach(function(c){ c.classList.remove('is-on'); });
-        card.classList.add('is-on');
       });
     });
     // Close on backdrop click / Escape
