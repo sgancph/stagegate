@@ -7,9 +7,9 @@ function reply(status, body, authenticate = false) {
 }
 
 export default function middleware(request) {
-  const expectedUser = process.env.BASIC_AUTH_USER;
+  const expectedUser = process.env.BASIC_AUTH_USER || 'qiddiya';
   const expectedPass = process.env.BASIC_AUTH_PASSWORD;
-  if (!expectedUser || !expectedPass) return reply(503, 'Authentication is not configured');
+  if (!expectedPass) return reply(503, 'Authentication is not configured');
 
   try {
     const authorization = request.headers.get('authorization');
