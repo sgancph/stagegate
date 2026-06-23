@@ -1,5 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/stage-gate-intelligence_f2.html" }
-  ]
+  "buildCommand": "cd app && npm install && npm run build",
+  "outputDirectory": "app/dist"
 }

@@ -1,5 +1,5 @@
 export const config = {
-  matcher: ['/', '/stage-gate-intelligence_f2.html'],
+  matcher: ['/', '/index.html'],
 };
 
 export default function middleware(request) {
