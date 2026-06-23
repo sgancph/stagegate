@@ -27,8 +27,13 @@ export function Sidebar() {
       {NAV[persona].map((item) => {
         const active = item.view === activeNav;
         return (
-          <button key={item.view} className={`side-icon${active ? ' is-active' : ''}`} aria-label={item.label}
-            aria-current={active ? 'page' : undefined} onClick={() => navigate(item.view)}>
+          <button
+            key={item.view}
+            className={`side-icon${active ? ' is-active' : ''}`}
+            aria-label={item.label}
+            aria-current={active ? 'page' : undefined}
+            onClick={() => navigate(item.view)}
+          >
             <Icon name={item.icon} size={21} />
           </button>
         );

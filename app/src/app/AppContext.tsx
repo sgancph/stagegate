@@ -1,59 +1,84 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { DEFAULT_PROJECT_ID, getProject, type Persona, type View } from '../data/demo';
+import { isValidRoute, parseHash, type RouteState } from './routes';
 
-export type Persona = 'project' | 'secretariat';
-export type ProjectView = 'dashboard' | 'authoring' | 'execsummary' | 'readiness' | 'reports';
-export type SecretariatView = 'dashboard' | 'reports' | 'scan';
-export type View = ProjectView | SecretariatView;
+export type { Persona, ProjectView, SecretariatView, View } from '../data/demo';
 
-interface AppState {
-  persona: Persona;
-  view: View;
+interface AppState extends RouteState {
+  selectedProjectId: string;
+  selectedProject: ReturnType<typeof getProject>;
   navigate: (view: View) => void;
   switchPersona: (persona: Persona) => void;
+  selectProject: (projectId: string) => void;
 }
 
 const AppCtx = createContext<AppState | null>(null);
 
-/** Single source of truth for "who am I / where am I", mirrored into browser history. */
-function fromHash(): { persona: Persona; view: View } {
-  const m = /^#(project|secretariat)-([a-z]+)$/.exec(location.hash);
-  if (m) return { persona: m[1] as Persona, view: m[2] as View };
-  return { persona: 'project', view: 'dashboard' };
-}
-
 export function AppProvider({ children }: { children: ReactNode }) {
-  const initial = fromHash();
+  const [initial] = useState(() => parseHash(window.location.hash));
   const [persona, setPersona] = useState<Persona>(initial.persona);
   const [view, setView] = useState<View>(initial.view);
+  const [selectedProjectId, setSelectedProjectId] = useState<string>(DEFAULT_PROJECT_ID);
 
-  const push = useCallback((p: Persona, v: View) => {
-    const cur = history.state as { persona?: Persona; view?: View } | null;
-    if (cur && cur.persona === p && cur.view === v) return;
-    history.pushState({ persona: p, view: v }, '', `#${p}-${v}`);
+  const push = useCallback((nextPersona: Persona, nextView: View) => {
+    if (!isValidRoute(nextPersona, nextView)) return;
+    const current = window.history.state as Partial<RouteState> | null;
+    if (current?.persona === nextPersona && current.view === nextView) return;
+    window.history.pushState({ persona: nextPersona, view: nextView }, '', `#${nextPersona}-${nextView}`);
   }, []);
 
-  const navigate = useCallback((v: View) => { setView(v); push(persona, v); }, [persona, push]);
-  const switchPersona = useCallback((p: Persona) => {
-    setPersona(p); setView('dashboard'); push(p, 'dashboard');
-  }, [push]);
+  const navigate = useCallback(
+    (nextView: View) => {
+      if (!isValidRoute(persona, nextView)) return;
+      setView(nextView);
+      push(persona, nextView);
+    },
+    [persona, push],
+  );
 
-  // Back/forward walks the prototype like a normal site.
+  const switchPersona = useCallback(
+    (nextPersona: Persona) => {
+      setPersona(nextPersona);
+      setView('dashboard');
+      push(nextPersona, 'dashboard');
+    },
+    [push],
+  );
+
   useEffect(() => {
-    const onPop = (e: PopStateEvent) => {
-      const st = (e.state || { persona: 'project', view: 'dashboard' }) as { persona: Persona; view: View };
-      setPersona(st.persona); setView(st.view);
+    const onPopState = (event: PopStateEvent) => {
+      const state = event.state as Partial<RouteState> | null;
+      const route =
+        state && isValidRoute(state.persona, state.view)
+          ? { persona: state.persona, view: state.view as View }
+          : parseHash(window.location.hash);
+      setPersona(route.persona);
+      setView(route.view);
     };
-    window.addEventListener('popstate', onPop);
-    history.replaceState({ persona, view }, '');
-    return () => window.removeEventListener('popstate', onPop);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    window.addEventListener('popstate', onPopState);
+    window.history.replaceState(initial, '', `#${initial.persona}-${initial.view}`);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [initial]);
 
-  return <AppCtx.Provider value={{ persona, view, navigate, switchPersona }}>{children}</AppCtx.Provider>;
+  const selectedProject = useMemo(() => getProject(selectedProjectId), [selectedProjectId]);
+  const value = useMemo(
+    () => ({
+      persona,
+      view,
+      selectedProjectId,
+      selectedProject,
+      navigate,
+      switchPersona,
+      selectProject: setSelectedProjectId,
+    }),
+    [navigate, persona, selectedProject, selectedProjectId, switchPersona, view],
+  );
+
+  return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }
 
 export function useApp() {
-  const ctx = useContext(AppCtx);
-  if (!ctx) throw new Error('useApp must be used within AppProvider');
-  return ctx;
+  const context = useContext(AppCtx);
+  if (!context) throw new Error('useApp must be used within AppProvider');
+  return context;
 }

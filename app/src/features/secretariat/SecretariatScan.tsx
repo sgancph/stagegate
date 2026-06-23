@@ -14,8 +14,12 @@ export function SecretariatScan() {
   return (
     <div className="sec-scan">
       <div className="ws-head">
-        <button className="ws-back" aria-label="Back to submissions" onClick={() => navigate('reports')}><Icon name="back" /></button>
-        <div><h1 className="ws-title">Completeness Scan for Arena SG3</h1></div>
+        <button className="ws-back" aria-label="Back to submissions" onClick={() => navigate('reports')}>
+          <Icon name="back" />
+        </button>
+        <div>
+          <h1 className="ws-title">Completeness Scan for Arena SG3</h1>
+        </div>
       </div>
       <div className="ws-grid">
         <aside className="ws-left">
@@ -23,22 +27,51 @@ export function SecretariatScan() {
             <div className="scan-field">
               <p className="scan-field__label">Scan type</p>
               <p className="scan-field__hint">Are you scanning pre or post meeting outcome?</p>
-              <div className="scan-select"><span>Pre-Session Scan</span><Icon name="chevronDown" size={14} strokeWidth={2.2} className="scan-select__ch" /></div>
+              <button
+                className="scan-select"
+                type="button"
+                onClick={() => toast('Only Pre-Session Scan is available')}
+              >
+                <span>Pre-Session Scan</span>
+                <Icon name="chevronDown" size={14} strokeWidth={2.2} className="scan-select__ch" />
+              </button>
             </div>
             <div className="scan-field">
               <p className="scan-field__label">Receiving panel</p>
               <p className="scan-field__hint">Members who will receive this submission</p>
               <div className="scan-people">
-                {panel.map((p) => <span key={p.initials} className="scan-person" style={{ background: p.color }}>{p.initials}</span>)}
-                <button className="scan-person-add" aria-label="Add panel member">+</button>
+                {panel.map((p) => (
+                  <span key={p.initials} className="scan-person" style={{ background: p.color }}>
+                    {p.initials}
+                  </span>
+                ))}
+                <button
+                  className="scan-person-add"
+                  aria-label="Add panel member"
+                  onClick={() => toast('Prototype only — panel editing is not connected')}
+                >
+                  +
+                </button>
               </div>
             </div>
             <div className="scan-field">
               <p className="scan-field__label">Checklist</p>
-              <div className="scan-select"><span>SG3 Arena Checklist v2.3</span><Icon name="chevronDown" size={14} strokeWidth={2.2} className="scan-select__ch" /></div>
+              <button
+                className="scan-select"
+                type="button"
+                onClick={() => toast('Only SG3 Arena Checklist v2.3 is available')}
+              >
+                <span>SG3 Arena Checklist v2.3</span>
+                <Icon name="chevronDown" size={14} strokeWidth={2.2} className="scan-select__ch" />
+              </button>
             </div>
           </section>
-          <button className="scan-runbtn" onClick={() => toast('Running completeness scan…')}><Icon name="shield" size={16} /> Scan</button>
+          <button
+            className="scan-runbtn"
+            onClick={() => toast('Prototype only — completeness scanning requires the validation service')}
+          >
+            <Icon name="shield" size={16} /> Scan
+          </button>
         </aside>
       </div>
     </div>

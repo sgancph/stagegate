@@ -14,15 +14,25 @@ export function WorkspaceHeader({ active }: { active: Tab }) {
   return (
     <>
       <div className="ws-head">
-        <button className="ws-back" aria-label="Back to dashboard" onClick={() => navigate('dashboard')}><Icon name="back" /></button>
-        <div><h1 className="ws-title">Authoring workspace</h1></div>
+        <button className="ws-back" aria-label="Back to dashboard" onClick={() => navigate('dashboard')}>
+          <Icon name="back" />
+        </button>
+        <div>
+          <h1 className="ws-title">Authoring workspace</h1>
+        </div>
         <div className="ws-head-right">
           <ProjectSelector />
         </div>
       </div>
-      <div className="ws-tabs">
+      <div className="ws-tabs" role="tablist" aria-label="Authoring tools">
         {TABS.map((t) => (
-          <button key={t.view} className={`ws-tab${t.view === active ? ' is-active' : ''}`} onClick={() => t.view !== active && navigate(t.view as View)}>
+          <button
+            key={t.view}
+            className={`ws-tab${t.view === active ? ' is-active' : ''}`}
+            role="tab"
+            aria-selected={t.view === active}
+            onClick={() => t.view !== active && navigate(t.view as View)}
+          >
             {t.icon === 'sparkle' ? <Sparkle size={15} /> : <Icon name="shield" size={15} />}
             {t.label}
           </button>

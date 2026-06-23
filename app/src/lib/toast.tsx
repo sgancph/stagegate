@@ -15,8 +15,15 @@ export function Toaster() {
       t = window.setTimeout(() => setMsg(null), 2400);
     };
     window.addEventListener('sgi-toast', on);
-    return () => { window.removeEventListener('sgi-toast', on); if (t) clearTimeout(t); };
+    return () => {
+      window.removeEventListener('sgi-toast', on);
+      if (t) clearTimeout(t);
+    };
   }, []);
   if (!msg) return null;
-  return <div className="toast" role="status">{msg}</div>;
+  return (
+    <div className="toast" role="status">
+      {msg}
+    </div>
+  );
 }

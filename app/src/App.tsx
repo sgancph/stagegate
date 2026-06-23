@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { AppProvider, useApp } from './app/AppContext';
+import { ErrorBoundary } from './app/ErrorBoundary';
 import { ProtoBar } from './components/layout/ProtoBar';
 import { Topbar } from './components/layout/Topbar';
 import { Sidebar } from './components/layout/Sidebar';
@@ -23,8 +25,14 @@ const VIEW_TITLES: Record<string, string> = {
 function Shell() {
   const { persona, view } = useApp();
 
+  useEffect(() => {
+    const title = VIEW_TITLES[view] ?? (view === 'dashboard' ? 'Dashboard' : 'Authoring workspace');
+    document.title = `${title} · Stage Gate Intelligence`;
+  }, [view]);
+
   const body = (() => {
-    if (view === 'dashboard') return persona === 'secretariat' ? <SecretariatDashboard /> : <ProjectDashboard />;
+    if (view === 'dashboard')
+      return persona === 'secretariat' ? <SecretariatDashboard /> : <ProjectDashboard />;
     if (persona === 'project') {
       if (view === 'authoring') return <AuthoringWorkspace />;
       if (view === 'execsummary') return <ExecSummary />;
@@ -53,12 +61,14 @@ export function App() {
   return (
     <>
       <ProtoBar />
-      <AppProvider>
-        <Shell />
-        <Settings />
-        <GuidedTour />
-        <Toaster />
-      </AppProvider>
+      <ErrorBoundary>
+        <AppProvider>
+          <Shell />
+          <Settings />
+          <GuidedTour />
+          <Toaster />
+        </AppProvider>
+      </ErrorBoundary>
     </>
   );
 }

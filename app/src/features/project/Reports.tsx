@@ -18,9 +18,24 @@ const drafts = [
   { name: 'National Tennis Centre', sub: 'Stage Gate 4 · Not started', dot: 'grey' },
 ];
 const completed = [
-  { name: 'National Aquatic Centre', sub: 'Stage Gate 2 · Approved 2 May 2026', pill: 'Approved', variant: 'green' },
-  { name: 'Sports Park Infrastructure', sub: 'Stage Gate 1 · Approved 14 Mar 2026', pill: 'Approved', variant: 'green' },
-  { name: 'Music Theme Park', sub: 'Stage Gate 3 · Approved with conditions, 10 Jun 2026', pill: 'Approved w/ conditions', variant: 'amber' },
+  {
+    name: 'National Aquatic Centre',
+    sub: 'Stage Gate 2 · Approved 2 May 2026',
+    pill: 'Approved',
+    variant: 'green',
+  },
+  {
+    name: 'Sports Park Infrastructure',
+    sub: 'Stage Gate 1 · Approved 14 Mar 2026',
+    pill: 'Approved',
+    variant: 'green',
+  },
+  {
+    name: 'Music Theme Park',
+    sub: 'Stage Gate 3 · Approved with conditions, 10 Jun 2026',
+    pill: 'Approved w/ conditions',
+    variant: 'amber',
+  },
 ];
 
 export function Reports() {
@@ -30,13 +45,36 @@ export function Reports() {
     <div className="view view--reports is-active">
       <section className="greeting">
         <h1 className="greeting__title">My reports</h1>
-        <p className="greeting__sub">Track your active reports, respond to reviewer requests, and view past decisions.</p>
+        <p className="greeting__sub">
+          Track your active reports, respond to reviewer requests, and view past decisions.
+        </p>
       </section>
 
-      <div className="ws-tabs">
-        <button className={`ws-tab${tab === 'active' ? ' is-active' : ''}`} onClick={() => setTab('active')}>Active reports <span className="rp-tcount rp-tcount--amber">1 action needed</span></button>
-        <button className={`ws-tab${tab === 'drafts' ? ' is-active' : ''}`} onClick={() => setTab('drafts')}>Drafts <span className="rp-tcount">2 drafts</span></button>
-        <button className={`ws-tab${tab === 'completed' ? ' is-active' : ''}`} onClick={() => setTab('completed')}>Completed <span className="rp-tcount">3 decisions</span></button>
+      <div className="ws-tabs" role="tablist" aria-label="Report status">
+        <button
+          className={`ws-tab${tab === 'active' ? ' is-active' : ''}`}
+          role="tab"
+          aria-selected={tab === 'active'}
+          onClick={() => setTab('active')}
+        >
+          Active reports <span className="rp-tcount rp-tcount--amber">1 action needed</span>
+        </button>
+        <button
+          className={`ws-tab${tab === 'drafts' ? ' is-active' : ''}`}
+          role="tab"
+          aria-selected={tab === 'drafts'}
+          onClick={() => setTab('drafts')}
+        >
+          Drafts <span className="rp-tcount">2 drafts</span>
+        </button>
+        <button
+          className={`ws-tab${tab === 'completed' ? ' is-active' : ''}`}
+          role="tab"
+          aria-selected={tab === 'completed'}
+          onClick={() => setTab('completed')}
+        >
+          Completed <span className="rp-tcount">3 decisions</span>
+        </button>
       </div>
 
       {tab === 'active' && (
@@ -47,12 +85,28 @@ export function Reports() {
               <p className="ws-h-sub">Reports currently in the review pipeline.</p>
               <div className="rp-list">
                 <div className="rp-item is-selected">
-                  <div className="rp-item__head"><span className="dot dot--orange" /><div><p className="rp-item__name">Arena</p><p className="rp-item__sub">Stage Gate 3</p></div></div>
-                  <div className="rp-item__pills"><span className="ws-tag ws-tag--blue">Review · SGRP Session 15</span></div>
+                  <div className="rp-item__head">
+                    <span className="dot dot--orange" />
+                    <div>
+                      <p className="rp-item__name">Arena</p>
+                      <p className="rp-item__sub">Stage Gate 3</p>
+                    </div>
+                  </div>
+                  <div className="rp-item__pills">
+                    <span className="ws-tag ws-tag--blue">Review · SGRP Session 15</span>
+                  </div>
                 </div>
                 <div className="rp-item">
-                  <div className="rp-item__head"><span className="dot dot--blue" /><div><p className="rp-item__name">Velodrome</p><p className="rp-item__sub">Stage Gate 2</p></div></div>
-                  <div className="rp-item__pills"><span className="ws-tag ws-tag--newblue">Awaiting SGRP review</span></div>
+                  <div className="rp-item__head">
+                    <span className="dot dot--blue" />
+                    <div>
+                      <p className="rp-item__name">Velodrome</p>
+                      <p className="rp-item__sub">Stage Gate 2</p>
+                    </div>
+                  </div>
+                  <div className="rp-item__pills">
+                    <span className="ws-tag ws-tag--newblue">Awaiting SGRP review</span>
+                  </div>
                 </div>
               </div>
             </section>
@@ -72,25 +126,77 @@ export function Reports() {
                   </div>
                 ))}
               </div>
-              <div className="rp-kv__row"><span className="rp-kv__k">Assigned reviewer</span><span className="rp-kv__v"><span className="ws-avatar ws-avatar--soft">AE</span> A. ElHusseini (CDU lead)</span></div>
-              <div className="rp-kv__row"><span className="rp-kv__k">SGRP session</span><span className="rp-kv__v">Session 15 · 17 Jun 2026</span></div>
-              <div className="rp-kv__row"><span className="rp-kv__k">Completeness Scan</span><span className="rp-kv__v"><span className="ws-tag ws-tag--green">Passed</span></span></div>
+              <div className="rp-kv__row">
+                <span className="rp-kv__k">Assigned reviewer</span>
+                <span className="rp-kv__v">
+                  <span className="ws-avatar ws-avatar--soft">AE</span> A. ElHusseini (CDU lead)
+                </span>
+              </div>
+              <div className="rp-kv__row">
+                <span className="rp-kv__k">SGRP session</span>
+                <span className="rp-kv__v">Session 15 · 17 Jun 2026</span>
+              </div>
+              <div className="rp-kv__row">
+                <span className="rp-kv__k">Completeness Scan</span>
+                <span className="rp-kv__v">
+                  <span className="ws-tag ws-tag--green">Passed</span>
+                </span>
+              </div>
             </section>
 
             <section className="ws-panel rp-rfi">
               <div className="rp-rfi__head">
-                <span className="rp-rfi__title"><Icon name="alert" size={18} /> Response required</span>
-                <div className="rp-rfi__hr"><span className="rp-rfi__meta">Received 10 Jun · 2 days ago</span><span className="rp-tcount rp-tcount--amber">Due 14 Jun (2 days)</span></div>
+                <span className="rp-rfi__title">
+                  <Icon name="alert" size={18} /> Response required
+                </span>
+                <div className="rp-rfi__hr">
+                  <span className="rp-rfi__meta">Received 10 Jun · 2 days ago</span>
+                  <span className="rp-tcount rp-tcount--amber">Due 14 Jun (2 days)</span>
+                </div>
               </div>
               <div className="rp-rfi__msgbox">
-                <div className="rp-rfi__from"><span className="ws-avatar ws-avatar--soft">AE</span> A. ElHusseini, CDU reviewer</div>
-                <p className="rp-rfi__msg">The submission is strong overall and has been progressed to Review. Could you confirm whether the <strong>contingency justification on page 12 covers Phase 2</strong> — the current narrative only references Phase 1. I need this before Session 15 on 17 Jun.</p>
+                <div className="rp-rfi__from">
+                  <span className="ws-avatar ws-avatar--soft">AE</span> A. ElHusseini, CDU reviewer
+                </div>
+                <p className="rp-rfi__msg">
+                  The submission is strong overall and has been progressed to Review. Could you confirm
+                  whether the <strong>contingency justification on page 12 covers Phase 2</strong> — the
+                  current narrative only references Phase 1. I need this before Session 15 on 17 Jun.
+                </p>
               </div>
-              <label className="rp-label">Your response</label>
-              <textarea className="rp-response" placeholder="Address the point raised: Phase 2 contingency justification…" />
-              <div className="rp-attach" role="button" tabIndex={0} onClick={() => toast('Attach files (prototype)')}><Icon name="paperclip" size={15} /> Attach files (optional)</div>
-              <div className="rp-infobar"><Icon name="info" size={15} /> Your response will be sent to A. ElHusseini and logged to the repository. The reviewer will be notified immediately.</div>
-              <div className="rp-rfi__actions"><button className="btn btn--navy" onClick={() => toast('Response sent to A. ElHusseini')}><Icon name="send" size={15} strokeWidth={2} /> Send response</button><button className="btn btn--ghost" onClick={() => toast('Draft saved')}>Save draft</button></div>
+              <label className="rp-label" htmlFor="review-response">
+                Your response
+              </label>
+              <textarea
+                id="review-response"
+                className="rp-response"
+                placeholder="Address the point raised: Phase 2 contingency justification…"
+              />
+              <button
+                className="rp-attach"
+                type="button"
+                onClick={() => toast('Prototype only — file attachment is not connected')}
+              >
+                <Icon name="paperclip" size={15} /> Attach files (optional)
+              </button>
+              <div className="rp-infobar">
+                <Icon name="info" size={15} /> Your response will be sent to A. ElHusseini and logged to the
+                repository. The reviewer will be notified immediately.
+              </div>
+              <div className="rp-rfi__actions">
+                <button
+                  className="btn btn--navy"
+                  onClick={() => toast('Prototype only — response was not sent')}
+                >
+                  <Icon name="send" size={15} strokeWidth={2} /> Send response
+                </button>
+                <button
+                  className="btn btn--ghost"
+                  onClick={() => toast('Draft retained for this session only')}
+                >
+                  Save draft
+                </button>
+              </div>
             </section>
           </div>
         </div>
@@ -103,9 +209,21 @@ export function Reports() {
             <p className="ws-h-sub">Reports you're still preparing — not yet submitted to the secretariat.</p>
             <div className="rp-list">
               {drafts.map((d) => (
-                <div key={d.name} className="rp-item" role="button" tabIndex={0} title="Open in the authoring workspace" onClick={() => navigate('authoring')}>
-                  <div className="rp-item__head"><span className={`dot dot--${d.dot}`} /><div><p className="rp-item__name">{d.name}</p><p className="rp-item__sub">{d.sub}</p></div></div>
-                </div>
+                <button
+                  key={d.name}
+                  className="rp-item"
+                  type="button"
+                  title="Open in the authoring workspace"
+                  onClick={() => navigate('authoring')}
+                >
+                  <div className="rp-item__head">
+                    <span className={`dot dot--${d.dot}`} />
+                    <div>
+                      <p className="rp-item__name">{d.name}</p>
+                      <p className="rp-item__sub">{d.sub}</p>
+                    </div>
+                  </div>
+                </button>
               ))}
             </div>
           </section>
@@ -120,8 +238,16 @@ export function Reports() {
             <div className="rp-list">
               {completed.map((c) => (
                 <div key={c.name} className="rp-item">
-                  <div className="rp-item__head"><span className={`dot dot--${c.variant === 'green' ? 'green' : 'orange'}`} /><div><p className="rp-item__name">{c.name}</p><p className="rp-item__sub">{c.sub}</p></div></div>
-                  <div className="rp-item__pills"><span className={`badge-pill badge-pill--${c.variant}`}>{c.pill}</span></div>
+                  <div className="rp-item__head">
+                    <span className={`dot dot--${c.variant === 'green' ? 'green' : 'orange'}`} />
+                    <div>
+                      <p className="rp-item__name">{c.name}</p>
+                      <p className="rp-item__sub">{c.sub}</p>
+                    </div>
+                  </div>
+                  <div className="rp-item__pills">
+                    <span className={`badge-pill badge-pill--${c.variant}`}>{c.pill}</span>
+                  </div>
                 </div>
               ))}
             </div>

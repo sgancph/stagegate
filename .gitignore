@@ -12,7 +12,10 @@
 # Logs
 *.log
 
-# Node (if added later)
+# Local agent settings
+.claude/settings.local.json
+
+# Node and deployment files
 node_modules/
 .env
 .env.local

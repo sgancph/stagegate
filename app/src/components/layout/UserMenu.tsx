@@ -1,39 +1,75 @@
 import { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../ui/Icon';
-
-const WHO = {
-  project: { initials: 'RH', name: 'R. Hassan', role: 'Project team', other: 'secretariat' as const, otherLabel: 'Switch to Secretariat' },
-  secretariat: { initials: 'FO', name: 'F. Osman', role: 'SGRP Secretariat', other: 'project' as const, otherLabel: 'Switch to Project team' },
-};
+import { otherPersona, USERS } from '../../data/demo';
 
 export function UserMenu() {
   const { persona, switchPersona } = useApp();
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
-  const w = WHO[persona];
+  const profile = USERS[persona];
+  const other = otherPersona(persona);
+  const otherLabel = other === 'secretariat' ? 'Switch to Secretariat' : 'Switch to Project team';
 
   useEffect(() => {
-    const onDoc = (e: MouseEvent) => { if (wrap.current && !wrap.current.contains(e.target as Node)) setOpen(false); };
+    const onDoc = (e: MouseEvent) => {
+      if (wrap.current && !wrap.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
     document.addEventListener('click', onDoc);
-    return () => document.removeEventListener('click', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('click', onDoc);
+      document.removeEventListener('keydown', onKey);
+    };
   }, []);
 
   return (
     <div className="usermenu" ref={wrap}>
-      <button className="avatar" aria-label={`${w.name} — account menu`} aria-haspopup="true" aria-expanded={open}
-        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }}>{w.initials}</button>
+      <button
+        className="avatar"
+        aria-label={`${profile.shortName} — account menu`}
+        aria-haspopup="true"
+        aria-expanded={open}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((value) => !value);
+        }}
+      >
+        {profile.initials}
+      </button>
       {open && (
         <div className="usermenu__pop" role="menu">
           <div className="usermenu__head">
-            <span className="usermenu__ava">{w.initials}</span>
-            <span className="usermenu__id"><strong>{w.name}</strong><span>{w.role}</span></span>
+            <span className="usermenu__ava">{profile.initials}</span>
+            <span className="usermenu__id">
+              <strong>{profile.shortName}</strong>
+              <span>{profile.role}</span>
+            </span>
           </div>
-          <button className="usermenu__item" role="menuitem" onClick={() => { setOpen(false); switchPersona(w.other); }}>
-            <Icon name="external" size={16} />{w.otherLabel}
+          <button
+            className="usermenu__item"
+            role="menuitem"
+            onClick={() => {
+              setOpen(false);
+              switchPersona(other);
+            }}
+          >
+            <Icon name="external" size={16} />
+            {otherLabel}
           </button>
-          <button className="usermenu__item" role="menuitem" onClick={() => { setOpen(false); window.dispatchEvent(new CustomEvent('sgi-open-settings')); }}>
-            <Icon name="info" size={16} />Settings
+          <button
+            className="usermenu__item"
+            role="menuitem"
+            onClick={() => {
+              setOpen(false);
+              window.dispatchEvent(new CustomEvent('sgi-open-settings'));
+            }}
+          >
+            <Icon name="info" size={16} />
+            Settings
           </button>
         </div>
       )}

@@ -48,11 +48,11 @@ Run commands from `app/`:
 
 - `npm ci`: install the locked dependency set.
 - `npm run dev`: start the Vite development server.
-- `npx tsc --noEmit`: run strict TypeScript validation.
+- `npm run check`: format-check, type-check, and build in one command.
 - `npm run build`: create the production bundle in `app/dist/`.
 - `npm run preview`: serve the built bundle locally.
 
-No test runner or linter is configured. For every code change, run TypeScript validation and the production build. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
+No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
 ## Code Conventions
 
