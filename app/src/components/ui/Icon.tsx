@@ -12,6 +12,13 @@ const PATHS: Record<string, JSX.Element> = {
   upload: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m17 8-5-5-5 5" /><path d="M12 3v12" /></>,
   pen: <><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></>,
   calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 9.5h18" /><path d="M8 3v4M16 3v4" /></>,
+  back: <><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></>,
+  chevronDown: <><path d="m6 9 6 6 6-6" /></>,
+  file: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6" /></>,
+  x: <><path d="M18 6 6 18M6 6l12 12" /></>,
+  shield: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /><path d="m9 12 2 2 4-4" /></>,
+  uploadCloud: <><path d="M12 13v8" /><path d="m8 16 4-4 4 4" /><path d="M20.4 17.6A5 5 0 0 0 18 8h-1.3A8 8 0 1 0 5 17" /></>,
+  external: <><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></>,
 };
 
 type IconProps = { name: keyof typeof PATHS; size?: number; strokeWidth?: number; className?: string };

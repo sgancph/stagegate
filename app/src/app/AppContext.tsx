@@ -15,9 +15,16 @@ interface AppState {
 const AppCtx = createContext<AppState | null>(null);
 
 /** Single source of truth for "who am I / where am I", mirrored into browser history. */
+function fromHash(): { persona: Persona; view: View } {
+  const m = /^#(project|secretariat)-([a-z]+)$/.exec(location.hash);
+  if (m) return { persona: m[1] as Persona, view: m[2] as View };
+  return { persona: 'project', view: 'dashboard' };
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [persona, setPersona] = useState<Persona>('project');
-  const [view, setView] = useState<View>('dashboard');
+  const initial = fromHash();
+  const [persona, setPersona] = useState<Persona>(initial.persona);
+  const [view, setView] = useState<View>(initial.view);
 
   const push = useCallback((p: Persona, v: View) => {
     const cur = history.state as { persona?: Persona; view?: View } | null;
