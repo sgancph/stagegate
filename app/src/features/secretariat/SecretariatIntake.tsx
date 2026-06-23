@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { SecretariatOutcomes } from './SecretariatOutcomes';
 
 const queue = [
   { name: 'Arena', gate: 'Stage Gate 3', date: 'Received 11 Jun', dot: 'blue' },
@@ -85,7 +86,7 @@ export function SecretariatIntake() {
           </div>
         </div>
       ) : (
-        <div className="sec-out-empty">Outcome letters &amp; minutes are being ported to React — available in the prototype.</div>
+        <SecretariatOutcomes />
       )}
     </div>
   );
