@@ -8,6 +8,8 @@ import { ExecSummary } from './features/project/ExecSummary';
 import { Readiness } from './features/project/Readiness';
 import { Reports } from './features/project/Reports';
 import { SecretariatDashboard } from './features/secretariat/SecretariatDashboard';
+import { SecretariatIntake } from './features/secretariat/SecretariatIntake';
+import { SecretariatScan } from './features/secretariat/SecretariatScan';
 import { Placeholder } from './features/Placeholder';
 
 const VIEW_TITLES: Record<string, string> = {
@@ -25,6 +27,10 @@ function Shell() {
       if (view === 'execsummary') return <ExecSummary />;
       if (view === 'readiness') return <Readiness />;
       if (view === 'reports') return <Reports />;
+    }
+    if (persona === 'secretariat') {
+      if (view === 'reports') return <SecretariatIntake />;
+      if (view === 'scan') return <SecretariatScan />;
     }
     return <Placeholder title={VIEW_TITLES[view] ?? 'Workspace'} />;
   })();
