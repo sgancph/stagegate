@@ -163,10 +163,16 @@ body{
   box-shadow:inset 0 -1px 0 rgba(0,0,0,.12);
 }
 
-/* App fills the viewport below the red bar */
+/* App fills the viewport below the red bar.
+   A soft persona-tinted aura at the top gives the workspace depth and
+   quietly reinforces who you are (blue = project · teal = secretariat). */
 .app{
   width:100%;
-  background:var(--bg);
+  background:
+    radial-gradient(1100px 440px at 62% -40px,
+      color-mix(in srgb, var(--persona,var(--navy-bar)) 8%, transparent) 0%,
+      transparent 68%),
+    var(--bg);
   display:flex;
   flex-direction:column;
   height:calc(100vh - 26px);
@@ -186,8 +192,13 @@ body{
   box-shadow:0 1px 0 rgba(16,42,67,.02);
 }
 
-/* Logomark + wordmark */
-.nav-left{display:flex;align-items:center;gap:11px;flex:0 0 auto;}
+/* Logomark + wordmark — a single clickable home/reset control */
+.nav-left{display:flex;align-items:center;gap:11px;flex:0 0 auto;
+  background:none;border:none;padding:4px 6px;margin:0 -6px;border-radius:10px;
+  font-family:inherit;cursor:pointer;text-align:left;
+  transition:background .14s ease;}
+.nav-left:hover{background:var(--bg);}
+.nav-left:focus-visible{outline:2px solid var(--persona,var(--navy-bar));outline-offset:2px;}
 .logomark{
   width:40px;height:40px;border-radius:11px;flex:0 0 auto;
   background:
@@ -211,7 +222,7 @@ body{
   transition:background .14s ease;
 }
 .nav-search:hover{background:#E6EAF0;}
-.nav-search:focus-within{background:#fff;box-shadow:0 0 0 2px var(--navy-bar);}
+.nav-search:focus-within{background:#fff;box-shadow:0 0 0 2px var(--persona,var(--navy-bar));}
 .nav-search__icon{color:var(--muted-2);flex:0 0 auto;}
 .nav-search__input{flex:1 1 auto;background:transparent;border:none;outline:none;font-size:13.5px;color:var(--heading);font-family:inherit;min-width:0;cursor:text;}
 .nav-search__input::placeholder{color:var(--muted);}
@@ -271,11 +282,11 @@ body{
   transition:background .14s ease,color .14s ease;
 }
 .side-icon:hover{background:var(--bg);color:var(--heading);}
-.side-icon.is-active{background:rgba(0,27,114,.09);color:var(--navy-bar);}
-.side-icon.is-active:hover{background:rgba(0,27,114,.09);}
+.side-icon.is-active{background:color-mix(in srgb,var(--persona,var(--navy-bar)) 11%,transparent);color:var(--persona,var(--navy-bar));}
+.side-icon.is-active:hover{background:color-mix(in srgb,var(--persona,var(--navy-bar)) 11%,transparent);}
 .side-spacer{flex:1 1 auto;}
 .avatar{
-  width:32px;height:32px;border-radius:999px;background:var(--navy-bar);
+  width:32px;height:32px;border-radius:999px;background:var(--persona,var(--navy-bar));
   color:#fff;font-size:11px;font-weight:700;border:none;
   display:flex;align-items:center;justify-content:center;margin-top:6px;cursor:pointer;
 }
@@ -291,7 +302,7 @@ body{
 /* ---------------- Next-action card (dark gradient) ---------------- */
 .banner{
   display:flex;align-items:center;justify-content:space-between;gap:24px;
-  background:var(--banner-grad);
+  background:var(--persona-grad,var(--banner-grad));
   border-radius:var(--r-card);padding:14px 22px;margin-bottom:24px;
   box-shadow:0 6px 18px rgba(16,42,67,.18);
 }
@@ -649,7 +660,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .rs-kv__k{font-size:12px;color:var(--muted);}
 .rs-kv__right{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;justify-content:flex-end;}
 .rs-kv__v{font-size:12.5px;font-weight:600;color:var(--heading);text-align:right;line-height:1.35;min-width:0;}
-.rs-kv__vsub{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;}
+.rs-kv__vsub{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;font-size:11px;font-weight:500;color:var(--muted);margin-top:1px;}
 .rs-kv__ch{color:var(--muted-2);flex:0 0 auto;}
 .rs-rerun{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;height:36px;margin-top:4px;border-radius:var(--r-btn);border:1px solid var(--border);background:#fff;color:var(--muted-2);font-size:13px;font-weight:600;cursor:not-allowed;}
 .rs-hist{position:relative;padding-left:20px;}
@@ -762,6 +773,21 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .view--readiness.is-scanning .rs-tab-passed{display:none;}
 .view--readiness.is-scanning .rs-tab-scanning{display:inline-flex;}
 .rs-tab-spin{width:11px;height:11px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--navy-bar);animation:rs-spin .8s linear infinite;display:inline-block;}
+
+/* Pre-action empty state for config screens (readiness / exec summary) */
+.ws-empty{display:none;grid-column:2 / -1;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  min-height:440px;padding:48px 40px;border:1px solid var(--border);border-radius:var(--r-card);
+  background:linear-gradient(180deg,#fff 0%,var(--row-hover) 100%);}
+.view--readiness.is-config .ws-empty{display:flex;}
+.view--execsummary .ws-empty{display:flex;}
+.view--execsummary.is-generated .ws-empty{display:none;}
+.ws-empty__ic{width:62px;height:62px;border-radius:17px;display:flex;align-items:center;justify-content:center;
+  background:var(--blue-soft);color:var(--persona,var(--navy-bar));margin-bottom:18px;}
+.ws-empty__t{font-size:18px;font-weight:700;color:var(--heading);margin:0;}
+.ws-empty__d{font-size:13.5px;color:var(--muted);margin:7px 0 0;max-width:430px;line-height:1.55;}
+.ws-empty__steps{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:center;max-width:560px;}
+.ws-empty__step{display:inline-flex;align-items:center;gap:9px;padding:8px 14px 8px 9px;background:#fff;border:1px solid var(--border);border-radius:var(--r-pill);font-size:12.5px;font-weight:600;color:var(--heading);}
+.ws-empty__num{width:20px;height:20px;border-radius:999px;background:var(--blue-soft);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--persona,var(--navy-bar));flex:0 0 auto;}
 
 /* ============ SCREEN 4: EXEC SUMMARY GENERATOR ============ */
 /* Uppercase panel labels (left + right columns) */
@@ -1101,7 +1127,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .logomark:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(16,42,67,.22), inset 0 1px 0 rgba(255,255,255,.42);filter:brightness(1.05);}
 .logomark:active{transform:translateY(0);}
 .persona-label{display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 13px;border-radius:999px;background:var(--chip-bg);color:var(--chip-text);font-size:12px;font-weight:600;white-space:nowrap;letter-spacing:.1px;}
-.persona-label::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--navy-bar);flex:0 0 auto;}
+.persona-label::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--persona,var(--navy-bar));flex:0 0 auto;}
 .sec-sum-scan{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;margin-bottom:18px;background:#FDEEEE;border:1px solid #F4D0D0;border-radius:10px;}
 .sec-sum-scan__ic{flex:0 0 auto;width:30px;height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#F8D7D7;color:var(--red);}
 .sec-sum-scan__main{flex:1;min-width:0;}
@@ -1212,6 +1238,100 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 .sec-out-footnote{font-size:12px;color:var(--muted);margin:0;line-height:1.5;max-width:580px;}
 .sec-out-footbtns{display:flex;gap:10px;flex:0 0 auto;}
 .sec-out-empty{padding:48px 24px;text-align:center;color:var(--muted);font-size:13px;}
+
+/* ============================================================
+   PERSONA IDENTITY  —  each user shell carries its own accent.
+   project = Qiddiya Blue · secretariat = Qiddiya Aqua/teal.
+   Avatars, next-action banners and the topbar persona dot all
+   read from --persona / --persona-grad.
+   ============================================================ */
+.app[data-persona="project"]{
+  --persona:#001B72;
+  --persona-grad:linear-gradient(105deg,#001B72 0%,#0A4F9E 52%,#0E74BC 100%);
+}
+.app[data-persona="secretariat"]{
+  --persona:#0E7C86;
+  --persona-grad:linear-gradient(105deg,#0A4F57 0%,#0E7C86 52%,#17A2AD 100%);
+}
+
+/* ===== Account menu (avatar popover) ===== */
+.usermenu{position:relative;display:flex;}
+.usermenu__pop{
+  position:absolute;left:46px;bottom:-2px;z-index:60;width:226px;
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  box-shadow:0 10px 30px rgba(16,42,67,.18),0 2px 6px rgba(16,42,67,.08);
+  padding:6px;
+}
+.usermenu__pop[hidden]{display:none;}
+.usermenu__head{display:flex;align-items:center;gap:10px;padding:8px 8px 11px;border-bottom:1px solid var(--border);margin-bottom:6px;}
+.usermenu__ava{width:34px;height:34px;border-radius:999px;background:var(--persona,var(--navy-bar));color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.usermenu__id{display:flex;flex-direction:column;line-height:1.3;min-width:0;}
+.usermenu__id strong{font-size:13px;color:var(--heading);}
+.usermenu__id span{font-size:11.5px;color:var(--muted);}
+.usermenu__item{
+  display:flex;align-items:center;gap:11px;width:100%;
+  padding:9px 10px;border:none;background:none;border-radius:8px;cursor:pointer;
+  font-size:13px;font-weight:500;color:var(--heading);font-family:inherit;text-align:left;
+  transition:background .12s ease;
+}
+.usermenu__item:hover{background:var(--row-hover);}
+.usermenu__item svg{color:var(--muted);flex:0 0 auto;}
+
+/* ===== Settings page (overlay) ===== */
+.settings-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(8,18,40,.5);
+  display:flex;align-items:flex-start;justify-content:center;
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+}
+.settings-overlay[hidden]{display:none;}
+.settings{
+  width:100%;max-width:940px;margin:40px 20px;background:var(--bg);
+  border-radius:16px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 24px 70px rgba(8,18,40,.4);max-height:calc(100vh - 80px);
+}
+.settings__top{display:flex;align-items:center;gap:6px;height:58px;padding:0 16px;background:#fff;border-bottom:1px solid var(--border);flex:0 0 auto;}
+.settings__title{font-size:16px;font-weight:700;color:var(--heading);margin-left:4px;}
+.settings__back{display:inline-flex;align-items:center;gap:7px;border:none;background:none;cursor:pointer;color:var(--muted);font-size:13px;font-weight:600;font-family:inherit;padding:7px 9px;border-radius:8px;}
+.settings__back:hover{background:var(--bg);color:var(--heading);}
+.settings__x{margin-left:auto;width:34px;height:34px;border-radius:8px;border:none;background:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;}
+.settings__x:hover{background:var(--bg);color:var(--heading);}
+.settings__body{display:flex;flex:1 1 auto;min-height:0;}
+.settings__nav{flex:0 0 204px;border-right:1px solid var(--border);background:#fff;padding:14px 12px;display:flex;flex-direction:column;gap:2px;}
+.settings__navitem{display:flex;align-items:center;gap:11px;padding:10px 12px;border:none;background:none;border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--muted);font-family:inherit;text-align:left;transition:background .12s,color .12s;}
+.settings__navitem svg{flex:0 0 auto;}
+.settings__navitem:hover{background:var(--bg);color:var(--heading);}
+.settings__navitem.is-active{background:var(--blue-soft);color:var(--persona-active,var(--navy-bar));}
+.settings__panes{flex:1 1 auto;min-width:0;overflow:auto;padding:26px 32px;}
+.settings__pane{display:none;}
+.settings__pane.is-active{display:block;}
+.set-h{font-size:18px;font-weight:700;color:var(--heading);margin:0 0 4px;}
+.set-sub{font-size:13px;color:var(--muted);margin:0 0 22px;}
+
+.set-profile{display:flex;align-items:center;gap:16px;padding:4px 0 22px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.set-profile__ava{width:62px;height:62px;border-radius:999px;background:var(--persona-active,var(--navy-bar));color:#fff;font-size:21px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.set-profile__name{font-size:17px;font-weight:700;color:var(--heading);margin:0;}
+.set-profile__meta{font-size:13px;color:var(--muted);margin:3px 0 0;}
+
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 0;border-bottom:1px solid var(--border);}
+.set-row:last-child{border-bottom:none;}
+.set-row__t{font-size:14px;font-weight:600;color:var(--heading);margin:0;}
+.set-row__d{font-size:12.5px;color:var(--muted);margin:2px 0 0;max-width:460px;line-height:1.5;}
+.set-row__v{font-size:13.5px;color:var(--heading);font-weight:600;white-space:nowrap;}
+
+.set-switch{width:42px;height:24px;border-radius:999px;border:none;background:#CBD1DD;cursor:pointer;position:relative;flex:0 0 auto;transition:background .16s ease;}
+.set-switch::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:999px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .16s ease;}
+.set-switch.is-on{background:var(--persona-active,var(--navy-bar));}
+.set-switch.is-on::after{left:21px;}
+
+.set-themes{display:flex;gap:14px;margin:8px 0 4px;}
+.set-theme{flex:1 1 0;border:2px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;background:#fff;text-align:left;font-family:inherit;transition:border-color .12s;}
+.set-theme.is-on{border-color:var(--persona-active,var(--navy-bar));}
+.set-theme__sw{height:48px;border-radius:8px;margin-bottom:9px;border:1px solid var(--border);}
+.set-theme__name{font-size:13px;font-weight:600;color:var(--heading);}
+
+.set-switchuser{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 16px;margin-top:18px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--heading);font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
+.set-switchuser:hover{background:var(--bg);border-color:#D2D7E0;}
+.set-switchuser svg{color:var(--persona-active,var(--navy-bar));}
 </style>
 <script>document.documentElement.classList.add('no-trans');</script>
 </head>
@@ -1221,13 +1341,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
   <!-- ===== Top bar ===== -->
   <header class="topbar">
-    <div class="nav-left">
-      <button class="logomark" data-reset aria-label="Stage Gate Intelligence — reset and reload" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 18V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M10 18V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 5.5l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z" fill="currentColor"/></svg></button>
-      <div class="logo-wordmark">
+    <button class="nav-left" data-reset aria-label="Stage Gate Intelligence — home" type="button">
+      <span class="logomark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 18V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M10 18V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 5.5l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z" fill="currentColor"/></svg></span>
+      <span class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
-      </div>
-    </div>
+      </span>
+    </button>
 
     <span class="nav-divider"></span>
 
@@ -1242,7 +1362,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
         <span class="badge">2</span>
       </button>
-      <button class="btn btn--navy">
+      <button class="btn btn--navy" data-go="authoring">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         New SG Report Draft
       </button>
@@ -1265,10 +1385,26 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
       <span class="side-spacer"></span>
 
-      <button class="side-icon" aria-label="Settings">
+      <button class="side-icon" aria-label="Settings" data-open-settings>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
       </button>
-      <button class="avatar" data-persona-switch="secretariat" aria-label="R. Hassan" >RH</button>
+      <div class="usermenu">
+        <button class="avatar" data-usermenu-btn aria-label="R. Hassan — account menu" aria-haspopup="true" aria-expanded="false">RH</button>
+        <div class="usermenu__pop" data-usermenu-pop hidden role="menu">
+          <div class="usermenu__head">
+            <span class="usermenu__ava">RH</span>
+            <span class="usermenu__id"><strong>R. Hassan</strong><span>Project team</span></span>
+          </div>
+          <button class="usermenu__item" role="menuitem" data-persona-switch="secretariat">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M21 3 13 11"/><path d="M8 21H3v-5"/><path d="M3 21 11 13"/></svg>
+            Switch to Secretariat
+          </button>
+          <button class="usermenu__item" role="menuitem" data-open-settings>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+            Settings
+          </button>
+        </div>
+      </div>
     </nav>
 
     <!-- ===== Main ===== -->
@@ -1313,7 +1449,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
               <h2 class="card__title">My reports</h2>
               <p class="card__sub">All your active and recent stage gate reports.</p>
             </div>
-            <button class="link">
+            <button class="link" data-go="authoring" data-from-dashboard>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               Start new draft
             </button>
@@ -2103,8 +2239,8 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
             <section class="ws-panel">
               <h2 class="ws-panel__t">Scan settings</h2>
-              <div class="rs-kv"><span class="rs-kv__k">Stage Gate</span><span class="rs-kv__right"><span class="rs-kv__v" title="Landmark/Core/Hospitality Assets">SG3<br><span class="rs-kv__vsub">Landmark/Core/Hospitality Assets</span></span><svg class="rs-kv__ch" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
-              <div class="rs-kv"><span class="rs-kv__k">Checklist</span><span class="rs-kv__right"><span class="rs-kv__v" title="SG3 mandatory checklist"><span class="rs-kv__vsub">SG3 Mandator…</span>v2.1</span><svg class="rs-kv__ch" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+              <div class="rs-kv"><span class="rs-kv__k">Stage Gate</span><span class="rs-kv__right"><span class="rs-kv__v" title="SG3 — Landmark / Core / Hospitality assets">SG3<span class="rs-kv__vsub">Landmark / Core / Hospitality</span></span><svg class="rs-kv__ch" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+              <div class="rs-kv"><span class="rs-kv__k">Checklist</span><span class="rs-kv__right"><span class="rs-kv__v" title="SG3 mandatory checklist v2.1">SG3 · v2.1<span class="rs-kv__vsub">Mandatory checklist</span></span><svg class="rs-kv__ch" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
               <button class="btn btn--navy rs-scan-go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Scan</button>
               <button class="rs-rerun"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg> Re-run scan</button>
             </section>
@@ -2736,13 +2872,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
   <!-- ===== Top bar (Secretariat) ===== -->
   <header class="topbar">
-    <div class="nav-left">
-      <button class="logomark" data-reset aria-label="Stage Gate Intelligence — reset and reload" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 18V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M10 18V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 5.5l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z" fill="currentColor"/></svg></button>
-      <div class="logo-wordmark">
+    <button class="nav-left" data-reset aria-label="Stage Gate Intelligence — home" type="button">
+      <span class="logomark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 18V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M10 18V9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 5.5l.6 1.8 1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6.6-1.8Z" fill="currentColor"/></svg></span>
+      <span class="logo-wordmark">
         <span class="logo-title">Stage Gate</span>
         <span class="logo-sub">Intelligence</span>
-      </div>
-    </div>
+      </span>
+    </button>
     <span class="nav-divider"></span>
     <label class="nav-search" aria-label="Search">
       <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -2753,7 +2889,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
         <span class="badge">3</span>
       </button>
-      <button class="btn btn--navy">
+      <button class="btn btn--navy" data-sview="reports">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
         New submission
       </button>
@@ -2773,10 +2909,26 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
 
       <span class="side-spacer"></span>
 
-      <button class="side-icon" aria-label="Settings">
+      <button class="side-icon" aria-label="Settings" data-open-settings>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
       </button>
-      <button class="avatar" data-persona-switch="project" aria-label="F. Osman" >FO</button>
+      <div class="usermenu">
+        <button class="avatar" data-usermenu-btn aria-label="F. Osman — account menu" aria-haspopup="true" aria-expanded="false">FO</button>
+        <div class="usermenu__pop" data-usermenu-pop hidden role="menu">
+          <div class="usermenu__head">
+            <span class="usermenu__ava">FO</span>
+            <span class="usermenu__id"><strong>F. Osman</strong><span>SGRP Secretariat</span></span>
+          </div>
+          <button class="usermenu__item" role="menuitem" data-persona-switch="project">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M21 3 13 11"/><path d="M8 21H3v-5"/><path d="M3 21 11 13"/></svg>
+            Switch to Project team
+          </button>
+          <button class="usermenu__item" role="menuitem" data-open-settings>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+            Settings
+          </button>
+        </div>
+      </div>
     </nav>
 
     <!-- ===== Main (Secretariat control tower) ===== -->
@@ -3829,6 +3981,96 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   </div>
 </div>
 
+<!-- ===== Settings (shared across personas) ===== -->
+<div class="settings-overlay" data-settings-overlay hidden>
+  <div class="settings" role="dialog" aria-modal="true" aria-label="Settings">
+    <header class="settings__top">
+      <button class="settings__back" data-close-settings type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Back to app
+      </button>
+      <span class="settings__title">Settings</span>
+      <button class="settings__x" data-close-settings type="button" aria-label="Close settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>
+      </button>
+    </header>
+    <div class="settings__body">
+      <nav class="settings__nav" role="tablist" aria-label="Settings sections">
+        <button class="settings__navitem is-active" data-spane="profile" role="tab" aria-selected="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile
+        </button>
+        <button class="settings__navitem" data-spane="appearance" role="tab" aria-selected="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"/></svg>
+          Appearance
+        </button>
+        <button class="settings__navitem" data-spane="notifications" role="tab" aria-selected="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          Notifications
+        </button>
+        <button class="settings__navitem" data-spane="about" role="tab" aria-selected="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          About
+        </button>
+      </nav>
+      <div class="settings__panes">
+
+        <section class="settings__pane is-active" data-spane="profile" role="tabpanel">
+          <h2 class="set-h">Profile</h2>
+          <p class="set-sub">Your account details for this workspace.</p>
+          <div class="set-profile">
+            <span class="set-profile__ava" data-set-ava>RH</span>
+            <div>
+              <p class="set-profile__name" data-set-name>R. Hassan</p>
+              <p class="set-profile__meta" data-set-role>Project team</p>
+            </div>
+          </div>
+          <div class="set-row"><div><p class="set-row__t">Full name</p></div><span class="set-row__v" data-set-fullname>Rashid Hassan</span></div>
+          <div class="set-row"><div><p class="set-row__t">Email</p></div><span class="set-row__v" data-set-email>r.hassan@qiddiya.sa</span></div>
+          <div class="set-row"><div><p class="set-row__t">Role</p></div><span class="set-row__v" data-set-role2>Project team</span></div>
+          <div class="set-row"><div><p class="set-row__t">Organisation</p></div><span class="set-row__v">Qiddiya Investment Company</span></div>
+          <button class="set-switchuser" data-set-switch data-persona-switch="secretariat" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M21 3 13 11"/><path d="M8 21H3v-5"/><path d="M3 21 11 13"/></svg>
+            <span data-set-switchlabel>Switch to Secretariat</span>
+          </button>
+        </section>
+
+        <section class="settings__pane" data-spane="appearance" role="tabpanel">
+          <h2 class="set-h">Appearance</h2>
+          <p class="set-sub">Personalise how the workspace looks and feels.</p>
+          <div class="set-row" style="border-bottom:none;padding-bottom:4px;"><div><p class="set-row__t">Theme</p><p class="set-row__d">Choose a light interface or match your system setting.</p></div></div>
+          <div class="set-themes">
+            <button class="set-theme is-on" data-set-theme type="button"><span class="set-theme__sw" style="background:#F5F6F8;"></span><span class="set-theme__name">Light</span></button>
+            <button class="set-theme" data-set-theme type="button"><span class="set-theme__sw" style="background:linear-gradient(135deg,#F5F6F8 50%,#0D1E3A 50%);"></span><span class="set-theme__name">System</span></button>
+          </div>
+          <div class="set-row"><div><p class="set-row__t">Reduce motion</p><p class="set-row__d">Minimise non-essential animations and transitions.</p></div><button class="set-switch" data-set-toggle role="switch" aria-checked="false" aria-label="Reduce motion"></button></div>
+          <div class="set-row"><div><p class="set-row__t">Compact density</p><p class="set-row__d">Tighten spacing to fit more on screen.</p></div><button class="set-switch" data-set-toggle role="switch" aria-checked="false" aria-label="Compact density"></button></div>
+        </section>
+
+        <section class="settings__pane" data-spane="notifications" role="tabpanel">
+          <h2 class="set-h">Notifications</h2>
+          <p class="set-sub">Decide what reaches you and how.</p>
+          <div class="set-row"><div><p class="set-row__t">Email notifications</p><p class="set-row__d">Receive updates about your reports by email.</p></div><button class="set-switch is-on" data-set-toggle role="switch" aria-checked="true" aria-label="Email notifications"></button></div>
+          <div class="set-row"><div><p class="set-row__t">Stage gate reminders</p><p class="set-row__d">Deadline and readiness-scan reminders before submission.</p></div><button class="set-switch is-on" data-set-toggle role="switch" aria-checked="true" aria-label="Stage gate reminders"></button></div>
+          <div class="set-row"><div><p class="set-row__t">Reviewer responses</p><p class="set-row__d">Alert me when a reviewer requests changes or responds.</p></div><button class="set-switch is-on" data-set-toggle role="switch" aria-checked="true" aria-label="Reviewer responses"></button></div>
+          <div class="set-row"><div><p class="set-row__t">Weekly digest</p><p class="set-row__d">A Monday summary of pipeline activity.</p></div><button class="set-switch" data-set-toggle role="switch" aria-checked="false" aria-label="Weekly digest"></button></div>
+        </section>
+
+        <section class="settings__pane" data-spane="about" role="tabpanel">
+          <h2 class="set-h">About</h2>
+          <p class="set-sub">Stage Gate Intelligence platform.</p>
+          <div class="set-row"><div><p class="set-row__t">Application</p></div><span class="set-row__v">Stage Gate Intelligence</span></div>
+          <div class="set-row"><div><p class="set-row__t">Version</p></div><span class="set-row__v">2.0 · Prototype</span></div>
+          <div class="set-row"><div><p class="set-row__t">Checklist library</p></div><span class="set-row__v">SGRP v2.3</span></div>
+          <div class="set-row"><div><p class="set-row__t">Built for</p></div><span class="set-row__v">Qiddiya Investment Company</span></div>
+          <p class="set-row__d" style="margin-top:18px;max-width:none;">This is an illustrative prototype. Data shown is for demonstration only and is not connected to live systems.</p>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   // Remove transition-suppression class after two animation frames
   requestAnimationFrame(function(){
@@ -3859,6 +4101,7 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
   // Sidebar icons (project): nav icons switch views, the rest just highlight
   projApp.querySelectorAll('.side-icon').forEach(function(btn){
     btn.addEventListener('click', function(){
+      if(btn.hasAttribute('data-open-settings')){ return; }
       var nav = btn.getAttribute('data-nav');
       if(nav){ cameFromDashboard = false; showView(nav); return; }
       projApp.querySelectorAll('.side-icon').forEach(function(b){ b.classList.remove('is-active'); b.removeAttribute('aria-current'); });
@@ -4198,6 +4441,91 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
     el.addEventListener('click', function(){ location.reload(); });
   });
 
+  // ===== Account menu (avatar popover) + Settings page =====
+  var PERSONAS = {
+    project:     { init:'RH', name:'R. Hassan', full:'Rashid Hassan', role:'Project team',     email:'r.hassan@qiddiya.sa', color:'#001B72', other:'secretariat', otherLabel:'Switch to Secretariat' },
+    secretariat: { init:'FO', name:'F. Osman',  full:'Farhan Osman',  role:'SGRP Secretariat', email:'f.osman@qiddiya.sa',  color:'#0E7C86', other:'project',     otherLabel:'Switch to Project team' }
+  };
+  function activePersona(){
+    var a = document.querySelector('.app[data-persona]:not([hidden])');
+    return a ? a.getAttribute('data-persona') : 'project';
+  }
+  function closeUserMenus(){
+    document.querySelectorAll('[data-usermenu-pop]').forEach(function(p){ p.hidden = true; });
+    document.querySelectorAll('[data-usermenu-btn]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  }
+
+  // Toggle the avatar popover
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('[data-usermenu-btn]');
+    if(btn){
+      var pop = btn.parentNode.querySelector('[data-usermenu-pop]');
+      var willOpen = pop && pop.hidden;
+      closeUserMenus();
+      if(willOpen){ pop.hidden = false; btn.setAttribute('aria-expanded','true'); }
+      e.stopPropagation();
+      return;
+    }
+    if(!e.target.closest || !e.target.closest('[data-usermenu-pop]')){ closeUserMenus(); }
+  });
+
+  // Settings overlay
+  var setOverlay = document.querySelector('[data-settings-overlay]');
+  function syncSettingsProfile(){
+    if(!setOverlay){ return; }
+    var p = PERSONAS[activePersona()] || PERSONAS.project;
+    setOverlay.style.setProperty('--persona-active', p.color);
+    var set = function(sel, txt){ var el = setOverlay.querySelector(sel); if(el){ el.textContent = txt; } };
+    set('[data-set-ava]', p.init);
+    set('[data-set-name]', p.name);
+    set('[data-set-role]', p.role);
+    set('[data-set-role2]', p.role);
+    set('[data-set-fullname]', p.full);
+    set('[data-set-email]', p.email);
+    var sw = setOverlay.querySelector('[data-set-switch]');
+    if(sw){ sw.setAttribute('data-persona-switch', p.other); }
+    var swl = setOverlay.querySelector('[data-set-switchlabel]');
+    if(swl){ swl.textContent = p.otherLabel; }
+  }
+  function openSettings(){ if(!setOverlay){ return; } closeUserMenus(); syncSettingsProfile(); setOverlay.hidden = false; }
+  function closeSettings(){ if(setOverlay){ setOverlay.hidden = true; } }
+
+  document.addEventListener('click', function(e){
+    var open = e.target.closest && e.target.closest('[data-open-settings]');
+    if(open){ e.preventDefault(); e.stopPropagation(); openSettings(); return; }
+    var close = e.target.closest && e.target.closest('[data-close-settings]');
+    if(close){ e.preventDefault(); closeSettings(); return; }
+  });
+  if(setOverlay){
+    // Settings section tabs
+    setOverlay.querySelectorAll('[data-spane]').forEach(function(el){
+      if(el.classList.contains('settings__pane')){ return; }
+      el.addEventListener('click', function(){
+        var k = el.getAttribute('data-spane');
+        setOverlay.querySelectorAll('.settings__navitem').forEach(function(n){ var on = n.getAttribute('data-spane')===k; n.classList.toggle('is-active', on); n.setAttribute('aria-selected', on?'true':'false'); });
+        setOverlay.querySelectorAll('.settings__pane').forEach(function(pn){ pn.classList.toggle('is-active', pn.getAttribute('data-spane')===k); });
+        var panes = setOverlay.querySelector('.settings__panes'); if(panes){ panes.scrollTop = 0; }
+      });
+    });
+    // Toggle switches
+    setOverlay.querySelectorAll('[data-set-toggle]').forEach(function(sw){
+      sw.addEventListener('click', function(){
+        var on = sw.classList.toggle('is-on');
+        sw.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    });
+    // Theme cards (single-select)
+    setOverlay.querySelectorAll('[data-set-theme]').forEach(function(card){
+      card.addEventListener('click', function(){
+        setOverlay.querySelectorAll('[data-set-theme]').forEach(function(c){ c.classList.remove('is-on'); });
+        card.classList.add('is-on');
+      });
+    });
+    // Close on backdrop click / Escape
+    setOverlay.addEventListener('click', function(e){ if(e.target === setOverlay){ closeSettings(); } });
+    document.addEventListener('keydown', function(e){ if((e.key==='Escape'||e.key==='Esc') && !setOverlay.hidden){ closeSettings(); } });
+  }
+
   // Persona switch — the profile avatar swaps between the Project-team and Secretariat shells
   document.querySelectorAll('[data-persona-switch]').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -4205,26 +4533,13 @@ html[data-brand="curiosity"] .btn--green:hover{background:#5AB800;}
       document.querySelectorAll('.app[data-persona]').forEach(function(a){
         a.hidden = (a.getAttribute('data-persona') !== target);
       });
+      closeUserMenus();
+      closeSettings();
       if(target === 'secretariat' && typeof showSecView === 'function'){ showSecView('dashboard'); }
       if(target === 'project' && typeof showView === 'function'){ showView('dashboard'); }
       window.scrollTo(0, 0);
     });
   });
-
-  // Lock the Settings icon in the Secretariat left nav (the profile avatar stays clickable for persona switch):
-  // capture-phase intercept stops the click before it reaches the buttons, so their
-  // handlers never fire. pointer-events is untouched, so :hover and cursor are unchanged.
-  (function(){
-    var secNav = document.querySelector('.app[data-persona="secretariat"] .sidebar');
-    if(!secNav){ return; }
-    var navBtns = secNav.querySelectorAll('button');
-    if(navBtns.length < 2){ return; }
-    var locked = [navBtns[navBtns.length - 2]];
-    secNav.addEventListener('click', function(e){
-      var b = e.target.closest('button');
-      if(b && locked.indexOf(b) !== -1){ e.stopPropagation(); e.preventDefault(); }
-    }, true);
-  })();
 
   // Collapsible Document-completeness category (readiness scan)
   document.querySelectorAll('[data-scan-toggle]').forEach(function(btn){
