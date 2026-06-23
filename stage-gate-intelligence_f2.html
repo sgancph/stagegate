@@ -1216,6 +1216,41 @@ body{
 .usermenu__item:hover{background:var(--row-hover);}
 .usermenu__item svg{color:var(--muted);flex:0 0 auto;}
 
+/* ===== Guided tour ===== */
+.tour-overlay{position:fixed;inset:0;background:rgba(8,16,38,.55);z-index:1400;}
+.tour-overlay[hidden]{display:none;}
+.tour-spot{position:fixed;border-radius:10px;box-shadow:0 0 0 9999px rgba(8,16,38,.55);z-index:1401;pointer-events:none;transition:top .25s ease,left .25s ease,width .25s ease,height .25s ease;}
+.tour-spot[hidden]{display:none;}
+.tour-tip{position:fixed;z-index:1402;width:300px;max-width:calc(100vw - 32px);background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(8,16,38,.35);padding:16px 16px 14px;}
+.tour-tip[hidden]{display:none;}
+.tour-tip__eyebrow{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--persona,var(--navy-bar));margin:0 0 5px;}
+.tour-tip__title{font-size:15px;font-weight:700;color:var(--heading);margin:0 0 5px;font-family:'Montserrat',Arial,sans-serif;}
+.tour-tip__body{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 13px;}
+.tour-tip__foot{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.tour-tip__skip{border:none;background:none;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted-2);font-family:inherit;padding:0;}
+.tour-tip__skip:hover{color:var(--heading);}
+.tour-tip__nav{display:flex;gap:8px;}
+.tour-btn{height:32px;padding:0 13px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--heading);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .12s ease,filter .12s ease;}
+.tour-btn:hover{background:var(--bg);}
+.tour-btn--primary{background:var(--persona,var(--navy-bar));border-color:var(--persona,var(--navy-bar));color:#fff;}
+.tour-btn--primary:hover{filter:brightness(1.1);}
+.tour-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ===== Custom search suggestions ===== */
+.searchbox{position:relative;flex:0 0 260px;}
+.searchbox>.nav-search{width:100%;flex:1 1 auto;}
+.search-sugg{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:70;background:#fff;border:1px solid var(--border);border-radius:11px;box-shadow:0 14px 34px rgba(16,42,67,.16);padding:6px;max-height:360px;overflow-y:auto;}
+.search-sugg[hidden]{display:none;}
+.search-sugg__group{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted-2);padding:9px 10px 4px;}
+.search-sugg__item{display:flex;align-items:center;gap:10px;width:100%;border:none;background:none;cursor:pointer;border-radius:8px;padding:8px 10px;text-align:left;font-family:inherit;}
+.search-sugg__item:hover,.search-sugg__item.is-active{background:var(--row-hover);}
+.search-sugg__ic{width:28px;height:28px;border-radius:7px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:var(--blue-soft);color:var(--persona,var(--navy-bar));}
+.search-sugg__tx{min-width:0;flex:1 1 auto;}
+.search-sugg__t{font-size:13px;font-weight:600;color:var(--heading);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.search-sugg__t mark{background:var(--amber-soft);color:inherit;border-radius:3px;padding:0 1px;}
+.search-sugg__s{font-size:11.5px;color:var(--muted);margin:1px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.search-sugg__empty{padding:16px 12px;font-size:12.5px;color:var(--muted);text-align:center;}
+
 /* ===== Notifications popover (bell) ===== */
 .notif{position:relative;display:flex;}
 .notif__pop{position:absolute;top:calc(100% + 8px);right:0;z-index:60;width:330px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 10px 30px rgba(16,42,67,.18),0 2px 6px rgba(16,42,67,.08);padding:6px;}
@@ -1288,16 +1323,6 @@ body{
 </head>
 <body>
 <div class="proto-bar">Prototype &middot; For illustrative purposes only</div>
-<datalist id="search-suggestions">
-  <option value="Arena · Stage Gate 3"></option>
-  <option value="Velodrome · Stage Gate 2"></option>
-  <option value="National Tennis Centre · Stage Gate 4"></option>
-  <option value="Completeness scan"></option>
-  <option value="Readiness scan"></option>
-  <option value="Pending actions"></option>
-  <option value="SGRP Session 15"></option>
-  <option value="Outcome letters"></option>
-</datalist>
 <div class="app" data-persona="project">
 
   <!-- ===== Top bar ===== -->
@@ -1312,13 +1337,19 @@ body{
 
     <span class="nav-divider"></span>
 
-    <label class="nav-search" aria-label="Search">
-      <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input class="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autocomplete="off" list="search-suggestions">
-    </label>
+    <div class="searchbox" data-searchbox>
+      <label class="nav-search" aria-label="Search">
+        <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input class="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autocomplete="off">
+      </label>
+      <div class="search-sugg" data-search-sugg hidden role="listbox"></div>
+    </div>
 
 
     <div class="topbar__right"><span class="persona-label">Project team</span>
+      <button class="icon-btn" data-tour-help aria-label="Help &amp; guided tour" title="Guided tour">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 2.5"/><path d="M12 17h.01"/></svg>
+      </button>
       <div class="notif">
         <button class="icon-btn" data-notif-btn aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
@@ -1525,7 +1556,7 @@ body{
           <section class="card">
             <div class="card__head"><h2 class="card__title">Upcoming deadlines</h2></div>
             <div class="deadlines">
-              <div class="deadline-row" tabindex="0">
+              <div class="deadline-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
                 <span class="deadline-icon">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 3v4M16 3v4"/></svg>
                 </span>
@@ -1535,7 +1566,7 @@ body{
                 </div>
                 <span class="days-pill">7 days</span>
               </div>
-              <div class="deadline-row" tabindex="0">
+              <div class="deadline-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
                 <span class="deadline-icon">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 3v4M16 3v4"/></svg>
                 </span>
@@ -1545,7 +1576,7 @@ body{
                 </div>
                 <span class="days-pill">10 days</span>
               </div>
-              <div class="deadline-row" tabindex="0">
+              <div class="deadline-row" tabindex="0" role="button" data-go="reports" title="Open in My reports">
                 <span class="deadline-icon">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18"/><path d="M8 3v4M16 3v4"/></svg>
                 </span>
@@ -1572,7 +1603,7 @@ body{
 
         <div class="tools__grid">
           <!-- Tool 1: drafting / authoring (blue) -->
-          <div class="tool-card" tabindex="0">
+          <div class="tool-card" tabindex="0" role="button" data-go="authoring" data-from-dashboard title="Open the authoring workspace">
             <span class="tool-tag">AI</span>
             <div class="tool-illus"><svg viewBox="0 0 320 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="tg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFF6FF"/><stop offset="1" stop-color="#DBEDFF"/></linearGradient></defs><rect width="320" height="120" fill="url(#tg1)"/><circle cx="272" cy="20" r="40" fill="none" stroke="#AFCDEE" stroke-width="1.4" opacity=".45"/><circle cx="44" cy="108" r="30" fill="none" stroke="#AFCDEE" stroke-width="1.4" opacity=".4"/><g transform="translate(122,14)"><rect x="0" y="0" width="76" height="108" rx="7" fill="#fff" stroke="#1E5DB0" stroke-width="2"/><path d="M15 23h40" stroke="#1E5DB0" stroke-width="2.6" stroke-linecap="round"/><path d="M15 37h46" stroke="#9CC0EA" stroke-width="2" stroke-linecap="round"/><path d="M15 48h46" stroke="#9CC0EA" stroke-width="2" stroke-linecap="round"/><path d="M15 59h32" stroke="#9CC0EA" stroke-width="2" stroke-linecap="round"/><path d="M15 73h46" stroke="#9CC0EA" stroke-width="2" stroke-linecap="round"/><path d="M15 84h46" stroke="#9CC0EA" stroke-width="2" stroke-linecap="round"/><path d="M15 95h28" stroke="#9CC0EA" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(198,26)"><circle r="16" fill="#fff" stroke="#CADEF6" stroke-width="1.6"/><path d="M0 -8C0.8 -2.4 2.4 -0.8 8 0C2.4 0.8 0.8 2.4 0 8C-0.8 2.4 -2.4 0.8 -8 0C-2.4 -0.8 -0.8 -2.4 0 -8Z" fill="#0072BC"/><g transform="translate(6,-6) scale(.42)"><path d="M0 -8C0.8 -2.4 2.4 -0.8 8 0C2.4 0.8 0.8 2.4 0 8C-0.8 2.4 -2.4 0.8 -8 0C-2.4 -0.8 -0.8 -2.4 0 -8Z" fill="#001B72"/></g></g></svg></div>
             <div class="tool-body">
@@ -1583,7 +1614,7 @@ body{
           </div>
 
           <!-- Tool 2: restructuring / convert documents (aqua) -->
-          <div class="tool-card" tabindex="0">
+          <div class="tool-card" tabindex="0" role="button" data-go="authoring" data-from-dashboard title="Open the authoring workspace">
             <span class="tool-tag">AI Word add-in</span>
             <div class="tool-illus"><svg viewBox="0 0 320 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="tg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9FAFF"/><stop offset="1" stop-color="#D2F1FA"/></linearGradient></defs><rect width="320" height="120" fill="url(#tg2)"/><circle cx="40" cy="22" r="34" fill="none" stroke="#86D6EC" stroke-width="1.5" opacity=".45"/><circle cx="286" cy="106" r="34" fill="none" stroke="#86D6EC" stroke-width="1.5" opacity=".4"/><g transform="translate(58,16) rotate(-5)" opacity=".92"><rect x="0" y="0" width="74" height="104" rx="7" fill="#fff" stroke="#1F9BC0" stroke-width="2"/><path d="M13 17h34" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M13 28h44" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M13 39h44" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M13 50h28" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(170,16)"><rect x="0" y="0" width="74" height="104" rx="7" fill="#fff" stroke="#0E7FA6" stroke-width="2"/><path d="M14 18h44" stroke="#0E7FA6" stroke-width="2.4" stroke-linecap="round"/><path d="M14 30h44" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M14 41h44" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M14 52h28" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M14 66h44" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/><path d="M14 77h36" stroke="#8FD3E6" stroke-width="2" stroke-linecap="round"/></g><g transform="translate(138,48)" fill="none" stroke="#0AA6AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 2v6h-6"/><path d="M2 11a8.5 8.5 0 0 1 14-6.3L19 7"/><path d="M2 20v-6h6"/><path d="M19 11a8.5 8.5 0 0 1-14 6.3L2 14"/></g><g transform="translate(240,22)"><circle r="15" fill="#fff" stroke="#A6E4F2" stroke-width="1.6"/><path d="M0 -8C0.8 -2.4 2.4 -0.8 8 0C2.4 0.8 0.8 2.4 0 8C-0.8 2.4 -2.4 0.8 -8 0C-2.4 -0.8 -0.8 -2.4 0 -8Z" fill="#0E7FA6"/><g transform="translate(5.5,-5.5) scale(.4)"><path d="M0 -8C0.8 -2.4 2.4 -0.8 8 0C2.4 0.8 0.8 2.4 0 8C-0.8 2.4 -2.4 0.8 -8 0C-2.4 -0.8 -0.8 -2.4 0 -8Z" fill="#005269"/></g></g></svg></div>
             <div class="tool-body">
@@ -2901,11 +2932,17 @@ body{
       </span>
     </button>
     <span class="nav-divider"></span>
-    <label class="nav-search" aria-label="Search">
-      <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input class="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autocomplete="off" list="search-suggestions">
-    </label>
+    <div class="searchbox" data-searchbox>
+      <label class="nav-search" aria-label="Search">
+        <svg class="nav-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input class="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autocomplete="off">
+      </label>
+      <div class="search-sugg" data-search-sugg hidden role="listbox"></div>
+    </div>
     <div class="topbar__right"><span class="persona-label">Secretariat</span>
+      <button class="icon-btn" data-tour-help aria-label="Help &amp; guided tour" title="Guided tour">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 2.5"/><path d="M12 17h.01"/></svg>
+      </button>
       <div class="notif">
         <button class="icon-btn" data-notif-btn aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
@@ -4110,6 +4147,7 @@ body{
       if(view){ var wsBack = view.querySelector('.ws-back'); if(wsBack){ wsBack.style.display = cameFromDashboard ? '' : 'none'; } }
     }
     var main = projApp.querySelector('.main'); if(main){ main.scrollTop = 0; }
+    pushNav();
   }
 
   // Sidebar icons (project): nav icons switch views, the rest just highlight
@@ -4136,6 +4174,7 @@ body{
       if(on){ b.setAttribute('aria-current','page'); } else { b.removeAttribute('aria-current'); }
     });
     var m = secApp.querySelector('.main'); if(m){ m.scrollTop = 0; }
+    pushNav();
   }
   if(secApp){
     secApp.querySelectorAll('[data-sview]').forEach(function(el){
@@ -4524,6 +4563,52 @@ body{
   });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape' || e.key === 'Esc'){ closeNotif(); } });
 
+  // ===== Custom search suggestions =====
+  (function(){
+    var ICONS = {
+      Projects: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M9 9h.01M9 13h.01M15 9h.01M15 13h.01"/></svg>',
+      'AI tools': '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l1.7 5 5 1.7-5 1.7L12 16l-1.7-5-5-1.7 5-1.7L12 2.5Z"/></svg>',
+      Activity: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+    };
+    var ITEMS = [
+      { g:'Projects', t:'Arena', s:'Stage Gate 3' },
+      { g:'Projects', t:'Velodrome', s:'Stage Gate 2' },
+      { g:'Projects', t:'National Tennis Centre', s:'Stage Gate 4' },
+      { g:'Projects', t:'National Aquatic Centre', s:'Stage Gate 2' },
+      { g:'AI tools', t:'Draft Co-Pilot', s:'Generate a report draft' },
+      { g:'AI tools', t:'Executive Summary', s:'Leadership-ready summary' },
+      { g:'AI tools', t:'Readiness Scan', s:'Validate before submission' },
+      { g:'AI tools', t:'Completeness Scan', s:'Secretariat document check' },
+      { g:'Activity', t:'Pending actions', s:'Tasks awaiting you' },
+      { g:'Activity', t:'SGRP Session 15', s:'17 Jun 2026' },
+      { g:'Activity', t:'Outcome letters', s:'Committee decisions' }
+    ];
+    function esc(s){ return s.replace(/[&<>"]/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]; }); }
+    function hl(text, q){ if(!q) return esc(text); var i = text.toLowerCase().indexOf(q); if(i < 0) return esc(text); return esc(text.slice(0,i)) + '<mark>' + esc(text.slice(i,i+q.length)) + '</mark>' + esc(text.slice(i+q.length)); }
+    function render(panel, q){
+      q = (q||'').trim().toLowerCase();
+      var matches = ITEMS.filter(function(it){ return !q || (it.t+' '+it.s+' '+it.g).toLowerCase().indexOf(q) >= 0; });
+      if(!matches.length){ panel.innerHTML = '<div class="search-sugg__empty">No matches for &ldquo;' + esc(q) + '&rdquo;</div>'; return; }
+      var html = '', lastG = null;
+      matches.forEach(function(it){
+        if(it.g !== lastG){ html += '<div class="search-sugg__group">' + it.g + '</div>'; lastG = it.g; }
+        html += '<button class="search-sugg__item" type="button" role="option" data-val="' + esc(it.t) + '"><span class="search-sugg__ic">' + (ICONS[it.g]||'') + '</span><span class="search-sugg__tx"><p class="search-sugg__t">' + hl(it.t,q) + '</p><p class="search-sugg__s">' + esc(it.s) + '</p></span></button>';
+      });
+      panel.innerHTML = html;
+    }
+    document.querySelectorAll('[data-searchbox]').forEach(function(box){
+      var input = box.querySelector('.nav-search__input');
+      var panel = box.querySelector('[data-search-sugg]');
+      if(!input || !panel) return;
+      function show(){ render(panel, input.value); panel.hidden = false; }
+      input.addEventListener('focus', show);
+      input.addEventListener('input', show);
+      input.addEventListener('keydown', function(e){ if(e.key === 'Escape' || e.key === 'Esc'){ panel.hidden = true; input.blur(); } });
+      panel.addEventListener('mousedown', function(e){ var it = e.target.closest('.search-sugg__item'); if(it){ e.preventDefault(); input.value = it.getAttribute('data-val'); panel.hidden = true; input.focus(); } });
+      document.addEventListener('click', function(e){ if(!box.contains(e.target)){ panel.hidden = true; } });
+    });
+  })();
+
   // Settings overlay
   var setOverlay = document.querySelector('[data-settings-overlay]');
   function syncSettingsProfile(){
@@ -4668,6 +4753,146 @@ body{
       var o=copyB.innerHTML; copyB.innerHTML='Copied'; setTimeout(function(){ copyB.innerHTML=o; }, 1300);
     }); }
     document.addEventListener('keydown', function(e){ if((e.key==='Escape'||e.key==='Esc') && !modal.hidden){ closeM(); } });
+  })();
+
+  // ===== Browser history: back/forward walks the prototype like a normal site =====
+  var histRestoring = false;
+  function activeProjView(){ var v = projApp.querySelector('.view.is-active'); var m = v && v.className.match(/view--([a-z]+)/); return m ? m[1] : 'dashboard'; }
+  function activeSecView(){ var v = secApp && secApp.querySelector('.sec-view.is-active'); return v ? v.getAttribute('data-sview') : 'dashboard'; }
+  function navState(){ var p = activePersona(); return { persona: p, view: p === 'secretariat' ? activeSecView() : activeProjView() }; }
+  function setPersonaShell(target){ document.querySelectorAll('.app[data-persona]').forEach(function(a){ a.hidden = a.getAttribute('data-persona') !== target; }); }
+  function pushNav(){
+    if(histRestoring) return;
+    var st = navState(), cur = history.state;
+    if(cur && cur.persona === st.persona && cur.view === st.view) return;
+    history.pushState(st, '', '#' + st.persona + '-' + st.view);
+  }
+  window.addEventListener('popstate', function(e){
+    var st = e.state || { persona: 'project', view: 'dashboard' };
+    histRestoring = true;
+    setPersonaShell(st.persona);
+    if(st.persona === 'secretariat'){ showSecView(st.view); } else { showView(st.view); }
+    histRestoring = false;
+  });
+  history.replaceState(navState(), '');
+
+  // ===== Guided onboarding tour =====
+  (function(){
+    function gotoScreen(role, view){
+      var persona = role === 'secretariat' ? 'secretariat' : 'project';
+      setPersonaShell(persona);
+      if(persona === 'secretariat'){ showSecView(view); } else { cameFromDashboard = true; showView(view); }
+    }
+    var sgrpModal = document.querySelector('[data-sgrp-modal]');
+    // Step config — copy/screens/selectors live here, not in the engine.
+    var STEPS = [
+      // ---- Project Team ----
+      { role:'projectTeam', screen:'dashboard', target:'.view--dashboard .banner', placement:'bottom',
+        title:'Start from your workspace', body:'Open an existing Stage Gate report or create a new draft. This page shows active reports, pending actions, deadlines and AI tools.' },
+      { role:'projectTeam', screen:'authoring', target:'.view--authoring .ws-left', placement:'right',
+        title:'Generate the first draft', body:'Upload project deliverables and pick the Stage Gate template. AI writes the first draft — the project team stays accountable for the final content.' },
+      { role:'projectTeam', screen:'authoring', target:'.view--authoring .ws-mid', placement:'left',
+        title:'Review every section', body:'Check each AI-generated section for quality, accuracy, completeness and source coverage before marking it reviewed.' },
+      { role:'projectTeam', screen:'execsummary', target:'.view--execsummary .es-gen-btn', placement:'right',
+        title:'Create the executive summary', body:'Generate a leadership-ready summary from the reviewed report, then check confidence and traceability before using it.' },
+      { role:'projectTeam', screen:'readiness', target:'.view--readiness .rs-scan-go', placement:'right',
+        title:'Validate before submission', body:'Run the readiness scan to check mandatory documents, unresolved conditions, advisory warnings and checklist completeness.' },
+      { role:'projectTeam', screen:'readiness', target:'.view--readiness [data-persona-switch="secretariat"]', placement:'left',
+        action:function(){ var v=document.querySelector('.view--readiness'); if(v){ v.classList.remove('is-config'); v.classList.remove('is-scanning'); } },
+        title:'Submit the validated pack', body:'Once the pack passes validation, submit it to the Secretariat for completeness review and Stage Gate processing.' },
+      // ---- Secretariat ----
+      { role:'secretariat', screen:'dashboard', target:'.sec-dash .banner', placement:'bottom',
+        title:'Start from the intake queue', body:'New Stage Gate submissions land here. Open the latest submission to begin the secretariat review.' },
+      { role:'secretariat', screen:'reports', target:'.sec-rep-summary', placement:'left',
+        title:'Review the submission', body:'Check the project overview, submitted documents, highlights and decision sought before running the completeness scan.' },
+      { role:'secretariat', screen:'reports', target:'[data-action-run]', placement:'left',
+        title:'Validate the pack', body:'Run the completeness scan to confirm the pack includes every required document before sharing it with the review panel.' },
+      { role:'secretariat', screen:'scan', target:'.sec-scan [data-scan-cta]', placement:'top',
+        action:function(){ if(typeof setScanPhase==='function'){ try{ setScanPhase('results'); }catch(e){} } },
+        title:'Send to the review panel', body:'Once the pack passes the scan, prepare the package for the Stage Gate Review Panel.' },
+      { role:'secretariat', screen:'scan', target:'.sgrp-modal__card', placement:'left',
+        action:function(){ if(typeof setScanPhase==='function'){ try{ setScanPhase('results'); }catch(e){} } if(sgrpModal){ sgrpModal.hidden=false; } },
+        title:'Review the panel email', body:'Review the AI-drafted email, recipients, attachments and scan summary before copying it into Outlook or sending manually.' },
+      { role:'secretariat', screen:'reports', target:'[data-tabpane="outcomes"]', placement:'left',
+        action:function(){ if(!secApp) return; secApp.querySelectorAll('.sec-reports [data-tabpane]').forEach(function(p){ p.hidden = p.getAttribute('data-tabpane')!=='outcomes'; }); var tabs=secApp.querySelectorAll('.sec-reports .ws-tabs .ws-tab'); tabs.forEach(function(t){ t.classList.toggle('is-active', /outcome/i.test(t.textContent)); }); },
+        title:'Prepare the outcome communication', body:'Review and amend the AI-drafted outcome letter and meeting minutes before sending the final communication to the project team.' }
+    ];
+
+    var overlay, spot, tip, state = { steps:[], i:0 };
+    function build(){
+      overlay = document.createElement('div'); overlay.className='tour-overlay'; overlay.hidden=true;
+      spot = document.createElement('div'); spot.className='tour-spot'; spot.hidden=true;
+      tip = document.createElement('div'); tip.className='tour-tip'; tip.hidden=true;
+      document.body.appendChild(overlay); document.body.appendChild(spot); document.body.appendChild(tip);
+      overlay.addEventListener('click', endTour);
+    }
+    function endTour(){
+      if(spot) spot.hidden=true; if(tip) tip.hidden=true; if(overlay) overlay.hidden=true;
+      if(sgrpModal) sgrpModal.hidden=true;
+      try{ localStorage.setItem('sgi_tour_done','1'); }catch(e){}
+    }
+    function start(role){
+      if(!overlay) build();
+      state.steps = STEPS.filter(function(s){ return s.role===role; });
+      state.i = 0;
+      if(!state.steps.length) return;
+      render();
+    }
+    function render(){
+      var s = state.steps[state.i];
+      if(sgrpModal) sgrpModal.hidden=true;          // reset any modal a prior step opened
+      gotoScreen(s.role, s.screen);
+      if(s.action){ try{ s.action(); }catch(e){} }
+      setTimeout(function(){ place(s); }, 80);       // let layout settle after navigation
+    }
+    function place(s){
+      var tgt = s.target ? document.querySelector(s.target) : null;
+      var r = tgt && tgt.getBoundingClientRect();
+      var vis = !!(r && r.width > 1 && r.height > 1 && r.bottom > 0 && r.top < innerHeight);
+      if(vis && tgt.scrollIntoView){ tgt.scrollIntoView({ block:'center', inline:'nearest' }); r = tgt.getBoundingClientRect(); }
+      // build tooltip
+      var last = state.i === state.steps.length - 1;
+      tip.innerHTML =
+        '<p class="tour-tip__eyebrow">Step ' + (state.i+1) + ' of ' + state.steps.length + '</p>' +
+        '<h3 class="tour-tip__title">' + s.title + '</h3>' +
+        '<p class="tour-tip__body">' + s.body + '</p>' +
+        '<div class="tour-tip__foot"><button class="tour-tip__skip" data-tour-skip>Skip tour</button>' +
+        '<div class="tour-tip__nav">' +
+        '<button class="tour-btn" data-tour-back' + (state.i===0?' disabled':'') + '>Back</button>' +
+        '<button class="tour-btn tour-btn--primary" data-tour-next>' + (last?'Finish':'Next') + '</button>' +
+        '</div></div>';
+      tip.hidden=false; overlay.hidden = vis; spot.hidden = !vis;
+      if(vis){
+        var pad=6;
+        spot.style.top=(r.top-pad)+'px'; spot.style.left=(r.left-pad)+'px';
+        spot.style.width=(r.width+pad*2)+'px'; spot.style.height=(r.height+pad*2)+'px';
+      }
+      // position tooltip
+      var tr = tip.getBoundingClientRect(), m=12, top, left;
+      if(vis){
+        var p=s.placement||'bottom';
+        if(p==='right'){ left=r.right+m; top=r.top; }
+        else if(p==='left'){ left=r.left-tr.width-m; top=r.top; }
+        else if(p==='top'){ top=r.top-tr.height-m; left=r.left; }
+        else { top=r.bottom+m; left=r.left; }
+      } else { top=(innerHeight-tr.height)/2; left=(innerWidth-tr.width)/2; }
+      left=Math.max(m, Math.min(left, innerWidth-tr.width-m));
+      top=Math.max(m, Math.min(top, innerHeight-tr.height-m));
+      tip.style.left=left+'px'; tip.style.top=top+'px';
+    }
+    tip = null;
+    function roleForPersona(){ return activePersona() === 'secretariat' ? 'secretariat' : 'projectTeam'; }
+    document.addEventListener('click', function(e){
+      if(e.target.closest('[data-tour-help]')){ start(roleForPersona()); return; }
+      if(!tip) return;
+      if(e.target.closest('[data-tour-skip]')){ endTour(); return; }
+      if(e.target.closest('[data-tour-back]')){ if(state.i>0){ state.i--; render(); } return; }
+      if(e.target.closest('[data-tour-next]')){ if(state.i>=state.steps.length-1){ endTour(); } else { state.i++; render(); } return; }
+    });
+    window.addEventListener('resize', function(){ if(tip && !tip.hidden){ place(state.steps[state.i]); } });
+    // First-time auto-start
+    var done; try{ done = localStorage.getItem('sgi_tour_done'); }catch(e){ done='1'; }
+    if(!done){ setTimeout(function(){ start(roleForPersona()); }, 600); }
   })();
 </script>
 </body>
