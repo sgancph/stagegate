@@ -1,5 +1,7 @@
 import { useApp } from '../../app/AppContext';
 import { Icon, Logomark } from '../ui/Icon';
+import { SearchBox } from './SearchBox';
+import { NotifMenu } from './NotifMenu';
 
 const COPY = {
   project: { label: 'Project team', cta: 'New SG Report Draft', ctaIcon: 'pen' as const, ctaView: 'authoring' as const },
@@ -19,19 +21,11 @@ export function Topbar() {
         </span>
       </button>
       <span className="nav-divider" />
-      <div className="searchbox">
-        <label className="nav-search" aria-label="Search">
-          <span className="nav-search__icon"><Icon name="search" size={16} strokeWidth={2} /></span>
-          <input className="nav-search__input" type="search" placeholder="Search projects, stage gates, documents…" aria-label="Search" autoComplete="off" />
-        </label>
-      </div>
+      <SearchBox />
       <div className="topbar__right">
         <span className="persona-label">{c.label}</span>
-        <button className="icon-btn" aria-label="Help &amp; guided tour" title="Guided tour"><Icon name="help" size={19} /></button>
-        <button className="icon-btn" aria-label="Notifications">
-          <Icon name="bell" size={19} />
-          <span className="badge">{persona === 'secretariat' ? 3 : 2}</span>
-        </button>
+        <button className="icon-btn" data-tour-help aria-label="Help &amp; guided tour" title="Guided tour"><Icon name="help" size={19} /></button>
+        <NotifMenu />
         <button className="btn btn--navy" onClick={() => navigate(c.ctaView)}>
           <Icon name={c.ctaIcon} size={15} strokeWidth={2} />
           {c.cta}
