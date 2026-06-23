@@ -13,6 +13,7 @@ import { SecretariatScan } from './features/secretariat/SecretariatScan';
 import { Placeholder } from './features/Placeholder';
 import { GuidedTour } from './features/tour/GuidedTour';
 import { Settings } from './features/settings/Settings';
+import { Toaster } from './lib/toast';
 
 const VIEW_TITLES: Record<string, string> = {
   reports: 'My reports',
@@ -56,6 +57,7 @@ export function App() {
         <Shell />
         <Settings />
         <GuidedTour />
+        <Toaster />
       </AppProvider>
     </>
   );

@@ -1,5 +1,6 @@
 import { WorkspaceHeader } from './WorkspaceHeader';
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
 export function ExecSummary() {
   return (
@@ -20,8 +21,8 @@ export function ExecSummary() {
           <section className="ws-panel">
             <p className="es-label">Generate Arena SG3 Summary</p>
             <label className="ws-label">Output format</label>
-            <div className="ws-select">SGRP Template v2.1 <Icon name="chevronDown" size={14} strokeWidth={2.2} className="ws-select__ch" /></div>
-            <button className="btn btn--navy es-gen-btn"><Sparkle size={18} />Generate Summary</button>
+            <div className="ws-select" role="button" tabIndex={0} onClick={() => toast('Output format: SGRP Template v2.1')}>SGRP Template v2.1 <Icon name="chevronDown" size={14} strokeWidth={2.2} className="ws-select__ch" /></div>
+            <button className="btn btn--navy es-gen-btn" onClick={() => toast('Generating executive summary…')}><Sparkle size={18} />Generate Summary</button>
             <p className="es-est">Estimated time: 2-3 minutes</p>
           </section>
         </aside>

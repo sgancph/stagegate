@@ -1,5 +1,6 @@
 import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
 const kpis = [
   { label: 'Total submissions', num: '143', tag: '+12 this month', variant: 'green' },
@@ -80,7 +81,7 @@ export function SecretariatDashboard() {
           <div className="sec-aibar">
             <Sparkle size={17} />
             <span className="sec-aibar__txt"><strong>AI insight:</strong> 19 reports are in Review. 3 are overdue. Consider sending reminders to keep reviews on track.</span>
-            <button className="sec-aibar__link">Send reminders</button>
+            <button className="sec-aibar__link" onClick={() => toast('Reminders sent to 3 reviewers')}>Send reminders</button>
           </div>
           <div className="sec-tabs">
             <button className="ws-tab">All submissions<span className="sec-tab-count">143</span></button>

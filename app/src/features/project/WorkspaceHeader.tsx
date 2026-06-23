@@ -1,5 +1,6 @@
 import { useApp, type View } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { ProjectSelector } from './ProjectSelector';
 
 type Tab = 'authoring' | 'execsummary' | 'readiness';
 const TABS: { view: Tab; label: string; icon: 'sparkle' | 'shield' }[] = [
@@ -16,12 +17,7 @@ export function WorkspaceHeader({ active }: { active: Tab }) {
         <button className="ws-back" aria-label="Back to dashboard" onClick={() => navigate('dashboard')}><Icon name="back" /></button>
         <div><h1 className="ws-title">Authoring workspace</h1></div>
         <div className="ws-head-right">
-          <div className="ws-projsel">
-            <button className="ws-projsel__btn" aria-haspopup="listbox">
-              <span className="ws-projsel__label">Arena · Stage Gate 3</span>
-              <Icon name="chevronDown" size={14} strokeWidth={2.2} className="ws-projsel__ch" />
-            </button>
-          </div>
+          <ProjectSelector />
         </div>
       </div>
       <div className="ws-tabs">

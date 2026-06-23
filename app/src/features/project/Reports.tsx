@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
 type Tab = 'active' | 'drafts' | 'completed';
 
@@ -87,9 +88,9 @@ export function Reports() {
               </div>
               <label className="rp-label">Your response</label>
               <textarea className="rp-response" placeholder="Address the point raised: Phase 2 contingency justification…" />
-              <div className="rp-attach"><Icon name="paperclip" size={15} /> Attach files (optional)</div>
+              <div className="rp-attach" role="button" tabIndex={0} onClick={() => toast('Attach files (prototype)')}><Icon name="paperclip" size={15} /> Attach files (optional)</div>
               <div className="rp-infobar"><Icon name="info" size={15} /> Your response will be sent to A. ElHusseini and logged to the repository. The reviewer will be notified immediately.</div>
-              <div className="rp-rfi__actions"><button className="btn btn--navy"><Icon name="send" size={15} strokeWidth={2} /> Send response</button><button className="btn btn--ghost" onClick={() => navigate('dashboard')}>Save draft</button></div>
+              <div className="rp-rfi__actions"><button className="btn btn--navy" onClick={() => toast('Response sent to A. ElHusseini')}><Icon name="send" size={15} strokeWidth={2} /> Send response</button><button className="btn btn--ghost" onClick={() => toast('Draft saved')}>Save draft</button></div>
             </section>
           </div>
         </div>

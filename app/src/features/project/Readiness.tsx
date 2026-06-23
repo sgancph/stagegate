@@ -1,5 +1,6 @@
 import { WorkspaceHeader } from './WorkspaceHeader';
 import { Icon } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
 export function Readiness() {
   return (
@@ -33,7 +34,7 @@ export function Readiness() {
             <div className="scan-field">
               <div className="scan-select"><span>Checklist&nbsp;&nbsp;<strong>SG3 · v2.1</strong></span><Icon name="chevronDown" size={14} strokeWidth={2.2} className="scan-select__ch" /></div>
             </div>
-            <button className="btn btn--navy rs-scan-go" style={{ display: 'flex' }}><Icon name="search" size={16} strokeWidth={2} />Scan</button>
+            <button className="btn btn--navy rs-scan-go" style={{ display: 'flex' }} onClick={() => toast('Running readiness scan…')}><Icon name="search" size={16} strokeWidth={2} />Scan</button>
           </section>
         </aside>
       </div>

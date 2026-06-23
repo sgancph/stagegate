@@ -1,5 +1,6 @@
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
 const panel = [
   { initials: 'HA', color: '#001B72' },
@@ -37,7 +38,7 @@ export function SecretariatScan() {
               <div className="scan-select"><span>SG3 Arena Checklist v2.3</span><Icon name="chevronDown" size={14} strokeWidth={2.2} className="scan-select__ch" /></div>
             </div>
           </section>
-          <button className="scan-runbtn"><Icon name="shield" size={16} /> Scan</button>
+          <button className="scan-runbtn" onClick={() => toast('Running completeness scan…')}><Icon name="shield" size={16} /> Scan</button>
         </aside>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
 const list = [
   { name: 'Music Theme Park', sub: 'SG3 · Session 14', date: '10 Jun 2026', pill: 'Conditional', variant: 'amber', selected: true },
@@ -64,7 +65,7 @@ export function SecretariatOutcomes() {
 
         <section className="card sec-out-foot">
           <p className="sec-out-footnote">Nothing is sent automatically. Review the letter and minutes, then send the final communication to the project team.</p>
-          <div className="sec-out-footbtns"><button className="btn btn--ghost">Amend</button><button className="btn btn--navy"><Icon name="send" size={15} strokeWidth={2} /> Send communication</button></div>
+          <div className="sec-out-footbtns"><button className="btn btn--ghost" onClick={() => toast('Editing outcome letter…')}>Amend</button><button className="btn btn--navy" onClick={() => toast('Communication sent to the project team')}><Icon name="send" size={15} strokeWidth={2} /> Send communication</button></div>
         </section>
       </div>
     </div>
