@@ -11,6 +11,18 @@ This product is a thin layer over Qiddiya's **Stage Gate governance process**; e
 - **Process in one line:** Project Team submits → Secretariat checks completeness → reviewers/SGRP assess → decision (approve / approve-with-conditions / rework / reject) → Secretariat tracks and communicates outcomes.
 - Do not invent client-specific facts (gate names, criteria, integrations) — leave `[CONFIRM]` and ask.
 
+## Engineering Principles
+
+This is a **clickable prototype** for stakeholder review, not production infrastructure. Match effort to that — when in doubt, do less.
+
+- **Build the smallest implementation that satisfies the requirement.** Minimise code changes; shortest correct diff wins.
+- **Prefer simple solutions over extensible frameworks.** No speculative future-proofing, no scaffolding "for later".
+- **Do not introduce an abstraction until the same thing is duplicated 3+ times** (rule of three). Until then, inline it.
+- **Prefer modifying existing files over creating new ones.** Don't add new layers, folders, or util/data/domain modules speculatively. (Exception: the established one-component-per-file convention under `features/` and `components/` — follow it; this rule targets new *abstractions*, not splitting a genuinely reused component.)
+- **Match existing repository patterns exactly.** No opportunistic refactors, renames, or reformatting of files a task doesn't already change.
+- **Avoid new dependencies unless explicitly requested**, and do not bump major framework/tooling versions opportunistically.
+- **Right-size the engineering.** The auth gate is a demo lock, not a security boundary; the data is fixtures, not a schema. Don't harden or generalise beyond prototype needs. Fake actions use `toast()` — don't build backends for them.
+
 ## Repository Layout
 
 The product is a Vite, React 18, and TypeScript application under `app/`.
