@@ -4,13 +4,68 @@ import { Icon } from '../../components/ui/Icon';
 import { toast } from '../../lib/toast';
 
 type Tab = 'active' | 'drafts' | 'completed';
+type Step = { label: string; date?: string; state: 'done' | 'current' | 'todo'; cur?: boolean };
 
-const timeline: { label: string; date?: string; state: 'done' | 'current' | 'todo'; cur?: boolean }[] = [
-  { label: 'Intake', date: '8 Jun', state: 'done' },
-  { label: 'Completeness Scan', date: '9 Jun', state: 'done' },
-  { label: 'Review', state: 'current', cur: true },
-  { label: 'Decision', state: 'todo' },
-  { label: 'Closed', state: 'todo' },
+type ActiveReport = {
+  id: string;
+  name: string;
+  gate: string;
+  dot: string;
+  pillClass: string;
+  pillText: string;
+  timeline: Step[];
+  reviewer: string;
+  session: string;
+  rfi?: { from: string; meta: string; due: string; message: JSX.Element };
+};
+
+const ACTIVE: ActiveReport[] = [
+  {
+    id: 'arena',
+    name: 'Arena',
+    gate: 'Stage Gate 3',
+    dot: 'orange',
+    pillClass: 'ws-tag--blue',
+    pillText: 'Review · SGRP Session 15',
+    timeline: [
+      { label: 'Intake', date: '8 Jun', state: 'done' },
+      { label: 'Completeness Scan', date: '9 Jun', state: 'done' },
+      { label: 'Review', state: 'current', cur: true },
+      { label: 'Decision', state: 'todo' },
+      { label: 'Closed', state: 'todo' },
+    ],
+    reviewer: 'A. ElHusseini (CDU lead)',
+    session: 'Session 15 · 17 Jun 2026',
+    rfi: {
+      from: 'A. ElHusseini, CDU reviewer',
+      meta: 'Received 10 Jun · 2 days ago',
+      due: 'Due 14 Jun (2 days)',
+      message: (
+        <>
+          The submission is strong overall and has been progressed to Review. Could you confirm whether the{' '}
+          <strong>contingency justification on page 12 covers Phase 2</strong> — the current narrative only
+          references Phase 1. I need this before Session 15 on 17 Jun.
+        </>
+      ),
+    },
+  },
+  {
+    id: 'velodrome',
+    name: 'Velodrome',
+    gate: 'Stage Gate 2',
+    dot: 'blue',
+    pillClass: 'ws-tag--newblue',
+    pillText: 'Awaiting SGRP review',
+    timeline: [
+      { label: 'Intake', date: '4 Jun', state: 'done' },
+      { label: 'Completeness Scan', date: '5 Jun', state: 'done' },
+      { label: 'Review', state: 'current', cur: true },
+      { label: 'Decision', state: 'todo' },
+      { label: 'Closed', state: 'todo' },
+    ],
+    reviewer: 'Not yet assigned',
+    session: 'Session 16 · 24 Jun 2026',
+  },
 ];
 
 const drafts = [
@@ -41,6 +96,9 @@ const completed = [
 export function Reports() {
   const { navigate } = useApp();
   const [tab, setTab] = useState<Tab>('active');
+  const [selectedId, setSelectedId] = useState('arena');
+  const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
+
   return (
     <div className="view view--reports is-active">
       <section className="greeting">
@@ -84,40 +142,36 @@ export function Reports() {
               <h2 className="ws-h">Active reports</h2>
               <p className="ws-h-sub">Reports currently in the review pipeline.</p>
               <div className="rp-list">
-                <div className="rp-item is-selected">
-                  <div className="rp-item__head">
-                    <span className="dot dot--orange" />
-                    <div>
-                      <p className="rp-item__name">Arena</p>
-                      <p className="rp-item__sub">Stage Gate 3</p>
+                {ACTIVE.map((r) => (
+                  <button
+                    key={r.id}
+                    type="button"
+                    className={`rp-item${r.id === selectedId ? ' is-selected' : ''}`}
+                    aria-pressed={r.id === selectedId}
+                    onClick={() => setSelectedId(r.id)}
+                  >
+                    <div className="rp-item__head">
+                      <span className={`dot dot--${r.dot}`} />
+                      <div>
+                        <p className="rp-item__name">{r.name}</p>
+                        <p className="rp-item__sub">{r.gate}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="rp-item__pills">
-                    <span className="ws-tag ws-tag--blue">Review · SGRP Session 15</span>
-                  </div>
-                </div>
-                <div className="rp-item">
-                  <div className="rp-item__head">
-                    <span className="dot dot--blue" />
-                    <div>
-                      <p className="rp-item__name">Velodrome</p>
-                      <p className="rp-item__sub">Stage Gate 2</p>
+                    <div className="rp-item__pills">
+                      <span className={`ws-tag ${r.pillClass}`}>{r.pillText}</span>
                     </div>
-                  </div>
-                  <div className="rp-item__pills">
-                    <span className="ws-tag ws-tag--newblue">Awaiting SGRP review</span>
-                  </div>
-                </div>
+                  </button>
+                ))}
               </div>
             </section>
           </aside>
 
           <div className="rp-main">
             <section className="ws-panel">
-              <p className="rp-rtitle">Arena</p>
-              <p className="rp-rsub">Stage Gate 3</p>
+              <p className="rp-rtitle">{selected.name}</p>
+              <p className="rp-rsub">{selected.gate}</p>
               <div className="rp-tl">
-                {timeline.map((s) => (
+                {selected.timeline.map((s) => (
                   <div key={s.label} className={`rp-tl__step is-${s.state}`}>
                     <span className="rp-tl__dot" />
                     <span className="rp-tl__label">{s.label}</span>
@@ -128,13 +182,11 @@ export function Reports() {
               </div>
               <div className="rp-kv__row">
                 <span className="rp-kv__k">Assigned reviewer</span>
-                <span className="rp-kv__v">
-                  <span className="ws-avatar ws-avatar--soft">AE</span> A. ElHusseini (CDU lead)
-                </span>
+                <span className="rp-kv__v">{selected.reviewer}</span>
               </div>
               <div className="rp-kv__row">
                 <span className="rp-kv__k">SGRP session</span>
-                <span className="rp-kv__v">Session 15 · 17 Jun 2026</span>
+                <span className="rp-kv__v">{selected.session}</span>
               </div>
               <div className="rp-kv__row">
                 <span className="rp-kv__k">Completeness Scan</span>
@@ -144,60 +196,66 @@ export function Reports() {
               </div>
             </section>
 
-            <section className="ws-panel rp-rfi">
-              <div className="rp-rfi__head">
-                <span className="rp-rfi__title">
-                  <Icon name="alert" size={18} /> Response required
-                </span>
-                <div className="rp-rfi__hr">
-                  <span className="rp-rfi__meta">Received 10 Jun · 2 days ago</span>
-                  <span className="rp-tcount rp-tcount--amber">Due 14 Jun (2 days)</span>
+            {selected.rfi ? (
+              <section className="ws-panel rp-rfi">
+                <div className="rp-rfi__head">
+                  <span className="rp-rfi__title">
+                    <Icon name="alert" size={18} /> Response required
+                  </span>
+                  <div className="rp-rfi__hr">
+                    <span className="rp-rfi__meta">{selected.rfi.meta}</span>
+                    <span className="rp-tcount rp-tcount--amber">{selected.rfi.due}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="rp-rfi__msgbox">
-                <div className="rp-rfi__from">
-                  <span className="ws-avatar ws-avatar--soft">AE</span> A. ElHusseini, CDU reviewer
+                <div className="rp-rfi__msgbox">
+                  <div className="rp-rfi__from">
+                    <span className="ws-avatar ws-avatar--soft">AE</span> {selected.rfi.from}
+                  </div>
+                  <p className="rp-rfi__msg">{selected.rfi.message}</p>
                 </div>
-                <p className="rp-rfi__msg">
-                  The submission is strong overall and has been progressed to Review. Could you confirm
-                  whether the <strong>contingency justification on page 12 covers Phase 2</strong> — the
-                  current narrative only references Phase 1. I need this before Session 15 on 17 Jun.
-                </p>
-              </div>
-              <label className="rp-label" htmlFor="review-response">
-                Your response
-              </label>
-              <textarea
-                id="review-response"
-                className="rp-response"
-                placeholder="Address the point raised: Phase 2 contingency justification…"
-              />
-              <button
-                className="rp-attach"
-                type="button"
-                onClick={() => toast('Prototype only — file attachment is not connected')}
-              >
-                <Icon name="paperclip" size={15} /> Attach files (optional)
-              </button>
-              <div className="rp-infobar">
-                <Icon name="info" size={15} /> Your response will be sent to A. ElHusseini and logged to the
-                repository. The reviewer will be notified immediately.
-              </div>
-              <div className="rp-rfi__actions">
+                <label className="rp-label" htmlFor="review-response">
+                  Your response
+                </label>
+                <textarea
+                  id="review-response"
+                  className="rp-response"
+                  placeholder="Address the point raised…"
+                />
                 <button
-                  className="btn btn--navy"
-                  onClick={() => toast('Prototype only — response was not sent')}
+                  className="rp-attach"
+                  type="button"
+                  onClick={() => toast('Prototype only — file attachment is not connected')}
                 >
-                  <Icon name="send" size={15} strokeWidth={2} /> Send response
+                  <Icon name="paperclip" size={15} /> Attach files (optional)
                 </button>
-                <button
-                  className="btn btn--ghost"
-                  onClick={() => toast('Draft retained for this session only')}
-                >
-                  Save draft
-                </button>
-              </div>
-            </section>
+                <div className="rp-infobar">
+                  <Icon name="info" size={15} /> Your response will be sent to the reviewer and logged to the
+                  repository.
+                </div>
+                <div className="rp-rfi__actions">
+                  <button
+                    className="btn btn--navy"
+                    onClick={() => toast('Prototype only — response was not sent')}
+                  >
+                    <Icon name="send" size={15} strokeWidth={2} /> Send response
+                  </button>
+                  <button
+                    className="btn btn--ghost"
+                    onClick={() => toast('Draft retained for this session only')}
+                  >
+                    Save draft
+                  </button>
+                </div>
+              </section>
+            ) : (
+              <section className="ws-panel">
+                <div className="rp-infobar">
+                  <Icon name="info" size={15} /> {selected.name} passed all completeness checks and is in the
+                  review queue. Nothing to action right now — the SGRP will review the pack at{' '}
+                  {selected.session}.
+                </div>
+              </section>
+            )}
           </div>
         </div>
       )}

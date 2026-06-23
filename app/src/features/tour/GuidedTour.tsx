@@ -14,10 +14,14 @@ function placeTip(r: DOMRect, placement: Placement, tw: number, th: number) {
   const vh = window.innerHeight;
   const candidate = (p: Placement) => {
     switch (p) {
-      case 'right': return { left: r.right + m, top: r.top };
-      case 'left': return { left: r.left - tw - m, top: r.top };
-      case 'top': return { left: r.left, top: r.top - th - m };
-      default: return { left: r.left, top: r.bottom + m };
+      case 'right':
+        return { left: r.right + m, top: r.top };
+      case 'left':
+        return { left: r.left - tw - m, top: r.top };
+      case 'top':
+        return { left: r.left, top: r.top - th - m };
+      default:
+        return { left: r.left, top: r.bottom + m };
     }
   };
   const fits = (c: { left: number; top: number }) =>
@@ -51,7 +55,11 @@ export function GuidedTour() {
 
   const finish = useCallback(() => {
     setActive(false);
-    try { localStorage.setItem(DONE_KEY, '1'); } catch { /* ignore */ }
+    try {
+      localStorage.setItem(DONE_KEY, '1');
+    } catch {
+      /* ignore */
+    }
     window.setTimeout(() => returnFocusRef.current?.focus(), 0);
   }, []);
 
@@ -62,23 +70,38 @@ export function GuidedTour() {
     };
     document.addEventListener('click', onClick);
     let done = '1';
-    try { done = localStorage.getItem(DONE_KEY) ?? ''; } catch { /* ignore */ }
+    try {
+      done = localStorage.getItem(DONE_KEY) ?? '';
+    } catch {
+      /* ignore */
+    }
     const t = !done ? window.setTimeout(start, 600) : undefined;
-    return () => { document.removeEventListener('click', onClick); if (t) clearTimeout(t); };
+    return () => {
+      document.removeEventListener('click', onClick);
+      if (t) clearTimeout(t);
+    };
   }, [start]);
 
   // Keyboard: Escape closes, Tab is trapped within the tooltip.
   useEffect(() => {
     if (!active) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { finish(); return; }
+      if (event.key === 'Escape') {
+        finish();
+        return;
+      }
       if (event.key !== 'Tab' || !tipRef.current) return;
       const focusable = Array.from(tipRef.current.querySelectorAll<HTMLElement>('button:not(:disabled)'));
       if (!focusable.length) return;
       const first = focusable[0];
       const lastEl = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); lastEl.focus(); }
-      else if (!event.shiftKey && document.activeElement === lastEl) { event.preventDefault(); first.focus(); }
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        lastEl.focus();
+      } else if (!event.shiftKey && document.activeElement === lastEl) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -93,8 +116,17 @@ export function GuidedTour() {
     const measure = () => {
       const el = step.target ? document.querySelector<HTMLElement>(step.target) : null;
       const r = el?.getBoundingClientRect();
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const visible = !!(r && r.width > 1 && r.height > 1 && r.bottom > 4 && r.top < vh - 4 && r.right > 4 && r.left < vw - 4);
+      const vw = window.innerWidth,
+        vh = window.innerHeight;
+      const visible = !!(
+        r &&
+        r.width > 1 &&
+        r.height > 1 &&
+        r.bottom > 4 &&
+        r.top < vh - 4 &&
+        r.right > 4 &&
+        r.left < vw - 4
+      );
       const tipEl = tipRef.current;
       const tw = tipEl?.offsetWidth || 300;
       const th = tipEl?.offsetHeight || 170;
@@ -147,14 +179,25 @@ export function GuidedTour() {
         aria-labelledby="tour-title"
         style={{ ...tip, opacity: ready ? 1 : 0 }}
       >
-        <p className="tour-tip__eyebrow">Step {i + 1} of {steps.length}</p>
-        <h3 className="tour-tip__title" id="tour-title">{step.title}</h3>
+        <p className="tour-tip__eyebrow">
+          Step {i + 1} of {steps.length}
+        </p>
+        <h3 className="tour-tip__title" id="tour-title">
+          {step.title}
+        </h3>
         <p className="tour-tip__body">{step.body}</p>
         <div className="tour-tip__foot">
-          <button className="tour-tip__skip" onClick={finish}>{last ? 'Close' : 'Skip tour'}</button>
+          <button className="tour-tip__skip" onClick={finish}>
+            {last ? 'Close' : 'Skip tour'}
+          </button>
           <div className="tour-tip__nav">
-            <button className="tour-btn" disabled={i === 0} onClick={() => setI((n) => Math.max(0, n - 1))}>Back</button>
-            <button className="tour-btn tour-btn--primary" onClick={() => (last ? finish() : setI((n) => n + 1))}>
+            <button className="tour-btn" disabled={i === 0} onClick={() => setI((n) => Math.max(0, n - 1))}>
+              Back
+            </button>
+            <button
+              className="tour-btn tour-btn--primary"
+              onClick={() => (last ? finish() : setI((n) => n + 1))}
+            >
               {last ? 'Finish' : 'Next'}
             </button>
           </div>
