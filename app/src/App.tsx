@@ -12,6 +12,7 @@ import { SecretariatIntake } from './features/secretariat/SecretariatIntake';
 import { SecretariatScan } from './features/secretariat/SecretariatScan';
 import { Placeholder } from './features/Placeholder';
 import { GuidedTour } from './features/tour/GuidedTour';
+import { Settings } from './features/settings/Settings';
 
 const VIEW_TITLES: Record<string, string> = {
   reports: 'My reports',
@@ -53,6 +54,7 @@ export function App() {
       <ProtoBar />
       <AppProvider>
         <Shell />
+        <Settings />
         <GuidedTour />
       </AppProvider>
     </>
