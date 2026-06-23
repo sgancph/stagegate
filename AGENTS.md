@@ -54,6 +54,18 @@ Run commands from `app/`:
 
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
+## Deploy (commit → push → deploy → verify)
+
+Production is a single Vercel project at the repo root. It builds `app/` (`vercel.json`) and is aliased to **stagegate.vercel.app**, gated by basic-auth middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
+
+1. **Validate:** `cd app && npm run check` — must pass before anything else.
+2. **Commit** on the working branch with a concise scoped message (e.g. `React migration: interactive topbar`); end the message with the `Co-Authored-By` trailer. Never commit credentials or `app/dist`.
+3. **Push:** `git push origin <current-branch>`.
+4. **Deploy:** from the **repo root**, `vercel --prod --yes`.
+5. **Verify:** `curl -s -o /dev/null -w "%{http_code}" https://stagegate.vercel.app` → expect **401** (the auth gate is healthy, not an error). Confirm the deployment is `READY` and built `app/` via Vite (check the build log shows `vite build`, not stale output).
+
+Do not change `vercel.json` or `middleware.js` (build, routing, auth) without a task-specific reason.
+
 ## Code Conventions
 
 Use functional React components, strict TypeScript, two-space indentation, single quotes, and semicolons. Use PascalCase for components/files, camelCase for variables/functions, and existing kebab-case or BEM-like CSS naming. Keep domain logic inside its feature directory; move code to `components/` only when it is reused. Prefer existing CSS custom properties over hard-coded colors. Preserve nearby style when no formatter enforces a rule.
