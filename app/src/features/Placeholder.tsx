@@ -17,7 +17,7 @@ export function Placeholder({ title }: { title: string }) {
         <h3 className="ws-empty__t">{title}</h3>
         <p className="ws-empty__d">
           This screen is being ported to React from the prototype. The shell, navigation, design system and
-          dashboards are live — feature views land next, reusing these same components.
+          dashboards are live. The remaining views are being ported, reusing these same components.
         </p>
         <div className="ws-empty__steps">
           <button className="btn btn--navy" style={{ marginTop: 4 }} onClick={() => navigate('dashboard')}>

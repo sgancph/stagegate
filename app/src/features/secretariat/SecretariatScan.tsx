@@ -48,7 +48,7 @@ export function SecretariatScan() {
                 <button
                   className="scan-person-add"
                   aria-label="Add panel member"
-                  onClick={() => toast('Prototype only — panel editing is not connected')}
+                  onClick={() => toast("Editing the panel isn't connected in this prototype")}
                 >
                   +
                 </button>
@@ -68,7 +68,7 @@ export function SecretariatScan() {
           </section>
           <button
             className="scan-runbtn"
-            onClick={() => toast('Prototype only — completeness scanning requires the validation service')}
+            onClick={() => toast("Completeness scanning isn't connected in this prototype")}
           >
             <Icon name="shield" size={16} /> Scan
           </button>

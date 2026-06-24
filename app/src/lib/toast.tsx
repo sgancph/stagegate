@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-/** Fire a transient confirmation — for prototype actions without a real backend. */
+/** Fire a transient confirmation for prototype actions without a real backend. */
 export function toast(message: string) {
   window.dispatchEvent(new CustomEvent('sgi-toast', { detail: message }));
 }

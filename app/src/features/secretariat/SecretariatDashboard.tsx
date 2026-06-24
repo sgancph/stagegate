@@ -35,12 +35,12 @@ const subs: { name: string; gate: string; chip: string; dot: string; chipMod?: s
 const recs = [
   {
     title: 'Review & send outcome letter',
-    sub: 'Music Theme Park SG3 — review outcome synced from Teams this morning.',
+    sub: 'Review outcome for Music Theme Park SG3 synced from Teams this morning.',
     mod: 'blue',
   },
   {
     title: 'Return Public Golf Apartments SG2 to team',
-    sub: 'Completeness scan failed — 2 mandatory documents missing.',
+    sub: 'Completeness scan failed. 2 mandatory documents are missing.',
     mod: 'amber',
   },
 ];
@@ -123,7 +123,7 @@ export function SecretariatDashboard() {
             </span>
             <button
               className="sec-aibar__link"
-              onClick={() => toast('Prototype only — reminders were not sent')}
+              onClick={() => toast("This is a prototype, so reminders weren't sent")}
             >
               Send reminders
             </button>

@@ -72,7 +72,7 @@ export function SecretariatOutcomes() {
         <section className="card sec-out-letter">
           <p className="sec-out-to">To: Music Theme Park Project Team</p>
           <p className="sec-out-date">10 June 2026</p>
-          <p className="sec-out-subj">Stage Gate 3 — Conditional Endorsement</p>
+          <p className="sec-out-subj">Stage Gate 3: Conditional Endorsement</p>
           <p>
             The Stage Gate 3 submission for Music Theme Park was reviewed by the SGRP Committee on 10 June
             2026 and has been granted <strong>conditional endorsement</strong>. The submission demonstrated
@@ -127,13 +127,13 @@ export function SecretariatOutcomes() {
           <div className="sec-out-footbtns">
             <button
               className="btn btn--ghost"
-              onClick={() => toast('Prototype only — editing is not connected')}
+              onClick={() => toast("Editing isn't connected in this prototype")}
             >
               Amend
             </button>
             <button
               className="btn btn--navy"
-              onClick={() => toast('Prototype only — communication was not sent')}
+              onClick={() => toast("This is a prototype, so the communication wasn't sent")}
             >
               <Icon name="send" size={15} strokeWidth={2} /> Send communication
             </button>

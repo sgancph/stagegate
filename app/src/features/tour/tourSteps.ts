@@ -29,7 +29,7 @@ export const TOUR_STEPS: TourStep[] = [
     target: '.view--authoring .ws-left',
     placement: 'right',
     title: 'Generate the first draft',
-    body: 'Upload project deliverables and pick the Stage Gate template. AI writes the first draft — the project team stays accountable for the final content.',
+    body: 'Upload project deliverables and pick the Stage Gate template. AI writes the first draft, and the project team stays accountable for the final content.',
   },
   {
     id: 'p-review',

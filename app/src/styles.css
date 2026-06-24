@@ -1388,10 +1388,11 @@ body{
 .ws-secnav{margin:16px 0 4px;}
 .ws-secnav__label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:0 0 9px;}
 
-/* Native-button resets for interactive card rows. */
+/* Native-button resets for interactive card rows (consistent hover affordance). */
 .report-row,.action-row,.deadline-row,.tool-card,.rp-item,.sec-sub,.sec-rec{
-  width:100%;appearance:none;color:inherit;font:inherit;text-align:left;
+  width:100%;appearance:none;color:inherit;font:inherit;text-align:left;cursor:pointer;
 }
+.tool-card.is-muted,.tool-card:disabled{cursor:default;}
 .report-row{border:0;border-left:3px solid transparent;background:transparent;}
 .action-row,.deadline-row,.sec-sub{border:0;background:transparent;}
 .tool-card{background:#fff;padding:0;}

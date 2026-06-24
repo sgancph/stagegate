@@ -43,7 +43,7 @@ const ACTIVE: ActiveReport[] = [
       message: (
         <>
           The submission is strong overall and has been progressed to Review. Could you confirm whether the{' '}
-          <strong>contingency justification on page 12 covers Phase 2</strong> — the current narrative only
+          <strong>contingency justification on page 12 covers Phase 2</strong>. The current narrative only
           references Phase 1. I need this before Session 15 on 17 Jun.
         </>
       ),
@@ -227,7 +227,7 @@ export function Reports() {
                 <button
                   className="rp-attach"
                   type="button"
-                  onClick={() => toast('Prototype only — file attachment is not connected')}
+                  onClick={() => toast("File attachments aren't connected in this prototype")}
                 >
                   <Icon name="paperclip" size={15} /> Attach files (optional)
                 </button>
@@ -238,7 +238,7 @@ export function Reports() {
                 <div className="rp-rfi__actions">
                   <button
                     className="btn btn--navy"
-                    onClick={() => toast('Prototype only — response was not sent')}
+                    onClick={() => toast("This is a prototype, so your response wasn't sent")}
                   >
                     <Icon name="send" size={15} strokeWidth={2} /> Send response
                   </button>
@@ -254,7 +254,7 @@ export function Reports() {
               <section className="ws-panel">
                 <div className="rp-infobar">
                   <Icon name="info" size={15} /> {selected.name} passed all completeness checks and is in the
-                  review queue. Nothing to action right now — the SGRP will review the pack at{' '}
+                  review queue. There's nothing for you to do right now. The SGRP will review the pack at{' '}
                   {selected.session}.
                 </div>
               </section>
@@ -267,7 +267,7 @@ export function Reports() {
         <div className="rp-tabpane">
           <section className="ws-panel">
             <h2 className="ws-h">Drafts</h2>
-            <p className="ws-h-sub">Reports you're still preparing — not yet submitted to the secretariat.</p>
+            <p className="ws-h-sub">Reports you haven't submitted to the secretariat yet.</p>
             <div className="rp-list">
               {drafts.map((d) => (
                 <button

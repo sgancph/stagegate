@@ -73,7 +73,7 @@ export function AuthoringWorkspace() {
     <div className="view view--authoring is-active">
       <WorkspaceHeader active="authoring" />
       <div className="ws-grid">
-        {/* LEFT — source deliverables */}
+        {/* LEFT: source deliverables */}
         <aside className="ws-left">
           <section className="ws-panel">
             <h2 className="ws-h">Source deliverables</h2>
@@ -118,11 +118,11 @@ export function AuthoringWorkspace() {
                     </button>
                   </div>
                   <p className="ws-restructure__note">
-                    Uploaded in a non-standard layout — restructure in Word before drafting.
+                    Uploaded in a non-standard layout. Restructure it in Word before drafting.
                   </p>
                   <button
                     className="ws-restructure__btn"
-                    onClick={() => toast('Prototype only — the Word add-in is not connected')}
+                    onClick={() => toast("The Word add-in isn't connected in this prototype")}
                   >
                     <Icon name="external" size={14} strokeWidth={1.9} />
                     Open in Word
@@ -151,13 +151,13 @@ export function AuthoringWorkspace() {
           </section>
         </aside>
 
-        {/* MIDDLE — draft */}
+        {/* MIDDLE: draft */}
         <section className="ws-mid">
           <section className="ws-panel">
             <div className="ws-draft-head">
               <div>
                 <p className="ws-draft-title">
-                  {selectedProject.name} {selectedProject.stageGateShort} — Stage Gate Report
+                  {selectedProject.name} {selectedProject.stageGateShort} Stage Gate report
                 </p>
                 <p className="ws-draft-sub">
                   Generated from {files.length} source deliverables · SGRP Template v2.1
@@ -234,7 +234,7 @@ export function AuthoringWorkspace() {
                   className="ws-tool"
                   aria-label="Regenerate section"
                   title="Regenerate"
-                  onClick={() => toast('Prototype only — regeneration requires the AI service')}
+                  onClick={() => toast("Regeneration isn't connected in this prototype")}
                 >
                   <Sparkle size={16} />
                 </button>
@@ -274,7 +274,7 @@ export function AuthoringWorkspace() {
           </section>
         </section>
 
-        {/* RIGHT — readiness preview */}
+        {/* RIGHT: readiness preview */}
         <aside className="ws-right">
           <section className="ws-panel">
             <p className="ws-panel__t">Readiness preview</p>

@@ -16,7 +16,7 @@ export function ExecSummary() {
           <h3 className="ws-empty__t">Generate a summary to see it here</h3>
           <p className="ws-empty__d">
             Choose an output format on the left and generate. We'll draft a committee-ready executive summary
-            from your approved source documents — you can review and edit every section before it's finalised.
+            from your approved source documents. You can review and edit every section before it's final.
           </p>
           <div className="ws-empty__steps">
             <span className="ws-empty__step">
@@ -46,7 +46,7 @@ export function ExecSummary() {
             </button>
             <button
               className="btn btn--navy es-gen-btn"
-              onClick={() => toast('Prototype only — summary generation requires the AI service')}
+              onClick={() => toast("Summary generation isn't connected in this prototype")}
             >
               <Sparkle size={18} />
               Generate Summary

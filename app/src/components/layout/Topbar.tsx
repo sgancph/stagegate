@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon, Logomark, Sparkle } from '../ui/Icon';
 import { SearchBox } from './SearchBox';
@@ -30,11 +30,21 @@ function DemoButton() {
     }
   });
   const [hover, setHover] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!hint) return;
     const t = window.setTimeout(() => setHint(false), 7000);
-    return () => clearTimeout(t);
+    // Any interaction elsewhere (e.g. opening notifications) dismisses the suggestion,
+    // so it can never sit on top of a menu the user just opened.
+    const onDown = (e: PointerEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setHint(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => {
+      clearTimeout(t);
+      document.removeEventListener('pointerdown', onDown);
+    };
   }, [hint]);
 
   const dismiss = () => {
@@ -47,7 +57,12 @@ function DemoButton() {
   };
 
   return (
-    <div className="demo-wrap" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+    <div
+      className="demo-wrap"
+      ref={wrapRef}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       <button className="demo-btn" data-tour-help aria-label="Start the guided demo tour" onClick={dismiss}>
         <Sparkle size={14} />
         DEMO
@@ -80,7 +95,7 @@ export function Topbar() {
     <header className="topbar">
       <button
         className="nav-left"
-        aria-label="Stage Gate Intelligence — home"
+        aria-label="Stage Gate Intelligence, home"
         type="button"
         onClick={() => navigate('dashboard')}
       >

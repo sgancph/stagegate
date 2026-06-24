@@ -2,7 +2,7 @@ import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { toast } from '../../lib/toast';
 
-// Single source of truth for report identity — name, stage gate, initials.
+// Single source of truth for report identity (name, stage gate, initials).
 // Reused everywhere a report is referenced so naming + icon stay consistent.
 const REPORTS = {
   arena: { name: 'Arena', sg: 'Stage Gate 3', initials: 'AR' },
@@ -74,21 +74,21 @@ const deadlines: { title: string; report: ReportId; day: string; mon: string; re
 const tools: { title: string; desc: string; chip: string; tag: string; illus: string; muted?: boolean }[] = [
   {
     title: 'Stage Gate Report Co-Pilot',
-    desc: 'Drafts your stage gate report from the source deliverables — every section traceable to its source.',
-    chip: 'Arena · Stage Gate 3 — draft in progress',
+    desc: 'Drafts your report from the source documents, with every section traceable back to where it came from.',
+    chip: 'Arena · Stage Gate 3 draft in progress',
     tag: 'AI',
     illus: 'linear-gradient(160deg,#EFF6FF,#DBEDFF)',
   },
   {
     title: 'Restructuring Word Engine',
-    desc: 'Converts consultant documents into the QIC template format automatically.',
+    desc: 'Turns consultant documents into the QIC template automatically.',
     chip: '1 consultant document for Arena · Stage Gate 3',
     tag: 'AI Word add-in',
     illus: 'linear-gradient(160deg,#E9FAFF,#D2F1FA)',
   },
   {
     title: 'Readiness Scan',
-    desc: 'Checks completeness and flags gaps before you submit to the secretariat.',
+    desc: 'Checks for missing pieces and flags gaps before you submit.',
     chip: 'Available once all sections are reviewed',
     tag: 'AI',
     illus: 'linear-gradient(160deg,#F3FAE3,#E2F3C6)',
@@ -142,7 +142,7 @@ export function ProjectDashboard() {
           <div className="card__head">
             <div>
               <h2 className="card__title">My stage gate reports</h2>
-              <p className="card__sub">Reports you own — draft, submit and track to a committee decision.</p>
+              <p className="card__sub">The reports you're preparing and submitting for approval.</p>
             </div>
             <button className="link" onClick={() => navigate('authoring')}>
               <Icon name="plus" size={15} strokeWidth={2} />
@@ -242,7 +242,7 @@ export function ProjectDashboard() {
             <div className="card__foot">
               <button
                 className="link"
-                onClick={() => toast('Prototype only — the schedule view is not built out')}
+                onClick={() => toast("The full schedule isn't built out in this prototype")}
               >
                 <Icon name="calendar" size={14} />
                 View full schedule
@@ -257,8 +257,7 @@ export function ProjectDashboard() {
           <div>
             <h2 className="card__title">AI tools</h2>
             <p className="card__sub">
-              Assistants that draft, restructure and quality-check your submissions before they reach the
-              secretariat.
+              AI helpers that draft, reformat and check your submissions before they reach the secretariat.
             </p>
           </div>
         </div>

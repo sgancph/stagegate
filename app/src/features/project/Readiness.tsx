@@ -73,7 +73,7 @@ export function Readiness() {
             <button
               className="btn btn--navy rs-scan-go"
               style={{ display: 'flex' }}
-              onClick={() => toast('Prototype only — readiness scanning requires the validation service')}
+              onClick={() => toast("Readiness scanning isn't connected in this prototype")}
             >
               <Icon name="search" size={16} strokeWidth={2} />
               Scan

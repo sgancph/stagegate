@@ -169,7 +169,7 @@ export function Settings() {
               <section className="settings__pane is-active">
                 <h2 className="set-h">About</h2>
                 <p className="set-sub">
-                  Stage Gate Intelligence — AI-powered stage gate reporting and quality assurance for Qiddiya
+                  Stage Gate Intelligence. AI-assisted stage gate reporting and quality assurance for Qiddiya
                   capital projects.
                 </p>
                 <div className="set-row">
