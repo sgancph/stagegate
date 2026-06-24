@@ -101,12 +101,14 @@ export function Reports() {
 
   return (
     <div className="view view--reports is-active">
-      <section className="greeting">
-        <h1 className="greeting__title">My reports</h1>
-        <p className="greeting__sub">
-          Track your active reports, respond to reviewer requests, and view past decisions.
-        </p>
-      </section>
+      <div className="ws-head">
+        <button className="ws-back" aria-label="Back to dashboard" onClick={() => navigate('dashboard')}>
+          <Icon name="back" />
+        </button>
+        <div>
+          <h1 className="ws-title">My reports</h1>
+        </div>
+      </div>
 
       <div className="ws-tabs" role="tablist" aria-label="Report status">
         <button
@@ -115,7 +117,8 @@ export function Reports() {
           aria-selected={tab === 'active'}
           onClick={() => setTab('active')}
         >
-          Active reports <span className="rp-tcount rp-tcount--amber">1 action needed</span>
+          <Icon name="reports" size={15} /> Active reports{' '}
+          <span className="rp-tcount rp-tcount--amber">1 action needed</span>
         </button>
         <button
           className={`ws-tab${tab === 'drafts' ? ' is-active' : ''}`}
@@ -123,7 +126,7 @@ export function Reports() {
           aria-selected={tab === 'drafts'}
           onClick={() => setTab('drafts')}
         >
-          Drafts <span className="rp-tcount">2 drafts</span>
+          <Icon name="draft" size={15} /> Drafts <span className="rp-tcount">2 drafts</span>
         </button>
         <button
           className={`ws-tab${tab === 'completed' ? ' is-active' : ''}`}
@@ -131,7 +134,7 @@ export function Reports() {
           aria-selected={tab === 'completed'}
           onClick={() => setTab('completed')}
         >
-          Completed <span className="rp-tcount">3 decisions</span>
+          <Icon name="shield" size={15} /> Completed <span className="rp-tcount">3 decisions</span>
         </button>
       </div>
 

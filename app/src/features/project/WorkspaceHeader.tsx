@@ -21,6 +21,7 @@ export function WorkspaceHeader({ active }: { active: Tab }) {
           <h1 className="ws-title">Authoring workspace</h1>
         </div>
         <div className="ws-head-right">
+          <span className="ws-projsel-label">Report</span>
           <ProjectSelector />
         </div>
       </div>

@@ -58,13 +58,6 @@ export function AuthoringWorkspace() {
   const [section, setSection] = useState(2); // 0-indexed → section 3 active
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const stepMod = (idx: number): 'done' | 'current' | 'warn' | 'todo' => {
-    if (idx === section) return 'current';
-    if (idx < section) return 'done';
-    if (idx === 3) return 'warn';
-    return 'todo';
-  };
-
   const onPick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const picked = Array.from(e.target.files ?? []);
     if (!picked.length) return;
@@ -178,21 +171,39 @@ export function AuthoringWorkspace() {
             </div>
 
             <div className="ws-secnav">
-              <p className="ws-secnav__label">Jump to section</p>
-              <div className="ws-steps">
+              <p className="ws-secnav__label">
+                Section {section + 1} of {SECTIONS.length}
+              </p>
+              <nav className="ws-pager" aria-label="Report sections">
+                <button
+                  className="ws-page ws-page--nav"
+                  disabled={section === 0}
+                  aria-label="Previous section"
+                  onClick={() => setSection((s) => Math.max(0, s - 1))}
+                >
+                  <Icon name="back" size={14} strokeWidth={2.2} />
+                </button>
                 {SECTIONS.map((label, idx) => (
                   <button
                     key={label}
-                    className={`ws-step ws-step--${stepMod(idx)}`}
+                    className={`ws-page${idx === section ? ' is-current' : ''}`}
                     title={label}
                     aria-label={label}
-                    aria-current={idx === section ? 'true' : undefined}
+                    aria-current={idx === section ? 'page' : undefined}
                     onClick={() => setSection(idx)}
                   >
                     {idx + 1}
                   </button>
                 ))}
-              </div>
+                <button
+                  className="ws-page ws-page--nav"
+                  disabled={section === SECTIONS.length - 1}
+                  aria-label="Next section"
+                  onClick={() => setSection((s) => Math.min(SECTIONS.length - 1, s + 1))}
+                >
+                  <Icon name="chevronRight" size={14} strokeWidth={2.2} />
+                </button>
+              </nav>
             </div>
 
             <div className="ws-gen">
