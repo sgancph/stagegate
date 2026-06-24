@@ -94,9 +94,12 @@ const completed = [
 ];
 
 export function Reports() {
-  const { navigate } = useApp();
+  const { navigate, selectedProjectId } = useApp();
   const [tab, setTab] = useState<Tab>('active');
-  const [selectedId, setSelectedId] = useState('arena');
+  // Open the report the user clicked through on, when it's an active one.
+  const [selectedId, setSelectedId] = useState(() =>
+    ACTIVE.some((r) => r.id === selectedProjectId) ? selectedProjectId : ACTIVE[0].id,
+  );
   const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
 
   return (
