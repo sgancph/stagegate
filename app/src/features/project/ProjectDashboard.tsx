@@ -1,104 +1,94 @@
 import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { toast } from '../../lib/toast';
 
-type Dot = 'orange' | 'green' | 'grey' | 'red' | 'blue';
-type PillVariant = 'amber' | 'green' | 'grey';
+// Single source of truth for report identity — name, stage gate, initials.
+// Reused everywhere a report is referenced so naming + icon stay consistent.
+const REPORTS = {
+  arena: { name: 'Arena', sg: 'Stage Gate 3', initials: 'AR' },
+  velodrome: { name: 'Velodrome', sg: 'Stage Gate 2', initials: 'VE' },
+  tennis: { name: 'National Tennis Centre', sg: 'Stage Gate 4', initials: 'NT' },
+  aquatic: { name: 'National Aquatic Centre', sg: 'Stage Gate 2', initials: 'NA' },
+} as const;
+type ReportId = keyof typeof REPORTS;
+const fullName = (id: ReportId) => `${REPORTS[id].name} · ${REPORTS[id].sg}`;
 
-const reports: {
-  name: string;
-  gate: string;
-  dot: Dot;
-  pill: string;
-  pillVariant: PillVariant;
-  sub: string;
-}[] = [
+function ReportAvatar({ id, sm }: { id: ReportId; sm?: boolean }) {
+  return (
+    <span className={`report-ava${sm ? ' report-ava--sm' : ''}`} aria-hidden="true">
+      {REPORTS[id].initials}
+    </span>
+  );
+}
+
+/** Inline reference to a report: avatar + consistent "Name · Stage Gate N". */
+function ReportRef({ id }: { id: ReportId }) {
+  return (
+    <span className="report-ref">
+      <ReportAvatar id={id} sm /> {fullName(id)}
+    </span>
+  );
+}
+
+type Tone = 'amber' | 'green' | 'grey' | 'blue';
+const reports: { id: ReportId; status: string; tone: Tone; sub: string }[] = [
+  { id: 'arena', status: 'Drafting 16/19', tone: 'amber', sub: '19 documents uploaded' },
+  { id: 'velodrome', status: 'Submitted · awaiting review', tone: 'blue', sub: 'Submitted 5 Jun' },
+  { id: 'tennis', status: 'Not started', tone: 'grey', sub: 'SGRP planned 15 Aug' },
+  { id: 'aquatic', status: 'Completed', tone: 'green', sub: 'Approved 2 May' },
+];
+
+const actions: { title: string; report: ReportId; due: string; dueVariant: 'red' | 'amber' | 'grey' }[] = [
   {
-    name: 'Arena',
-    gate: 'Stage Gate 3',
-    dot: 'orange',
-    pill: 'Drafting: 16/19',
-    pillVariant: 'amber',
-    sub: '19 documents uploaded',
+    title: 'Fix ESG commitments gap: upload environmental impact report',
+    report: 'arena',
+    due: 'Due today',
+    dueVariant: 'red',
   },
   {
-    name: 'Velodrome',
-    gate: 'Stage Gate 2',
-    dot: 'green',
-    pill: 'Submitted & awaiting review',
-    pillVariant: 'green',
-    sub: 'Submitted 5 Jun',
+    title: 'Add contingency justification: required for the readiness scan',
+    report: 'arena',
+    due: 'Due 15 Jun',
+    dueVariant: 'amber',
   },
   {
-    name: 'National Tennis Centre',
-    gate: 'Stage Gate 4',
-    dot: 'grey',
-    pill: 'Not started',
-    pillVariant: 'grey',
-    sub: 'SGRP planned 15 Aug',
-  },
-  {
-    name: 'National Aquatic Centre',
-    gate: 'Stage Gate 2',
-    dot: 'green',
-    pill: 'SG2 completed',
-    pillVariant: 'green',
-    sub: 'Approved 2 May',
+    title: 'Review Financial summary section traceability',
+    report: 'arena',
+    due: 'No deadline',
+    dueVariant: 'grey',
   },
 ];
 
-const actions: { title: string; sub: string; dot: Dot; due: string; dueVariant: 'red' | 'amber' | 'grey' }[] =
-  [
-    {
-      title: 'Fix ESG commitments gap: upload environmental impact report',
-      sub: 'Arena SG3',
-      dot: 'red',
-      due: 'Due today',
-      dueVariant: 'red',
-    },
-    {
-      title: 'Add contingency justification: required for SG3 readiness scan',
-      sub: 'Arena SG3',
-      dot: 'orange',
-      due: 'Due 15 Jun',
-      dueVariant: 'amber',
-    },
-    {
-      title: 'Review Financial summary section traceability',
-      sub: 'Arena SG3',
-      dot: 'grey',
-      due: 'No deadline',
-      dueVariant: 'grey',
-    },
-  ];
-
-const deadlines: { title: string; sub: string; days: string }[] = [
-  { title: 'SG3 readiness scan must pass before submission', sub: 'Arena SG3', days: '7 days' },
-  { title: 'Arena SGRP submission deadline', sub: 'Arena SG3', days: '10 days' },
+const deadlines: { title: string; report: ReportId; day: string; mon: string; rel: string }[] = [
   {
-    title: 'SG4 submission opens: National Tennis Centre',
-    sub: 'National Tennis Centre SG4',
-    days: '18 days',
+    title: 'Readiness scan must pass before submission',
+    report: 'arena',
+    day: '18',
+    mon: 'Jun',
+    rel: 'in 7 days',
   },
+  { title: 'SGRP submission deadline', report: 'arena', day: '21', mon: 'Jun', rel: 'in 10 days' },
+  { title: 'Stage Gate 4 submission opens', report: 'tennis', day: '29', mon: 'Jun', rel: 'in 18 days' },
 ];
 
 const tools: { title: string; desc: string; chip: string; tag: string; illus: string; muted?: boolean }[] = [
   {
     title: 'Stage Gate Report Co-Pilot',
-    desc: 'Draft your stage gate report from source inputs. Every section traceable.',
-    chip: 'Arena SG3 draft in progress — step 4/8',
+    desc: 'Drafts your stage gate report from the source deliverables — every section traceable to its source.',
+    chip: 'Arena · Stage Gate 3 — draft in progress',
     tag: 'AI',
     illus: 'linear-gradient(160deg,#EFF6FF,#DBEDFF)',
   },
   {
     title: 'Restructuring Word Engine',
-    desc: 'Convert consultant documents into QIC template format automatically.',
-    chip: '1 consultant document for Arena SG3',
+    desc: 'Converts consultant documents into the QIC template format automatically.',
+    chip: '1 consultant document for Arena · Stage Gate 3',
     tag: 'AI Word add-in',
     illus: 'linear-gradient(160deg,#E9FAFF,#D2F1FA)',
   },
   {
     title: 'Readiness Scan',
-    desc: 'Pre-submission completeness checker.',
+    desc: 'Checks completeness and flags gaps before you submit to the secretariat.',
     chip: 'Available once all sections are reviewed',
     tag: 'AI',
     illus: 'linear-gradient(160deg,#F3FAE3,#E2F3C6)',
@@ -122,7 +112,11 @@ export function ProjectDashboard() {
           </span>
           <div className="banner__content">
             <p className="banner__title">
-              Continue your <strong>Arena · Stage Gate 3</strong> submission to stay on schedule.
+              Continue your{' '}
+              <button className="banner__link" onClick={() => navigate('authoring')}>
+                {fullName('arena')}
+              </button>{' '}
+              submission to stay on schedule.
             </p>
             <div className="banner__pills">
               <span className="banner-pill">
@@ -148,6 +142,7 @@ export function ProjectDashboard() {
           <div className="card__head">
             <div>
               <h2 className="card__title">My stage gate reports</h2>
+              <p className="card__sub">Reports you own — draft, submit and track to a committee decision.</p>
             </div>
             <button className="link" onClick={() => navigate('authoring')}>
               <Icon name="plus" size={15} strokeWidth={2} />
@@ -157,21 +152,24 @@ export function ProjectDashboard() {
           <div className="reports">
             {reports.map((r) => (
               <button
-                key={r.name}
+                key={r.id}
                 className="report-row"
                 type="button"
-                title="Open in My reports"
+                title={`Open ${fullName(r.id)}`}
                 onClick={() => navigate('reports')}
               >
                 <div className="report-main">
-                  <span className={`dot dot--${r.dot}`} />
+                  <ReportAvatar id={r.id} />
                   <div className="report-text">
-                    <p className="report-name">{r.name}</p>
-                    <p className="report-sub">{r.gate}</p>
+                    <p className="report-name">{REPORTS[r.id].name}</p>
+                    <p className="report-sub">{REPORTS[r.id].sg}</p>
                   </div>
                 </div>
                 <div className="report-right">
-                  <span className={`badge-pill badge-pill--${r.pillVariant}`}>{r.pill}</span>
+                  <span className={`status-pill status-pill--${r.tone}`}>
+                    <span className="status-pill__dot" />
+                    {r.status}
+                  </span>
                   <span className="report-substatus">{r.sub}</span>
                 </div>
               </button>
@@ -190,13 +188,17 @@ export function ProjectDashboard() {
                   key={a.title}
                   className="action-row"
                   type="button"
-                  title="Open in My reports"
+                  title={`Open ${fullName(a.report)}`}
                   onClick={() => navigate('reports')}
                 >
-                  <span className={`dot dot--${a.dot} action-dot`} />
+                  <span
+                    className={`dot dot--${a.dueVariant === 'red' ? 'red' : a.dueVariant === 'amber' ? 'orange' : 'grey'} action-dot`}
+                  />
                   <div className="action-body">
                     <p className="action-title">{a.title}</p>
-                    <p className="action-sub">{a.sub}</p>
+                    <p className="action-sub">
+                      <ReportRef id={a.report} />
+                    </p>
                   </div>
                   <span className={`action-due action-due--${a.dueVariant}`}>{a.due}</span>
                 </button>
@@ -220,19 +222,31 @@ export function ProjectDashboard() {
                   key={d.title}
                   className="deadline-row"
                   type="button"
-                  title="Open in My reports"
+                  title={`Open ${fullName(d.report)}`}
                   onClick={() => navigate('reports')}
                 >
-                  <span className="deadline-icon">
-                    <Icon name="calendar" size={17} />
+                  <span className="deadline-date">
+                    <span className="deadline-date__d">{d.day}</span>
+                    <span className="deadline-date__m">{d.mon}</span>
                   </span>
                   <div className="deadline-body">
                     <p className="deadline-title">{d.title}</p>
-                    <p className="deadline-sub">{d.sub}</p>
+                    <p className="deadline-sub">
+                      <ReportRef id={d.report} />
+                    </p>
                   </div>
-                  <span className="days-pill">{d.days}</span>
+                  <span className="days-pill">{d.rel}</span>
                 </button>
               ))}
+            </div>
+            <div className="card__foot">
+              <button
+                className="link"
+                onClick={() => toast('Prototype only — the schedule view is not built out')}
+              >
+                <Icon name="calendar" size={14} />
+                View full schedule
+              </button>
             </div>
           </section>
         </div>
@@ -242,7 +256,10 @@ export function ProjectDashboard() {
         <div className="card__head">
           <div>
             <h2 className="card__title">AI tools</h2>
-            <p className="card__sub">Your intelligent authoring and quality tools.</p>
+            <p className="card__sub">
+              Assistants that draft, restructure and quality-check your submissions before they reach the
+              secretariat.
+            </p>
           </div>
         </div>
         <div className="tools__grid">

@@ -159,8 +159,17 @@ export function GuidedTour() {
   if (!active || !step) return null;
   return (
     <>
-      {/* Spotlight reveals the target via its box-shadow scrim; centred steps get a plain dimmer. */}
-      {spot ? <div className="tour-spot" style={spot} /> : <div className="tour-overlay" onClick={finish} />}
+      {/* Full-screen blocker: only the tooltip is interactive, so clicking the dimmed page
+          can't navigate away and orphan the tour. The spotlight stays a visual highlight. */}
+      <div
+        className="tour-block"
+        style={{ background: spot ? 'transparent' : 'rgba(8,16,38,.55)' }}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      />
+      {spot && <div className="tour-spot" style={spot} />}
       <div
         className="tour-tip"
         ref={tipRef}

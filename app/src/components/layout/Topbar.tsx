@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon, Logomark, Sparkle } from '../ui/Icon';
 import { SearchBox } from './SearchBox';
@@ -17,6 +18,60 @@ const COPY = {
     ctaView: 'reports' as const,
   },
 };
+
+/** DEMO button: opens the guided tour. Shows a one-time suggestion bubble on open
+ *  (auto-hides, or dismiss with ×); afterwards the bubble only appears on hover. */
+function DemoButton() {
+  const [hint, setHint] = useState(() => {
+    try {
+      return !localStorage.getItem('sgi_demo_dismissed') && !localStorage.getItem('sgi_tour_done');
+    } catch {
+      return true;
+    }
+  });
+  const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    if (!hint) return;
+    const t = window.setTimeout(() => setHint(false), 7000);
+    return () => clearTimeout(t);
+  }, [hint]);
+
+  const dismiss = () => {
+    setHint(false);
+    try {
+      localStorage.setItem('sgi_demo_dismissed', '1');
+    } catch {
+      /* ignore */
+    }
+  };
+
+  return (
+    <div className="demo-wrap" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+      <button className="demo-btn" data-tour-help aria-label="Start the guided demo tour" onClick={dismiss}>
+        <Sparkle size={14} />
+        DEMO
+      </button>
+      {(hint || hover) && (
+        <div className={`demo-tip${hint ? ' demo-tip--hint' : ''}`} role="status">
+          <span>Take a guided tour of the key features</span>
+          {hint && (
+            <button
+              className="demo-tip__x"
+              aria-label="Dismiss suggestion"
+              onClick={(e) => {
+                e.stopPropagation();
+                dismiss();
+              }}
+            >
+              <Icon name="x" size={12} strokeWidth={2.6} />
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function Topbar() {
   const { persona, navigate } = useApp();
@@ -41,15 +96,7 @@ export function Topbar() {
       <SearchBox />
       <div className="topbar__right">
         <span className="persona-label">{c.label}</span>
-        <button
-          className="demo-btn"
-          data-tour-help
-          data-tip="Take a guided tour of the key features"
-          aria-label="Start the guided demo tour"
-        >
-          <Sparkle size={14} />
-          DEMO
-        </button>
+        <DemoButton />
         <NotifMenu />
         <button className="btn btn--navy" onClick={() => navigate(c.ctaView)}>
           <Icon name={c.ctaIcon} size={15} strokeWidth={2} />
