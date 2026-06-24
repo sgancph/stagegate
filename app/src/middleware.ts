@@ -12,6 +12,9 @@ function challenge(status: number, body: string, authenticate = false) {
 }
 
 export function middleware(request: NextRequest) {
+  // Demo lock applies only to deployed builds; local dev runs open, like the old Vite server.
+  if (process.env.NODE_ENV !== 'production') return NextResponse.next();
+
   const expectedUser = process.env.BASIC_AUTH_USER || 'qiddiya';
   const expectedPass = process.env.BASIC_AUTH_PASSWORD;
   if (!expectedPass) return challenge(503, 'Authentication is not configured');
