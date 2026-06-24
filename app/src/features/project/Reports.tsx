@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { actionsForReport } from '../../data/actions';
 import { toast } from '../../lib/toast';
 
 type Tab = 'active' | 'drafts' | 'completed';
@@ -201,6 +202,32 @@ export function Reports() {
                 </span>
               </div>
             </section>
+
+            {actionsForReport(selected.id).length > 0 && (
+              <section className="ws-panel">
+                <h2 className="ws-h">Actions</h2>
+                <p className="ws-h-sub">What you need to do for this report before it can progress.</p>
+                <div className="actions">
+                  {actionsForReport(selected.id).map((a) => (
+                    <button
+                      key={a.id}
+                      className="action-row"
+                      type="button"
+                      title="Open in the authoring workspace"
+                      onClick={() => navigate('authoring')}
+                    >
+                      <div className="action-body">
+                        <p className="action-title">{a.title}</p>
+                      </div>
+                      <span className={`status-pill status-pill--${a.dueVariant}`}>
+                        <span className="status-pill__dot" />
+                        {a.due}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {selected.rfi ? (
               <section className="ws-panel rp-rfi">

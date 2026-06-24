@@ -1284,6 +1284,8 @@ body{
 .status-pill--grey .status-pill__dot{background:var(--grey-dot);}
 .status-pill--blue{background:var(--blue-soft);color:var(--blue-text);}
 .status-pill--blue .status-pill__dot{background:#0BC0FF;}
+.status-pill--red{background:#FCE4E4;color:#D2433F;}
+.status-pill--red .status-pill__dot{background:var(--red);}
 
 /* Deadline date tile (calendar-style) */
 .deadline-date{flex:0 0 auto;width:40px;height:42px;border-radius:9px;border:1px solid var(--border);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;}

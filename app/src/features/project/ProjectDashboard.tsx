@@ -2,6 +2,7 @@ import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { ReportAvatar, ReportRef } from '../../components/ui/ReportRef';
 import { getProject, reportLabel } from '../../data/demo';
+import { ACTIONS } from '../../data/actions';
 import { toast } from '../../lib/toast';
 
 type Tone = 'amber' | 'green' | 'grey' | 'blue';
@@ -10,27 +11,6 @@ const reports: { id: string; status: string; tone: Tone; sub: string }[] = [
   { id: 'velodrome', status: 'Submitted · awaiting review', tone: 'blue', sub: 'Submitted 5 Jun' },
   { id: 'national-tennis-centre', status: 'Not started', tone: 'grey', sub: 'SGRP planned 15 Aug' },
   { id: 'national-aquatic-centre', status: 'Completed', tone: 'green', sub: 'Approved 2 May' },
-];
-
-const actions: { title: string; report: string; due: string; dueVariant: 'red' | 'amber' | 'grey' }[] = [
-  {
-    title: 'Fix ESG commitments gap: upload environmental impact report',
-    report: 'arena',
-    due: 'Due today',
-    dueVariant: 'red',
-  },
-  {
-    title: 'Add contingency justification for the readiness scan',
-    report: 'arena',
-    due: 'Due 15 Jun',
-    dueVariant: 'amber',
-  },
-  {
-    title: 'Review the Financial summary section traceability',
-    report: 'arena',
-    due: 'No deadline',
-    dueVariant: 'grey',
-  },
 ];
 
 const deadlines: { title: string; report: string; day: string; mon: string; rel: string }[] = [
@@ -168,24 +148,24 @@ export function ProjectDashboard() {
               <h2 className="card__title">Pending actions</h2>
             </div>
             <div className="actions">
-              {actions.map((a) => (
+              {ACTIONS.map((a) => (
                 <button
-                  key={a.title}
+                  key={a.id}
                   className="action-row"
                   type="button"
-                  title={`Open ${reportLabel(a.report)}`}
-                  onClick={() => openReport(a.report)}
+                  title={`Open ${reportLabel(a.reportId)}`}
+                  onClick={() => openReport(a.reportId)}
                 >
-                  <span
-                    className={`dot dot--${a.dueVariant === 'red' ? 'red' : a.dueVariant === 'amber' ? 'orange' : 'grey'} action-dot`}
-                  />
                   <div className="action-body">
                     <p className="action-title">{a.title}</p>
                     <p className="action-sub">
-                      <ReportRef id={a.report} />
+                      <ReportRef id={a.reportId} />
                     </p>
                   </div>
-                  <span className={`action-due action-due--${a.dueVariant}`}>{a.due}</span>
+                  <span className={`status-pill status-pill--${a.dueVariant}`}>
+                    <span className="status-pill__dot" />
+                    {a.due}
+                  </span>
                 </button>
               ))}
             </div>
