@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+cd "$(dirname "$0")"
+
+[ "$(git branch --show-current)" = "main" ] || {
+  echo "Deploys must run from main."
+  exit 1
+}
+
+[ -z "$(git status --porcelain)" ] || {
+  echo "Commit local changes before deploying."
+  exit 1
+}
+
+npm --prefix app run check
+git push origin main
+vercel --prod --yes
+
+status=$(curl -s -o /dev/null -w '%{http_code}' https://stagegate.vercel.app)
+[ "$status" = "401" ] || {
+  echo "Unexpected production response: $status (expected 401)."
+  exit 1
+}
+
+vercel inspect https://stagegate.vercel.app
+echo "Production is ready: https://stagegate.vercel.app"

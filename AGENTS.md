@@ -58,15 +58,11 @@ While `npm run dev` is running, Vite watches `app/` and updates the local page a
 
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
-## Deploy (commit → push → deploy → verify)
+## Deploy
 
 Production is a single Vercel project at the repo root. It builds `app/` (`vercel.json`) and is aliased to **stagegate.vercel.app**, gated by basic-auth middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
 
-1. **Validate:** `cd app && npm run check` — must pass before anything else.
-2. **Commit** on `main` with a concise scoped message (e.g. `React migration: interactive topbar`); end the message with the `Co-Authored-By` trailer. Never commit credentials or `app/dist`.
-3. **Push:** `git push origin main`.
-4. **Deploy:** from the **repo root**, `vercel --prod --yes`.
-5. **Verify:** `curl -s -o /dev/null -w "%{http_code}" https://stagegate.vercel.app` → expect **401** (the auth gate is healthy, not an error). Confirm the deployment is `READY` and built `app/` via Vite (check the build log shows `vite build`, not stale output).
+After all changes are committed on `main`, run `./deploy` from the repository root. It validates the app, pushes `main`, deploys production, verifies the expected **401** auth gate, and inspects the resulting deployment. It stops before deployment if the branch is not `main`, the working tree is dirty, validation fails, or the live response is unexpected.
 
 Do not change `vercel.json` or `middleware.js` (build, routing, auth) without a task-specific reason.
 
