@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { WorkspaceHeader } from './WorkspaceHeader';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { toast } from '../../lib/toast';
@@ -6,18 +6,21 @@ import { useApp } from '../../app/AppContext';
 
 type GenerationState =
   | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; text: string; model: string }
-  | { status: 'error'; message: string };
+  | { status: 'loading'; projectId: string }
+  | { status: 'success'; projectId: string; text: string; model: string }
+  | { status: 'error'; projectId: string; message: string };
 
 export function ExecSummary() {
   const { selectedProject } = useApp();
-  const [generation, setGeneration] = useState<GenerationState>({ status: 'idle' });
-
-  useEffect(() => setGeneration({ status: 'idle' }), [selectedProject.id]);
+  const [generationState, setGeneration] = useState<GenerationState>({ status: 'idle' });
+  const generation =
+    generationState.status !== 'idle' && generationState.projectId !== selectedProject.id
+      ? ({ status: 'idle' } as const)
+      : generationState;
 
   const generateSummary = async () => {
-    setGeneration({ status: 'loading' });
+    const projectId = selectedProject.id;
+    setGeneration({ status: 'loading', projectId });
 
     try {
       const response = await fetch('/api/ai', {
@@ -52,6 +55,7 @@ export function ExecSummary() {
 
       setGeneration({
         status: 'success',
+        projectId,
         text: result.text,
         model: typeof result.model === 'string' ? result.model : 'Configured model',
       });
@@ -59,10 +63,13 @@ export function ExecSummary() {
       const detail = error instanceof Error ? error.message : 'The AI request failed.';
       setGeneration({
         status: 'error',
+        projectId,
         message:
           detail === 'Unable to reach LLM inference server'
             ? 'Unable to reach the AI service. If you are developing locally, start Ollama and try again.'
-            : detail,
+            : detail === 'LLM inference request timed out'
+              ? 'The AI request took too long. Try again with Ollama running and no other model active.'
+              : detail,
       });
     }
   };
@@ -139,7 +146,7 @@ export function ExecSummary() {
             <p className="es-label">
               Generate the {selectedProject.name} · {selectedProject.stageGate} summary
             </p>
-            <label className="ws-label">Output format</label>
+            <p className="ws-label">Output format</p>
             <button
               className="ws-select"
               type="button"
