@@ -103,6 +103,8 @@ export function Reports() {
     ACTIVE.some((r) => r.id === selectedProjectId) ? selectedProjectId : ACTIVE[0].id,
   );
   const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
+  // Derive the badge from the same actions data the lists use, so counts never disagree.
+  const actionCount = ACTIVE.reduce((n, r) => n + actionsForReport(r.id).length, 0);
 
   return (
     <div className="view view--reports is-active">
@@ -123,7 +125,9 @@ export function Reports() {
           onClick={() => setTab('active')}
         >
           <Icon name="reports" size={15} /> Active reports{' '}
-          <span className="rp-tcount rp-tcount--amber">1 action needed</span>
+          <span className="rp-tcount rp-tcount--amber">
+            {actionCount} action{actionCount === 1 ? '' : 's'} needed
+          </span>
         </button>
         <button
           className={`ws-tab${tab === 'drafts' ? ' is-active' : ''}`}
