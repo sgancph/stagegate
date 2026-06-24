@@ -1,6 +1,4 @@
-import { handleLlmRequest } from './_llm';
-
-declare const process: { env: Record<string, string | undefined> };
+import { handleLlmRequest } from '../../../lib/llm';
 
 export const maxDuration = 300;
 
