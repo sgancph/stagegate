@@ -1,8 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { DEFAULT_PROJECT_ID, getProject, type Persona, type View } from '../data/demo';
+import { DEFAULT_PROJECT_ID, getProject } from '../data/store';
+import type { Persona, View } from '../lib/types';
 import { isValidRoute, parseHash, type RouteState } from './routes';
 
-export type { Persona, ProjectView, SecretariatView, View } from '../data/demo';
+export type { Persona, ProjectView, SecretariatView, View } from '../lib/types';
 
 interface AppState extends RouteState {
   selectedProjectId: string;

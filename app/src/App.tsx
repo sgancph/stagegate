@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { hydrate, isHydrated } from './data/store';
+import type { SeedData } from './lib/types';
 import { AppProvider, useApp } from './app/AppContext';
 import { ErrorBoundary } from './app/ErrorBoundary';
 import { ProtoBar } from './components/layout/ProtoBar';
@@ -57,17 +59,56 @@ function Shell() {
   );
 }
 
+// Loads all application data from the server once, before the app reads it.
+function Bootstrap({ children }: { children: ReactNode }) {
+  const [ready, setReady] = useState(isHydrated);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    if (ready) return;
+    let active = true;
+    fetch('/api/seed')
+      .then((response) => {
+        if (!response.ok) throw new Error(`seed ${response.status}`);
+        return response.json() as Promise<SeedData>;
+      })
+      .then((seed) => {
+        if (!active) return;
+        hydrate(seed);
+        setReady(true);
+      })
+      .catch(() => active && setFailed(true));
+    return () => {
+      active = false;
+    };
+  }, [ready]);
+
+  const bootStyle: CSSProperties = {
+    minHeight: '100vh',
+    display: 'grid',
+    placeItems: 'center',
+    background: '#f4f6fb',
+    color: '#5b6472',
+    font: '500 15px/1.5 Inter, system-ui, sans-serif',
+  };
+  if (failed) return <div style={bootStyle}>Couldn&rsquo;t load the workspace. Refresh to try again.</div>;
+  if (!ready) return <div style={bootStyle} aria-busy="true" />;
+  return <>{children}</>;
+}
+
 export function App() {
   return (
     <>
       <ProtoBar />
       <ErrorBoundary>
-        <AppProvider>
-          <Shell />
-          <Settings />
-          <GuidedTour />
-          <Toaster />
-        </AppProvider>
+        <Bootstrap>
+          <AppProvider>
+            <Shell />
+            <Settings />
+            <GuidedTour />
+            <Toaster />
+          </AppProvider>
+        </Bootstrap>
       </ErrorBoundary>
     </>
   );

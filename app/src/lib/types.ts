@@ -1,0 +1,43 @@
+// Shared, isomorphic types used by both the server data layer and the client.
+// No data or runtime code here — types only, so it is safe to import anywhere.
+
+export type Persona = 'project' | 'secretariat';
+export type ProjectView = 'dashboard' | 'authoring' | 'execsummary' | 'readiness' | 'reports';
+export type SecretariatView = 'dashboard' | 'reports' | 'scan';
+export type View = ProjectView | SecretariatView;
+
+export interface Project {
+  id: string;
+  name: string;
+  initials: string;
+  stageGate: string;
+  stageGateShort: string;
+  sector: string;
+  capitalAsk: string;
+}
+
+export interface UserProfile {
+  initials: string;
+  shortName: string;
+  fullName: string;
+  role: string;
+  email: string;
+  color: string;
+}
+
+export type ActionDue = 'red' | 'amber' | 'grey';
+
+export interface ReportAction {
+  id: string;
+  reportId: string;
+  title: string;
+  due: string; // "Due today" | "Due 15 Jun" | "No deadline"
+  dueVariant: ActionDue;
+}
+
+/** Everything the client needs at boot, served by GET /api/seed. */
+export interface SeedData {
+  projects: Project[];
+  users: Record<Persona, UserProfile>;
+  actions: ReportAction[];
+}

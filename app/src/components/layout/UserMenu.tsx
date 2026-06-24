@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../ui/Icon';
-import { otherPersona, USERS } from '../../data/demo';
+import { getUser, otherPersona } from '../../data/store';
 import { toast } from '../../lib/toast';
 
 export function UserMenu() {
   const { persona, switchPersona } = useApp();
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
-  const profile = USERS[persona];
+  const profile = getUser(persona);
   const other = otherPersona(persona);
   const otherLabel = other === 'secretariat' ? 'Switch to Secretariat' : 'Switch to Project team';
 

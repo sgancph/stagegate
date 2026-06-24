@@ -1,4 +1,4 @@
-import type { Persona, View } from '../data/demo';
+import type { Persona, View } from '../lib/types';
 
 const VALID_VIEWS: Record<Persona, readonly View[]> = {
   project: ['dashboard', 'authoring', 'execsummary', 'readiness', 'reports'],

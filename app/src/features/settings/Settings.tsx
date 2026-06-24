@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
-import { otherPersona, USERS } from '../../data/demo';
+import { getUser, otherPersona } from '../../data/store';
 type Pane = 'profile' | 'notifications' | 'about';
 const NAV: { id: Pane; label: string; icon: 'home' | 'bell' | 'info' }[] = [
   { id: 'profile', label: 'Profile', icon: 'home' },
@@ -17,7 +17,7 @@ export function Settings() {
   const [toggles, setToggles] = useState([true, true, true, false]);
   const dialogRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
-  const profile = USERS[persona];
+  const profile = getUser(persona);
   const other = otherPersona(persona);
   const otherLabel = other === 'secretariat' ? 'Switch to Secretariat' : 'Switch to Project team';
   const closeSettings = useCallback(() => {

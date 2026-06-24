@@ -1,17 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { Icon, Sparkle } from '../ui/Icon';
-import { PROJECTS } from '../../data/demo';
+import { getProjects } from '../../data/store';
 import { useApp, type View } from '../../app/AppContext';
 
 type Item = { g: string; t: string; s: string; view: View; projectId?: string };
-const ITEMS: Item[] = [
-  ...PROJECTS.map((project) => ({
-    g: 'Projects',
-    t: project.name,
-    s: project.stageGate,
-    view: 'dashboard' as const,
-    projectId: project.id,
-  })),
+const STATIC_ITEMS: Item[] = [
   { g: 'AI tools', t: 'Draft Co-Pilot', s: 'Generate a report draft', view: 'authoring' },
   { g: 'AI tools', t: 'Executive Summary', s: 'Leadership-ready summary', view: 'execsummary' },
   { g: 'AI tools', t: 'Readiness Scan', s: 'Validate before submission', view: 'readiness' },
@@ -54,9 +47,22 @@ export function SearchBox() {
   }, []);
 
   const ql = q.trim().toLowerCase();
+  const items = useMemo<Item[]>(
+    () => [
+      ...getProjects().map((project) => ({
+        g: 'Projects',
+        t: project.name,
+        s: project.stageGate,
+        view: 'dashboard' as const,
+        projectId: project.id,
+      })),
+      ...STATIC_ITEMS,
+    ],
+    [],
+  );
   const matches = useMemo(
-    () => ITEMS.filter((it) => !ql || `${it.t} ${it.s} ${it.g}`.toLowerCase().includes(ql)),
-    [ql],
+    () => items.filter((it) => !ql || `${it.t} ${it.s} ${it.g}`.toLowerCase().includes(ql)),
+    [items, ql],
   );
 
   const choose = (item: Item) => {

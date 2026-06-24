@@ -3,7 +3,7 @@ import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
 import { ReportRef } from '../../components/ui/ReportRef';
 import { StatusPill } from '../../components/ui/StatusPill';
-import { ACTIONS, actionsForReport } from '../../data/actions';
+import { actionsForReport, getActions } from '../../data/store';
 import { toast } from '../../lib/toast';
 
 type Tab = 'actions' | 'drafts' | 'active' | 'completed';
@@ -105,7 +105,7 @@ export function Reports() {
   );
   const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
   const reportsWithRfis = ACTIVE.filter((report) => report.rfi);
-  const actionCount = ACTIONS.length + reportsWithRfis.length;
+  const actionCount = getActions().length + reportsWithRfis.length;
 
   return (
     <div className="view view--reports is-active">
@@ -161,7 +161,7 @@ export function Reports() {
             <h2 className="ws-h">Actions across reports</h2>
             <p className="ws-h-sub">Tasks and reviewer requests that need your attention.</p>
             <div className="actions">
-              {ACTIONS.map((action) => (
+              {getActions().map((action) => (
                 <button
                   key={action.id}
                   className="action-row"

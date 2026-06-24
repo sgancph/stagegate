@@ -2,8 +2,7 @@ import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { ReportAvatar, ReportRef } from '../../components/ui/ReportRef';
 import { StatusPill } from '../../components/ui/StatusPill';
-import { getProject, reportLabel } from '../../data/demo';
-import { ACTIONS } from '../../data/actions';
+import { getActions, getProject, reportLabel } from '../../data/store';
 import { toast } from '../../lib/toast';
 
 type Tone = 'amber' | 'green' | 'grey' | 'blue';
@@ -146,7 +145,7 @@ export function ProjectDashboard() {
               <h2 className="card__title">Pending actions</h2>
             </div>
             <div className="actions">
-              {ACTIONS.map((a) => (
+              {getActions().map((a) => (
                 <button
                   key={a.id}
                   className="action-row"

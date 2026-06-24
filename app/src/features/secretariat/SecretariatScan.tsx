@@ -1,6 +1,6 @@
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
-import { reportLabel } from '../../data/demo';
+import { reportLabel } from '../../data/store';
 import { toast } from '../../lib/toast';
 
 const panel = [

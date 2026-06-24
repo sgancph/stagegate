@@ -1,4 +1,4 @@
-import { getProject, reportLabel } from '../../data/demo';
+import { getProject, reportLabel } from '../../data/store';
 
 /** A report's identity avatar (initials), reused everywhere a report appears. */
 export function ReportAvatar({ id, sm }: { id: string; sm?: boolean }) {

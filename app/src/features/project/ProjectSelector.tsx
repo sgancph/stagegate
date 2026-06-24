@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Icon } from '../../components/ui/Icon';
 import { useApp } from '../../app/AppContext';
-import { PROJECTS } from '../../data/demo';
+import { getProjects } from '../../data/store';
 
 export function ProjectSelector() {
   const [open, setOpen] = useState(false);
@@ -40,7 +40,7 @@ export function ProjectSelector() {
         <Icon name="chevronDown" size={14} strokeWidth={2.2} className="ws-projsel__ch" />
       </button>
       <div className="ws-projsel__menu" role="listbox">
-        {PROJECTS.map((p) => (
+        {getProjects().map((p) => (
           <button
             key={p.id}
             className={`ws-projsel__opt${p.id === selectedProjectId ? ' is-current' : ''}`}

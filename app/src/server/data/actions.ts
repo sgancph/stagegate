@@ -1,15 +1,7 @@
+import type { ReportAction } from '../../lib/types';
+
 // Actions (tasks / RFIs) belong to a Report. Single source of truth so the
 // dashboard "Pending actions" and a report's own "Actions" list always match.
-export type ActionDue = 'red' | 'amber' | 'grey';
-
-export interface ReportAction {
-  id: string;
-  reportId: string;
-  title: string;
-  due: string; // "Due today" | "Due 15 Jun" | "No deadline"
-  dueVariant: ActionDue;
-}
-
 export const ACTIONS: ReportAction[] = [
   {
     id: 'esg',
@@ -33,6 +25,3 @@ export const ACTIONS: ReportAction[] = [
     dueVariant: 'grey',
   },
 ];
-
-export const dueDot = (v: ActionDue) => (v === 'red' ? 'red' : v === 'amber' ? 'orange' : 'grey');
-export const actionsForReport = (reportId: string) => ACTIONS.filter((a) => a.reportId === reportId);
