@@ -58,6 +58,8 @@ Run commands from `app/`:
 
 While `npm run dev` is running, Vite watches `app/` and updates the local page automatically on save. Local development does not update Vercel.
 
+The shared `POST /api/ai` endpoint accepts an OpenAI-compatible `messages` array. During local Vite development it connects to Ollama at `http://127.0.0.1:11434/v1` and defaults to the smallest installed model, `llama3.2:3b`. Override these through untracked `app/.env.local` values when needed. Production uses the root Vercel Function and requires `LLM_BASE_URL` and `LLM_MODEL`; set `LLM_API_KEY` when the inference server requires bearer authentication. Never expose these as `VITE_` variables or call the inference server directly from browser code.
+
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
 ## Deploy
