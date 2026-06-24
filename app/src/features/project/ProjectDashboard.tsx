@@ -1,6 +1,7 @@
 import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { ReportAvatar, ReportRef } from '../../components/ui/ReportRef';
+import { StatusPill } from '../../components/ui/StatusPill';
 import { getProject, reportLabel } from '../../data/demo';
 import { ACTIONS } from '../../data/actions';
 import { toast } from '../../lib/toast';
@@ -131,10 +132,7 @@ export function ProjectDashboard() {
                   </div>
                 </div>
                 <div className="report-right">
-                  <span className={`status-pill status-pill--${r.tone}`}>
-                    <span className="status-pill__dot" />
-                    {r.status}
-                  </span>
+                  <StatusPill tone={r.tone}>{r.status}</StatusPill>
                   <span className="report-substatus">{r.sub}</span>
                 </div>
               </button>
@@ -162,10 +160,7 @@ export function ProjectDashboard() {
                       <ReportRef id={a.reportId} />
                     </p>
                   </div>
-                  <span className={`status-pill status-pill--${a.dueVariant}`}>
-                    <span className="status-pill__dot" />
-                    {a.due}
-                  </span>
+                  <StatusPill tone={a.dueVariant}>{a.due}</StatusPill>
                 </button>
               ))}
             </div>

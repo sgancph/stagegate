@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { StatusPill } from '../../components/ui/StatusPill';
 import { actionsForReport } from '../../data/actions';
 import { toast } from '../../lib/toast';
 
@@ -205,7 +206,7 @@ export function Reports() {
 
             {actionsForReport(selected.id).length > 0 && (
               <section className="ws-panel">
-                <h2 className="ws-h">Actions</h2>
+                <h2 className="ws-h">Pending actions</h2>
                 <p className="ws-h-sub">What you need to do for this report before it can progress.</p>
                 <div className="actions">
                   {actionsForReport(selected.id).map((a) => (
@@ -219,10 +220,7 @@ export function Reports() {
                       <div className="action-body">
                         <p className="action-title">{a.title}</p>
                       </div>
-                      <span className={`status-pill status-pill--${a.dueVariant}`}>
-                        <span className="status-pill__dot" />
-                        {a.due}
-                      </span>
+                      <StatusPill tone={a.dueVariant}>{a.due}</StatusPill>
                     </button>
                   ))}
                 </div>
