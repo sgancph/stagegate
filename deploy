@@ -16,7 +16,12 @@ cd "$(dirname "$0")"
 git pull --rebase origin main
 npm --prefix app run check
 git push origin main
-vercel --prod --yes
+
+# The Next.js app lives in app/, so the Vercel project's Root Directory must be
+# "app". We build locally and ship the prebuilt output so the deploy does not
+# depend on remote project settings.
+vercel build --prod
+vercel deploy --prebuilt --prod --yes
 
 status=$(curl -s -o /dev/null -w '%{http_code}' https://stagegate.vercel.app)
 [ "$status" = "401" ] || {
@@ -24,5 +29,4 @@ status=$(curl -s -o /dev/null -w '%{http_code}' https://stagegate.vercel.app)
   exit 1
 }
 
-vercel inspect https://stagegate.vercel.app
 echo "Production is ready: https://stagegate.vercel.app"

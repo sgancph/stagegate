@@ -25,16 +25,17 @@ This is a **clickable prototype** for stakeholder review, not production infrast
 
 ## Repository Layout
 
-The product is a Vite, React 18, and TypeScript application under `app/`.
+The product is a Next.js 14 (App Router), React 18, and TypeScript application under `app/`.
 
-- `app/src/main.tsx` and `app/src/App.tsx`: application entry points and view composition.
-- `app/src/app/`: shared state and application context.
+- `app/src/app/layout.tsx` and `app/src/app/page.tsx`: App Router entry. `page.tsx` mounts the client SPA (`App.tsx`) via a `dynamic(..., { ssr: false })` import.
+- `app/src/App.tsx`: SPA view composition.
+- `app/src/app/`: App Router routes plus shared state and application context (`AppContext.tsx`). The LLM proxy route is `app/src/app/api/ai/route.ts`.
+- `app/src/middleware.ts`: basic-auth gate (production only).
 - `app/src/components/`: reusable UI organized under `layout/` and `ui/`.
 - `app/src/features/`: workflow-specific screens grouped by domain (`project/`, `secretariat/`, `settings/`, and `tour/`).
 - `app/src/styles.css`: global styles and design tokens.
-- `middleware.js` and `vercel.json`: authentication and deployment routing.
 
-Do not edit generated `app/dist/` or dependency-managed `app/node_modules/`.
+Do not edit generated `app/.next/` or dependency-managed `app/node_modules/`.
 
 ## Agent Workflow
 
@@ -51,26 +52,26 @@ Codex-specific low-friction permissions live in [`.codex/config.toml`](.codex/co
 Run commands from `app/`:
 
 - `npm ci`: install the locked dependency set.
-- `npm run dev`: start the Vite development server.
+- `npm run dev`: start the Next.js development server.
 - `npm run check`: format-check, type-check, and build in one command.
-- `npm run build`: create the production bundle in `app/dist/`.
-- `npm run preview`: serve the built bundle locally.
+- `npm run build`: create the production build in `app/.next/`.
+- `npm run start`: serve the production build locally.
 
-While `npm run dev` is running, Vite watches `app/` and updates the local page automatically on save. Local development does not update Vercel.
+While `npm run dev` is running, Next.js watches `app/` and updates the local page automatically on save. The basic-auth gate is skipped in development, so the local app is open. Local development does not update Vercel.
 
-The shared `POST /api/ai` endpoint accepts an OpenAI-compatible `messages` array. During local Vite development it connects to Ollama at `http://127.0.0.1:11434/v1` and defaults to the smallest installed model, `llama3.2:3b`. Override these through untracked `app/.env.local` values when needed. Production uses the root Vercel Function and requires `LLM_BASE_URL` and `LLM_MODEL`; set `LLM_API_KEY` when the inference server requires bearer authentication. Never expose these as `VITE_` variables or call the inference server directly from browser code.
+The shared `POST /api/ai` endpoint (route handler at `app/src/app/api/ai/route.ts`) accepts an OpenAI-compatible `messages` array and proxies to any OpenAI-compatible inference server. It requires `LLM_BASE_URL` and `LLM_MODEL`; set `LLM_API_KEY` when the server requires bearer authentication. Set these through untracked `app/.env.local` for local development (for example Ollama at `http://127.0.0.1:11434/v1`) and through Vercel env vars in production. Never expose them to the browser (no `NEXT_PUBLIC_` prefix) or call the inference server directly from client code.
 
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
 ## Deploy
 
-Production is a single Vercel project at the repo root. It builds `app/` (`vercel.json`) and is aliased to **stagegate.vercel.app**, gated by basic-auth middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
+Production is a single Vercel project (`stagegate`) whose **Root Directory is `app/`** so Vercel detects the Next.js app there. It is aliased to **stagegate.vercel.app**, gated by basic-auth Next middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
 
-After all changes are committed on `main`, run `./deploy` from the repository root. It validates the app, pushes `main`, deploys production, verifies the expected **401** auth gate, and inspects the resulting deployment. It stops before deployment if the branch is not `main`, the working tree is dirty, validation fails, or the live response is unexpected.
+After all changes are committed on `main`, run `./deploy` from the repository root. It validates the app, pushes `main`, builds locally (`vercel build`), ships the prebuilt output (`vercel deploy --prebuilt --prod`), and verifies the expected **401** auth gate. It stops before deployment if the branch is not `main`, the working tree is dirty, validation fails, or the live response is unexpected. The local build relies on the linked project's Root Directory being set to `app/`; a fresh clone must set that in Vercel project settings before its first deploy.
 
 **Multiple agents share `main`.** Before pushing or running `./deploy`, run `git pull --rebase origin main` so you build on the latest commits and don't hit a rejected push or a merge bubble. Commit your own work first (a clean tree), then rebase, then deploy. Only one agent should edit or commit at a time; other agents may inspect or review concurrently.
 
-Do not change `vercel.json` or `middleware.js` (build, routing, auth) without a task-specific reason.
+Do not change `app/src/middleware.ts`, `app/next.config.mjs`, or the Vercel project's Root Directory (build, routing, auth) without a task-specific reason.
 
 ## Code Conventions
 
