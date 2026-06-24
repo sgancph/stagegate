@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { reportLabel } from '../../data/demo';
 import { toast } from '../../lib/toast';
 
 const kpis = [
@@ -46,13 +47,17 @@ const recs = [
 ];
 
 const panels = [
-  { name: 'Arena Stage Gate 3', date: '17 Jun', pill: 'Prep needed' },
-  { name: 'Stadium Stage Gate 5', date: '24 Jun', pill: 'Not started' },
+  { name: 'Arena · Stage Gate 3', date: '17 Jun', pill: 'Prep needed' },
+  { name: 'Stadium · Stage Gate 5', date: '24 Jun', pill: 'Not started' },
 ];
 
 export function SecretariatDashboard() {
-  const { navigate } = useApp();
+  const { navigate, selectProject } = useApp();
   const [queueView, setQueueView] = useState<'all' | 'mine' | 'overdue'>('mine');
+  const openArena = () => {
+    selectProject('arena');
+    navigate('reports');
+  };
   const visibleSubmissions =
     queueView === 'all'
       ? subs
@@ -73,13 +78,17 @@ export function SecretariatDashboard() {
           </span>
           <div className="banner__content">
             <p className="banner__title">
-              New submission: <strong>Arena · Stage Gate 3</strong> just arrived in your intake queue.
+              New submission:{' '}
+              <button className="banner__link" onClick={openArena}>
+                {reportLabel('arena')}
+              </button>{' '}
+              just arrived in your intake queue.
             </p>
           </div>
         </div>
         <div className="banner__right">
-          <span className="banner__meta">Received 08:30</span>
-          <button className="btn btn--white" onClick={() => navigate('reports')}>
+          <span className="banner__meta">Received 10 Jun, 08:30</span>
+          <button className="btn btn--white" onClick={openArena}>
             Review submission
             <Icon name="arrowRight" size={15} strokeWidth={2} />
           </button>

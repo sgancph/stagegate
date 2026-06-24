@@ -7,6 +7,7 @@ export const PROJECTS = [
   {
     id: 'arena',
     name: 'Arena',
+    initials: 'AR',
     stageGate: 'Stage Gate 3',
     stageGateShort: 'SG3',
     sector: 'Sports',
@@ -15,6 +16,7 @@ export const PROJECTS = [
   {
     id: 'velodrome',
     name: 'Velodrome',
+    initials: 'VE',
     stageGate: 'Stage Gate 2',
     stageGateShort: 'SG2',
     sector: 'Sports',
@@ -23,6 +25,7 @@ export const PROJECTS = [
   {
     id: 'national-tennis-centre',
     name: 'National Tennis Centre',
+    initials: 'NT',
     stageGate: 'Stage Gate 4',
     stageGateShort: 'SG4',
     sector: 'Sports',
@@ -31,6 +34,7 @@ export const PROJECTS = [
   {
     id: 'national-aquatic-centre',
     name: 'National Aquatic Centre',
+    initials: 'NA',
     stageGate: 'Stage Gate 2',
     stageGateShort: 'SG2',
     sector: 'Sports',
@@ -42,6 +46,12 @@ export const DEFAULT_PROJECT_ID = PROJECTS[0].id;
 
 export function getProject(projectId: string) {
   return PROJECTS.find((project) => project.id === projectId) ?? PROJECTS[0];
+}
+
+/** Canonical label for a report reference, used everywhere: "Arena · Stage Gate 3". */
+export function reportLabel(projectId: string) {
+  const p = getProject(projectId);
+  return `${p.name} · ${p.stageGate}`;
 }
 
 export const USERS = {
