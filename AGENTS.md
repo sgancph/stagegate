@@ -42,6 +42,8 @@ Before editing, read this file, inspect `git status --short`, and open relevant 
 
 When requirements are ambiguous, prefer the smallest reversible implementation consistent with existing patterns. Do not add dependencies, alter deployment/authentication, or modify lockfiles without a task-specific reason. In the handoff, list changed files, validation performed, and any unresolved or pre-existing failures.
 
+Work only on `main`. Keep the local Vite server running during implementation so saved application-code changes appear immediately through hot module replacement. After each completed, validated unit of work, create a focused local commit on `main` with the required `Co-Authored-By` trailer. Do not push or deploy until the user explicitly chooses to update production.
+
 ## Development and Validation
 
 Run commands from `app/`:
@@ -52,6 +54,8 @@ Run commands from `app/`:
 - `npm run build`: create the production bundle in `app/dist/`.
 - `npm run preview`: serve the built bundle locally.
 
+While `npm run dev` is running, Vite watches `app/` and updates the local page automatically on save. Local development does not update Vercel.
+
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
 ## Deploy (commit → push → deploy → verify)
@@ -59,8 +63,8 @@ No test runner or linter is configured. Run `npm run check` for every code chang
 Production is a single Vercel project at the repo root. It builds `app/` (`vercel.json`) and is aliased to **stagegate.vercel.app**, gated by basic-auth middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
 
 1. **Validate:** `cd app && npm run check` — must pass before anything else.
-2. **Commit** on the working branch with a concise scoped message (e.g. `React migration: interactive topbar`); end the message with the `Co-Authored-By` trailer. Never commit credentials or `app/dist`.
-3. **Push:** `git push origin <current-branch>`.
+2. **Commit** on `main` with a concise scoped message (e.g. `React migration: interactive topbar`); end the message with the `Co-Authored-By` trailer. Never commit credentials or `app/dist`.
+3. **Push:** `git push origin main`.
 4. **Deploy:** from the **repo root**, `vercel --prod --yes`.
 5. **Verify:** `curl -s -o /dev/null -w "%{http_code}" https://stagegate.vercel.app` → expect **401** (the auth gate is healthy, not an error). Confirm the deployment is `READY` and built `app/` via Vite (check the build log shows `vite build`, not stale output).
 
