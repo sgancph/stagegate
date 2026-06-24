@@ -1,5 +1,5 @@
 import { useApp } from '../../app/AppContext';
-import { Icon, Logomark } from '../ui/Icon';
+import { Icon, Logomark, Sparkle } from '../ui/Icon';
 import { SearchBox } from './SearchBox';
 import { NotifMenu } from './NotifMenu';
 
@@ -41,8 +41,14 @@ export function Topbar() {
       <SearchBox />
       <div className="topbar__right">
         <span className="persona-label">{c.label}</span>
-        <button className="icon-btn" data-tour-help aria-label="Help &amp; guided tour" title="Guided tour">
-          <Icon name="help" size={19} />
+        <button
+          className="demo-btn"
+          data-tour-help
+          data-tip="Take a guided tour of the key features"
+          aria-label="Start the guided demo tour"
+        >
+          <Sparkle size={14} />
+          DEMO
         </button>
         <NotifMenu />
         <button className="btn btn--navy" onClick={() => navigate(c.ctaView)}>

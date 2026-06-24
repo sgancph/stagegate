@@ -1221,22 +1221,37 @@ body{
 .tour-btn--primary:hover{filter:brightness(1.1);}
 .tour-btn:disabled{opacity:.4;cursor:not-allowed;}
 
-/* First-time nudge: pulse the Help button + a small callout */
-@keyframes tourPulse{
-  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--persona,#001B72) 45%,transparent);}
-  70%{box-shadow:0 0 0 10px color-mix(in srgb,var(--persona,#001B72) 0%,transparent);}
-  100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--persona,#001B72) 0%,transparent);}
+/* DEMO button — labelled, gently pulsing CTA that opens the guided tour */
+.demo-btn{
+  position:relative;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;
+  border-radius:999px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.4px;
+  color:var(--persona,var(--navy-bar));
+  border:1px solid color-mix(in srgb,var(--persona,#001B72) 32%,transparent);
+  background:color-mix(in srgb,var(--persona,#001B72) 8%,#fff);
+  animation:demoPulse 2.4s ease-in-out infinite;
+  transition:background .14s ease,border-color .14s ease;
 }
-.icon-btn.tour-help--pulse{color:var(--persona,var(--navy-bar));border-radius:8px;animation:tourPulse 1.8s ease-out infinite;}
-@media (prefers-reduced-motion:reduce){.icon-btn.tour-help--pulse{animation:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--persona,#001B72) 35%,transparent);}}
-.tour-hint{position:fixed;z-index:1390;width:250px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 38px rgba(8,16,38,.22);padding:13px 14px 12px;animation:tourHintIn .2s ease;}
-@keyframes tourHintIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
-.tour-hint::before{content:"";position:absolute;top:-6px;right:18px;width:11px;height:11px;background:#fff;border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg);}
-.tour-hint__t{font-size:13.5px;font-weight:700;color:var(--heading);margin:0 0 3px;font-family:'Montserrat',Arial,sans-serif;}
-.tour-hint__d{font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 11px;}
-.tour-hint__row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.tour-hint__dismiss{border:none;background:none;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted-2);font-family:inherit;padding:0;}
-.tour-hint__dismiss:hover{color:var(--heading);}
+.demo-btn:hover{background:color-mix(in srgb,var(--persona,#001B72) 15%,#fff);border-color:color-mix(in srgb,var(--persona,#001B72) 50%,transparent);}
+.demo-btn svg{flex:0 0 auto;}
+@keyframes demoPulse{
+  0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--persona,#001B72) 26%,transparent);}
+  50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--persona,#001B72) 0%,transparent);}
+}
+@media (prefers-reduced-motion:reduce){.demo-btn{animation:none;}}
+/* hover/focus tooltip inviting the click */
+.demo-btn::after{
+  content:attr(data-tip);position:absolute;top:calc(100% + 9px);right:0;
+  background:var(--heading);color:#fff;font-size:11.5px;font-weight:600;white-space:nowrap;
+  padding:7px 10px;border-radius:7px;box-shadow:0 6px 18px rgba(16,42,67,.22);
+  opacity:0;visibility:hidden;transform:translateY(-3px);transition:opacity .15s ease,transform .15s ease;
+  pointer-events:none;z-index:80;
+}
+.demo-btn::before{
+  content:"";position:absolute;top:calc(100% + 3px);right:14px;width:10px;height:10px;background:var(--heading);
+  transform:rotate(45deg);opacity:0;visibility:hidden;transition:opacity .15s ease;z-index:80;
+}
+.demo-btn:hover::after,.demo-btn:focus-visible::after,.demo-btn:hover::before,.demo-btn:focus-visible::before{opacity:1;visibility:visible;transform:translateY(0) rotate(0deg);}
+.demo-btn:hover::before,.demo-btn:focus-visible::before{transform:rotate(45deg);}
 
 /* ===== Custom search suggestions ===== */
 .searchbox{position:relative;flex:0 0 260px;}

@@ -39,8 +39,6 @@ export function GuidedTour() {
   const [spot, setSpot] = useState<Box | null>(null);
   const [tip, setTip] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const [ready, setReady] = useState(false); // hides the tooltip until first measured placement
-  const [hinting, setHinting] = useState(false); // first-time attention nudge on the Help button
-  const [hintPos, setHintPos] = useState<{ top: number; left: number } | null>(null);
   const tipRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
 
@@ -50,7 +48,6 @@ export function GuidedTour() {
 
   const start = useCallback(() => {
     returnFocusRef.current = document.activeElement as HTMLElement;
-    setHinting(false);
     setReady(false);
     setI(0);
     setActive(true);
@@ -66,61 +63,14 @@ export function GuidedTour() {
     window.setTimeout(() => returnFocusRef.current?.focus(), 0);
   }, []);
 
-  const dismissHint = useCallback(() => {
-    setHinting(false);
-    try {
-      localStorage.setItem(DONE_KEY, '1');
-    } catch {
-      /* ignore */
-    }
-  }, []);
-
-  // Start on Help click. First-time visitors get a pulse + callout instead of an auto-start.
+  // The DEMO button (data-tour-help) starts the tour, any time.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest?.('[data-tour-help]')) start();
     };
     document.addEventListener('click', onClick);
-    let done = '1';
-    try {
-      done = localStorage.getItem(DONE_KEY) ?? '';
-    } catch {
-      /* ignore */
-    }
-    if (!done) setHinting(true);
     return () => document.removeEventListener('click', onClick);
   }, [start]);
-
-  // Pulse the Help button while the nudge is showing.
-  useEffect(() => {
-    const btn = document.querySelector('[data-tour-help]');
-    if (btn) btn.classList.toggle('tour-help--pulse', hinting);
-    return () => document.querySelector('[data-tour-help]')?.classList.remove('tour-help--pulse');
-  }, [hinting]);
-
-  // Anchor the callout under the Help button; keep it pinned on resize/scroll.
-  useEffect(() => {
-    if (!hinting || active) return;
-    const place = () => {
-      const btn = document.querySelector<HTMLElement>('[data-tour-help]');
-      if (!btn) {
-        setHintPos(null);
-        return;
-      }
-      const r = btn.getBoundingClientRect();
-      const w = 250,
-        m = 12;
-      setHintPos({ top: r.bottom + 10, left: clamp(r.right - w, m, window.innerWidth - w - m) });
-    };
-    const t = window.setTimeout(place, 350);
-    window.addEventListener('resize', place);
-    window.addEventListener('scroll', place, true);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener('resize', place);
-      window.removeEventListener('scroll', place, true);
-    };
-  }, [hinting, active]);
 
   // Keyboard: Escape closes, Tab is trapped within the tooltip.
   useEffect(() => {
@@ -206,77 +156,43 @@ export function GuidedTour() {
     if (active && ready) tipRef.current?.querySelector<HTMLElement>('button')?.focus();
   }, [active, ready, i]);
 
+  if (!active || !step) return null;
   return (
     <>
-      {hinting && !active && hintPos && (
-        <div
-          className="tour-hint"
-          role="dialog"
-          aria-label="Guided tour available"
-          style={{ top: hintPos.top, left: hintPos.left }}
-        >
-          <p className="tour-hint__t">New here?</p>
-          <p className="tour-hint__d">
-            Take a quick {steps.length}-step tour of the key features. You can start it any time from the{' '}
-            <strong>?</strong> button.
-          </p>
-          <div className="tour-hint__row">
-            <button className="tour-hint__dismiss" onClick={dismissHint}>
-              Not now
+      {/* Spotlight reveals the target via its box-shadow scrim; centred steps get a plain dimmer. */}
+      {spot ? <div className="tour-spot" style={spot} /> : <div className="tour-overlay" onClick={finish} />}
+      <div
+        className="tour-tip"
+        ref={tipRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tour-title"
+        style={{ ...tip, opacity: ready ? 1 : 0 }}
+      >
+        <p className="tour-tip__eyebrow">
+          Step {i + 1} of {steps.length}
+        </p>
+        <h3 className="tour-tip__title" id="tour-title">
+          {step.title}
+        </h3>
+        <p className="tour-tip__body">{step.body}</p>
+        <div className="tour-tip__foot">
+          <button className="tour-tip__skip" onClick={finish}>
+            {last ? 'Close' : 'Skip tour'}
+          </button>
+          <div className="tour-tip__nav">
+            <button className="tour-btn" disabled={i === 0} onClick={() => setI((n) => Math.max(0, n - 1))}>
+              Back
             </button>
-            <button className="tour-btn tour-btn--primary" onClick={start}>
-              Start tour
+            <button
+              className="tour-btn tour-btn--primary"
+              onClick={() => (last ? finish() : setI((n) => n + 1))}
+            >
+              {last ? 'Finish' : 'Next'}
             </button>
           </div>
         </div>
-      )}
-
-      {active && step && (
-        <>
-          {/* Spotlight reveals the target via its box-shadow scrim; centred steps get a plain dimmer. */}
-          {spot ? (
-            <div className="tour-spot" style={spot} />
-          ) : (
-            <div className="tour-overlay" onClick={finish} />
-          )}
-          <div
-            className="tour-tip"
-            ref={tipRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="tour-title"
-            style={{ ...tip, opacity: ready ? 1 : 0 }}
-          >
-            <p className="tour-tip__eyebrow">
-              Step {i + 1} of {steps.length}
-            </p>
-            <h3 className="tour-tip__title" id="tour-title">
-              {step.title}
-            </h3>
-            <p className="tour-tip__body">{step.body}</p>
-            <div className="tour-tip__foot">
-              <button className="tour-tip__skip" onClick={finish}>
-                {last ? 'Close' : 'Skip tour'}
-              </button>
-              <div className="tour-tip__nav">
-                <button
-                  className="tour-btn"
-                  disabled={i === 0}
-                  onClick={() => setI((n) => Math.max(0, n - 1))}
-                >
-                  Back
-                </button>
-                <button
-                  className="tour-btn tour-btn--primary"
-                  onClick={() => (last ? finish() : setI((n) => n + 1))}
-                >
-                  {last ? 'Finish' : 'Next'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      </div>
     </>
   );
 }
