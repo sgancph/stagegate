@@ -237,6 +237,7 @@ body{
   transition:background .14s ease,box-shadow .14s ease,transform .14s ease;
 }
 .btn:active{transform:translateY(1px);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
 
 .btn--navy{background:var(--navy-btn);color:#fff;}
 .btn--navy:hover{background:var(--navy-btn-hover);}
@@ -810,9 +811,10 @@ body{
 .rp-detail{display:none;flex-direction:column;gap:16px;}
 .rp-detail.is-active{display:flex;}
 .rp-list{display:flex;flex-direction:column;gap:10px;margin-top:0;}
-.rp-item{border:1px solid var(--border);border-radius:10px;padding:12px 13px;cursor:pointer;transition:border-color .14s ease,background .14s ease;}
-.rp-item:hover{background:var(--row-hover);}
-.rp-item.is-selected{border-color:var(--amber);background:#FFFDF6;}
+.rp-item{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px 13px;background:#fff;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:border-color .14s ease,background .14s ease,box-shadow .14s ease;}
+.rp-item:hover{border-color:color-mix(in srgb,var(--persona,var(--navy-bar)) 24%,var(--border));background:color-mix(in srgb,var(--persona,var(--navy-bar)) 3%,#fff);}
+.rp-item.is-selected{border-color:color-mix(in srgb,var(--persona,var(--navy-bar)) 42%,var(--border));background:color-mix(in srgb,var(--persona,var(--navy-bar)) 7%,#fff);box-shadow:inset 3px 0 0 var(--persona,var(--navy-bar));}
+.rp-item.is-selected:hover{background:color-mix(in srgb,var(--persona,var(--navy-bar)) 9%,#fff);}
 .rp-item__head{display:flex;align-items:center;gap:9px;}
 .rp-item__name{font-size:14px;font-weight:700;color:var(--heading);margin:0;}
 .rp-item__sub{font-size:12px;color:var(--muted);margin:2px 0 0;}
@@ -999,8 +1001,7 @@ body{
 .scan-select:hover{border-color:#C9D2DE;}
 .scan-select span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .scan-select__ch{color:var(--muted-2);flex:0 0 auto;}
-.scan-runbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:42px;border-radius:var(--r-btn);border:none;background:var(--navy-bar);color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:filter .12s;}
-.scan-runbtn:hover{filter:brightness(1.08);}
+.scan-runbtn{width:100%;height:42px;justify-content:center;font-size:14px;}
 .scan-runbtn:disabled{background:#AAB2BE;cursor:not-allowed;filter:none;}
 .scan-alert{display:flex;gap:11px;background:#FDEEEE;border:1px solid #F4D0D0;border-radius:10px;padding:14px 16px;margin-top:16px;}
 .scan-alert__ic{color:var(--red);flex:0 0 auto;margin-top:1px;}
@@ -1227,11 +1228,6 @@ body{
 .tour-tip__skip{border:none;background:none;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted-2);font-family:inherit;padding:0;}
 .tour-tip__skip:hover{color:var(--heading);}
 .tour-tip__nav{display:flex;gap:8px;}
-.tour-btn{height:32px;padding:0 13px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--heading);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .12s ease,filter .12s ease;}
-.tour-btn:hover{background:var(--bg);}
-.tour-btn--primary{background:var(--persona,var(--navy-bar));border-color:var(--persona,var(--navy-bar));color:#fff;}
-.tour-btn--primary:hover{filter:brightness(1.1);}
-.tour-btn:disabled{opacity:.4;cursor:not-allowed;}
 
 /* DEMO button — vivid, pulsing CTA that opens the guided tour, with an always-on tooltip */
 .demo-btn{

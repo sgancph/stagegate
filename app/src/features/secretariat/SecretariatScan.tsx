@@ -68,7 +68,7 @@ export function SecretariatScan() {
             </div>
           </section>
           <button
-            className="scan-runbtn"
+            className="btn btn--navy scan-runbtn"
             onClick={() => toast("Completeness scanning isn't connected in this prototype")}
           >
             <Icon name="shield" size={16} /> Scan

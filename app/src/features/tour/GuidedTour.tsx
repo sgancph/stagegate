@@ -190,13 +190,14 @@ export function GuidedTour() {
             {last ? 'Close' : 'Skip tour'}
           </button>
           <div className="tour-tip__nav">
-            <button className="tour-btn" disabled={i === 0} onClick={() => setI((n) => Math.max(0, n - 1))}>
+            <button
+              className="btn btn--ghost btn--sm"
+              disabled={i === 0}
+              onClick={() => setI((n) => Math.max(0, n - 1))}
+            >
               Back
             </button>
-            <button
-              className="tour-btn tour-btn--primary"
-              onClick={() => (last ? finish() : setI((n) => n + 1))}
-            >
+            <button className="btn btn--navy btn--sm" onClick={() => (last ? finish() : setI((n) => n + 1))}>
               {last ? 'Finish' : 'Next'}
             </button>
           </div>
