@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { ReportRef } from '../../components/ui/ReportRef';
 import { StatusPill } from '../../components/ui/StatusPill';
-import { actionsForReport } from '../../data/actions';
+import { ACTIONS, actionsForReport } from '../../data/actions';
 import { toast } from '../../lib/toast';
 
-type Tab = 'active' | 'drafts' | 'completed';
+type Tab = 'actions' | 'drafts' | 'active' | 'completed';
 type Step = { label: string; date?: string; state: 'done' | 'current' | 'todo'; cur?: boolean };
 
 type ActiveReport = {
@@ -103,8 +104,8 @@ export function Reports() {
     ACTIVE.some((r) => r.id === selectedProjectId) ? selectedProjectId : ACTIVE[0].id,
   );
   const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
-  // Derive the badge from the same actions data the lists use, so counts never disagree.
-  const actionCount = ACTIVE.reduce((n, r) => n + actionsForReport(r.id).length, 0);
+  const reportsWithRfis = ACTIVE.filter((report) => report.rfi);
+  const actionCount = ACTIONS.length + reportsWithRfis.length;
 
   return (
     <div className="view view--reports is-active">
@@ -114,20 +115,19 @@ export function Reports() {
         </button>
         <div>
           <h1 className="ws-title">My reports</h1>
+          <p className="ws-h-sub">Draft, track and respond to every Stage Gate report from one place.</p>
         </div>
       </div>
 
       <div className="ws-tabs" role="tablist" aria-label="Report status">
         <button
-          className={`ws-tab${tab === 'active' ? ' is-active' : ''}`}
+          className={`ws-tab${tab === 'actions' ? ' is-active' : ''}`}
           role="tab"
-          aria-selected={tab === 'active'}
-          onClick={() => setTab('active')}
+          aria-selected={tab === 'actions'}
+          onClick={() => setTab('actions')}
         >
-          <Icon name="reports" size={15} /> Active reports{' '}
-          <span className="rp-tcount rp-tcount--amber">
-            {actionCount} action{actionCount === 1 ? '' : 's'} needed
-          </span>
+          <Icon name="alert" size={15} /> Actions{' '}
+          <span className="rp-tcount rp-tcount--amber">{actionCount} need attention</span>
         </button>
         <button
           className={`ws-tab${tab === 'drafts' ? ' is-active' : ''}`}
@@ -138,6 +138,14 @@ export function Reports() {
           <Icon name="draft" size={15} /> Drafts <span className="rp-tcount">2 drafts</span>
         </button>
         <button
+          className={`ws-tab${tab === 'active' ? ' is-active' : ''}`}
+          role="tab"
+          aria-selected={tab === 'active'}
+          onClick={() => setTab('active')}
+        >
+          <Icon name="reports" size={15} /> In review <span className="rp-tcount">2 reports</span>
+        </button>
+        <button
           className={`ws-tab${tab === 'completed' ? ' is-active' : ''}`}
           role="tab"
           aria-selected={tab === 'completed'}
@@ -146,6 +154,57 @@ export function Reports() {
           <Icon name="shield" size={15} /> Completed <span className="rp-tcount">3 decisions</span>
         </button>
       </div>
+
+      {tab === 'actions' && (
+        <div className="rp-tabpane">
+          <section className="ws-panel">
+            <h2 className="ws-h">Actions across reports</h2>
+            <p className="ws-h-sub">Tasks and reviewer requests that need your attention.</p>
+            <div className="actions">
+              {ACTIONS.map((action) => (
+                <button
+                  key={action.id}
+                  className="action-row"
+                  type="button"
+                  title="Open report"
+                  onClick={() => {
+                    setSelectedId(action.reportId);
+                    setTab('active');
+                  }}
+                >
+                  <div className="action-body">
+                    <p className="action-title">{action.title}</p>
+                    <p className="action-sub">
+                      <ReportRef id={action.reportId} />
+                    </p>
+                  </div>
+                  <StatusPill tone={action.dueVariant}>{action.due}</StatusPill>
+                </button>
+              ))}
+              {reportsWithRfis.map((report) => (
+                <button
+                  key={`${report.id}-rfi`}
+                  className="action-row"
+                  type="button"
+                  title="Open reviewer request"
+                  onClick={() => {
+                    setSelectedId(report.id);
+                    setTab('active');
+                  }}
+                >
+                  <div className="action-body">
+                    <p className="action-title">Respond to reviewer request</p>
+                    <p className="action-sub">
+                      <ReportRef id={report.id} />
+                    </p>
+                  </div>
+                  <StatusPill tone="amber">{report.rfi?.due}</StatusPill>
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
 
       {tab === 'active' && (
         <div className="rp-grid">
@@ -218,8 +277,8 @@ export function Reports() {
                       key={a.id}
                       className="action-row"
                       type="button"
-                      title="Open in the authoring workspace"
-                      onClick={() => navigate('authoring')}
+                      title="View all actions"
+                      onClick={() => setTab('actions')}
                     >
                       <div className="action-body">
                         <p className="action-title">{a.title}</p>
