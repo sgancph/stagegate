@@ -1,0 +1,47 @@
+prefix_rule(
+    pattern = ["git", "fetch"],
+    decision = "allow",
+    justification = "Fetching repository state is routine and non-destructive.",
+)
+
+prefix_rule(
+    pattern = ["git", "pull", "--rebase", "origin", "main"],
+    decision = "allow",
+    justification = "The shared main-only workflow rebases local commits before deployment.",
+)
+
+prefix_rule(
+    pattern = ["git", "add", "-A"],
+    decision = "allow",
+    justification = "Agents commit all validated workspace changes as focused local commits.",
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "allow",
+    justification = "Local commits preserve context before any push or deployment.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", "origin", "main"],
+    decision = "allow",
+    justification = "Only main is used, and pushes happen at the explicit release boundary.",
+)
+
+prefix_rule(
+    pattern = ["npm", "run", ["check", "dev", "build"]],
+    decision = "allow",
+    justification = "These are the repository's standard validation and local-development commands.",
+)
+
+prefix_rule(
+    pattern = ["./deploy"],
+    decision = "allow",
+    justification = "The checked-in deployment script validates, pushes main, deploys, and verifies production.",
+)
+
+prefix_rule(
+    pattern = ["vercel", "inspect"],
+    decision = "allow",
+    justification = "Inspecting a deployment is read-only verification.",
+)

@@ -44,6 +44,8 @@ When requirements are ambiguous, prefer the smallest reversible implementation c
 
 Work only on `main`. Keep the local Vite server running during implementation so saved application-code changes appear immediately through hot module replacement. After each completed, validated unit of work, create a focused local commit on `main` with the required `Co-Authored-By` trailer. Do not push or deploy until the user explicitly chooses to update production.
 
+Codex-specific low-friction permissions live in [`.codex/config.toml`](.codex/config.toml), with narrowly scoped command allowances in [`.codex/rules/default.rules`](.codex/rules/default.rules). Keep shared workflow requirements here in `AGENTS.md`; do not duplicate tool-specific configuration. Routine workspace edits, validation, local commits, network reads, and the checked-in deploy workflow should proceed automatically. Destructive commands, credential access, writes outside the workspace, and unrelated external side effects must remain guarded.
+
 ## Development and Validation
 
 Run commands from `app/`:
@@ -63,6 +65,8 @@ No test runner or linter is configured. Run `npm run check` for every code chang
 Production is a single Vercel project at the repo root. It builds `app/` (`vercel.json`) and is aliased to **stagegate.vercel.app**, gated by basic-auth middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
 
 After all changes are committed on `main`, run `./deploy` from the repository root. It validates the app, pushes `main`, deploys production, verifies the expected **401** auth gate, and inspects the resulting deployment. It stops before deployment if the branch is not `main`, the working tree is dirty, validation fails, or the live response is unexpected.
+
+**Multiple agents share `main`.** Before pushing or running `./deploy`, run `git pull --rebase origin main` so you build on the latest commits and don't hit a rejected push or a merge bubble. Commit your own work first (a clean tree), then rebase, then deploy. Only one agent should edit or commit at a time; other agents may inspect or review concurrently.
 
 Do not change `vercel.json` or `middleware.js` (build, routing, auth) without a task-specific reason.
 
