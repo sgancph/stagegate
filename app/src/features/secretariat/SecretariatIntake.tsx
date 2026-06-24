@@ -32,10 +32,14 @@ export function SecretariatIntake() {
   const [tab, setTab] = useState<'intake' | 'outcomes'>('intake');
   return (
     <div className="sec-reports">
-      <section className="greeting">
-        <h1 className="greeting__title">Submissions</h1>
-        <p className="greeting__sub">Receive, check and route Stage Gate submissions for review.</p>
-      </section>
+      <div className="ws-head">
+        <button className="ws-back" aria-label="Back to dashboard" onClick={() => navigate('dashboard')}>
+          <Icon name="back" />
+        </button>
+        <div>
+          <h1 className="ws-title">Submissions</h1>
+        </div>
+      </div>
 
       <div className="ws-tabs" role="tablist" aria-label="Submission workflow">
         <button
@@ -44,7 +48,7 @@ export function SecretariatIntake() {
           aria-selected={tab === 'intake'}
           onClick={() => setTab('intake')}
         >
-          Intake<span className="sec-tab-count">7</span>
+          <Icon name="reports" size={15} /> Intake<span className="sec-tab-count">7</span>
         </button>
         <button
           className={`ws-tab${tab === 'outcomes' ? ' is-active' : ''}`}
@@ -52,7 +56,7 @@ export function SecretariatIntake() {
           aria-selected={tab === 'outcomes'}
           onClick={() => setTab('outcomes')}
         >
-          Outcomes<span className="sec-tab-count">11</span>
+          <Icon name="mail" size={15} /> Outcomes<span className="sec-tab-count">11</span>
         </button>
       </div>
 

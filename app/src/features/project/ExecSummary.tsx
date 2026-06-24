@@ -33,7 +33,7 @@ export function ExecSummary() {
         <aside className="ws-left">
           <section className="ws-panel">
             <p className="es-label">
-              Generate {selectedProject.name} {selectedProject.stageGateShort} Summary
+              Generate the {selectedProject.name} · {selectedProject.stageGate} summary
             </p>
             <label className="ws-label">Output format</label>
             <button

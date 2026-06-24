@@ -1,5 +1,6 @@
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { reportLabel } from '../../data/demo';
 import { toast } from '../../lib/toast';
 
 const panel = [
@@ -18,7 +19,7 @@ export function SecretariatScan() {
           <Icon name="back" />
         </button>
         <div>
-          <h1 className="ws-title">Completeness Scan for Arena SG3</h1>
+          <h1 className="ws-title">Completeness Scan for {reportLabel('arena')}</h1>
         </div>
       </div>
       <div className="ws-grid">

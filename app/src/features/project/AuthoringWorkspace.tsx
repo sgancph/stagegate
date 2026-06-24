@@ -157,7 +157,7 @@ export function AuthoringWorkspace() {
             <div className="ws-draft-head">
               <div>
                 <p className="ws-draft-title">
-                  {selectedProject.name} {selectedProject.stageGateShort} Stage Gate report
+                  {selectedProject.name} · {selectedProject.stageGate}
                 </p>
                 <p className="ws-draft-sub">
                   Generated from {files.length} source deliverables · SGRP Template v2.1
