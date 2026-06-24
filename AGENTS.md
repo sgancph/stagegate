@@ -35,7 +35,13 @@ The product is a Next.js 14 (App Router), React 18, and TypeScript application u
 - `app/src/features/`: workflow-specific screens grouped by domain (`project/`, `secretariat/`, `settings/`, and `tour/`).
 - `app/src/styles.css`: global styles and design tokens.
 
-Do not edit generated `app/.next/` or dependency-managed `app/node_modules/`.
+The code separates by concern, not by deployment (Next.js is one app on Vercel):
+
+- `app/src/server/`: **server-only** code, never bundled to the browser (guarded by the `server-only` package). `server/data/` is the single source of truth for application data — `getSeed()` reads Postgres when `DATABASE_URL` is set, fixtures otherwise. `server/db/` holds the Drizzle schema, client, and seed.
+- `app/src/lib/types.ts`: shared, isomorphic types used by both server and client.
+- `app/src/data/store.ts`: **client** cache, hydrated once from `GET /api/seed` at boot (see `Bootstrap` in `App.tsx`). Components read from here; they never hardcode data.
+
+Do not edit generated `app/.next/`, `app/drizzle/` migrations (regenerate with `db:generate`), or dependency-managed `app/node_modules/`.
 
 ## Agent Workflow
 
@@ -43,7 +49,7 @@ Before editing, read this file, inspect `git status --short`, and open relevant 
 
 When requirements are ambiguous, prefer the smallest reversible implementation consistent with existing patterns. Do not add dependencies, alter deployment/authentication, or modify lockfiles without a task-specific reason. In the handoff, list changed files, validation performed, and any unresolved or pre-existing failures.
 
-Work only on `main`. Keep the local Vite server running during implementation so saved application-code changes appear immediately through hot module replacement. After each completed, validated unit of work, create a focused local commit on `main` with the required `Co-Authored-By` trailer. Do not push or deploy until the user explicitly chooses to update production.
+Work only on `main`. Keep the local Next.js dev server running during implementation so saved application-code changes appear immediately through hot module replacement. After each completed, validated unit of work, create a focused local commit on `main` with the required `Co-Authored-By` trailer. Do not push or deploy until the user explicitly chooses to update production.
 
 Codex-specific low-friction permissions live in [`.codex/config.toml`](.codex/config.toml), with narrowly scoped command allowances in [`.codex/rules/default.rules`](.codex/rules/default.rules). Keep shared workflow requirements here in `AGENTS.md`; do not duplicate tool-specific configuration. Routine workspace edits, validation, local commits, network reads, and the checked-in deploy workflow should proceed automatically. Destructive commands, credential access, writes outside the workspace, and unrelated external side effects must remain guarded.
 
@@ -60,6 +66,8 @@ Run commands from `app/`:
 While `npm run dev` is running, Next.js watches `app/` and updates the local page automatically on save. The basic-auth gate is skipped in development, so the local app is open. Local development does not update Vercel.
 
 The shared `POST /api/ai` endpoint (route handler at `app/src/app/api/ai/route.ts`) accepts an OpenAI-compatible `messages` array and proxies to any OpenAI-compatible inference server. It requires `LLM_BASE_URL` and `LLM_MODEL`; set `LLM_API_KEY` when the server requires bearer authentication. Set these through untracked `app/.env.local` for local development (for example Ollama at `http://127.0.0.1:11434/v1`) and through Vercel env vars in production. Never expose them to the browser (no `NEXT_PUBLIC_` prefix) or call the inference server directly from client code.
+
+**Data and database.** All app data is served from `GET /api/seed`; the client never hardcodes it. With no `DATABASE_URL` the server returns fixtures, so the app runs fully offline. To use Postgres locally, set `DATABASE_URL` in untracked `app/.env.local` (a Neon branch or local Postgres), then from `app/`: `npm run db:migrate` to apply migrations and `npm run db:seed` to load the fixtures. After changing `app/src/server/db/schema.ts`, run `npm run db:generate` and commit the generated `app/drizzle/` migration. In production, set `DATABASE_URL` as a Vercel env var (a Neon database from the Vercel Marketplace injects it automatically).
 
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 
