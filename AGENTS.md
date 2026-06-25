@@ -37,7 +37,7 @@ The product is a Next.js 16 (App Router), React 19, and TypeScript application u
 
 The code separates by concern, not by deployment (Next.js is one app on Vercel):
 
-- `app/src/server/`: **server-only** code, never bundled to the browser (guarded by the `server-only` package). `server/data/` is the single source of truth for application data — `getSeed()` reads Postgres when `DATABASE_URL` is set, fixtures otherwise. `server/db/` holds the Drizzle schema, client, and seed.
+- `app/src/backend/`: private backend implementation, never bundled to the browser when guarded by the `server-only` package. `backend/data/` is the single source of truth for application data — `getSeed()` reads Postgres when `DATABASE_URL` is set, fixtures otherwise. `backend/db/` holds the Drizzle schema, client, and seed.
 - `app/src/lib/types.ts`: shared, isomorphic types used by both server and client.
 - `app/src/data/store.ts`: **client** cache, hydrated once from `GET /api/seed` at boot (see `Bootstrap` in `App.tsx`). Components read from here; they never hardcode data.
 
@@ -67,7 +67,7 @@ From the repository root, `./dev` is the canonical one-command startup. It check
 
 The shared `POST /api/ai` endpoint (route handler at `app/src/app/api/ai/route.ts`) accepts an OpenAI-compatible `messages` array and proxies to any OpenAI-compatible inference server. Copy `app/.env.example` to untracked `app/.env.local` for local development. The endpoint requires `LLM_BASE_URL` and `LLM_MODEL`; set `LLM_API_KEY` when the server requires bearer authentication. Set the same values through Vercel env vars in production. Never expose them to the browser (no `NEXT_PUBLIC_` prefix) or call the inference server directly from client code.
 
-**Data and database.** All app data is served from `GET /api/seed`; the client never hardcodes it. With no `DATABASE_URL` the server returns fixtures, so the app runs fully offline. To use Postgres locally, set `DATABASE_URL` in untracked `app/.env.local` (a Neon branch or local Postgres), then from `app/`: `npm run db:migrate` to apply migrations and `npm run db:seed` to load the fixtures. After changing `app/src/server/db/schema.ts`, run `npm run db:generate` and commit the generated `app/drizzle/` migration. In production, set `DATABASE_URL` as a Vercel env var (a Neon database from the Vercel Marketplace injects it automatically).
+**Data and database.** All app data is served from `GET /api/seed`; the client never hardcodes it. With no `DATABASE_URL` the server returns fixtures, so the app runs fully offline. To use Postgres locally, set `DATABASE_URL` in untracked `app/.env.local` (a Neon branch or local Postgres), then from `app/`: `npm run db:migrate` to apply migrations and `npm run db:seed` to load the fixtures. After changing `app/src/backend/db/schema.ts`, run `npm run db:generate` and commit the generated `app/drizzle/` migration. In production, set `DATABASE_URL` as a Vercel env var (a Neon database from the Vercel Marketplace injects it automatically).
 
 No test runner or linter is configured. Run `npm run check` for every code change. Manually verify affected views and both personas when shared behavior changes. Report failing baseline checks exactly; do not silently fix unrelated defects.
 

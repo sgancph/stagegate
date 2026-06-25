@@ -1,6 +1,6 @@
 import { handleLlmRequest } from '../../../lib/llm';
 import type { Persona } from '../../../lib/types';
-import { getSeed } from '../../../server/data';
+import { getSeed } from '../../../backend/data';
 
 export const maxDuration = 300;
 

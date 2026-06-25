@@ -85,8 +85,8 @@ Arena".
 Data is separated by concern — Next.js is one app on Vercel, so there is no separate
 backend service, just server-only modules the client can't import:
 
-- **Server (source of truth):** `app/src/server/data/` holds the data and is the only
-  place that knows where it comes from — Postgres (Drizzle, `app/src/server/db/`) when
+- **Backend (source of truth):** `app/src/backend/data/` holds the data and is the only
+  place that knows where it comes from — Postgres (Drizzle, `app/src/backend/db/`) when
   `DATABASE_URL` is set, fixtures otherwise. One file per entity.
 - **API:** `GET /api/seed` returns everything the client needs at boot. Server-only code
   is guarded by the `server-only` package so it never reaches the browser bundle.
@@ -135,8 +135,8 @@ shortcuts (`STATIC_ITEMS`), tab/icon definitions.
   fields** on Report/Decision — text columns, not separate entities.
 
 ### Order of work (once the tree is stable)
-1. Extend `lib/types.ts` + `server/db/schema.ts`: full Report, Session, Decision,
+1. Extend `lib/types.ts` + `backend/db/schema.ts`: full Report, Session, Decision,
    Deliverable; widen Action for RFI / scan-item / secretariat-task. Regenerate migration.
-2. Expand fixtures in `server/data/` from each component's current values; widen `/api/seed`.
+2. Expand fixtures in `backend/data/` from each component's current values; widen `/api/seed`.
 3. Point every component at `store.ts`, delete its local fixtures, compute KPIs/funnel.
 4. `npm run db:generate && db:migrate && db:seed`; verify both personas; deploy.

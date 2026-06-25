@@ -35,9 +35,40 @@ export interface ReportAction {
   dueVariant: ActionDue;
 }
 
+export interface DashboardReport {
+  id: string;
+  status: string;
+  tone: 'amber' | 'green' | 'grey' | 'blue';
+  sub: string;
+}
+
+export interface Deadline {
+  title: string;
+  reportId: string;
+  day: string;
+  mon: string;
+  rel: string;
+}
+
+export interface AiTool {
+  title: string;
+  desc: string;
+  chip: string;
+  tag: string;
+  illus: string;
+  muted?: boolean;
+}
+
+export interface ProjectDashboardData {
+  reports: DashboardReport[];
+  deadlines: Deadline[];
+  tools: AiTool[];
+}
+
 /** Everything the client needs at boot, served by GET /api/seed. */
 export interface SeedData {
   projects: Project[];
   users: Record<Persona, UserProfile>;
   actions: ReportAction[];
+  projectDashboard: ProjectDashboardData;
 }

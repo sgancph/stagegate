@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSeed } from '../../../server/data';
+import { getSeed } from '../../../backend/data';
 
 // All application data the client needs at boot. The client never hardcodes it.
 // Dynamic so a connected database is read live rather than baked in at build.

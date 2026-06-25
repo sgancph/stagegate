@@ -1,4 +1,11 @@
-import type { Persona, Project, ReportAction, SeedData, UserProfile } from '../lib/types';
+import type {
+  Persona,
+  Project,
+  ProjectDashboardData,
+  ReportAction,
+  SeedData,
+  UserProfile,
+} from '../lib/types';
 
 // Client-side cache of the application data, hydrated once from GET /api/seed at
 // app startup (see Bootstrap in App.tsx). Components read from here synchronously,
@@ -41,6 +48,8 @@ export const getActions = (): ReportAction[] => data().actions;
 
 export const actionsForReport = (reportId: string): ReportAction[] =>
   getActions().filter((action) => action.reportId === reportId);
+
+export const getProjectDashboard = (): ProjectDashboardData => data().projectDashboard;
 
 export function otherPersona(persona: Persona): Persona {
   return persona === 'project' ? 'secretariat' : 'project';

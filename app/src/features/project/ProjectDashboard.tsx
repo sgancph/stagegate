@@ -2,62 +2,12 @@ import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { ReportAvatar, ReportRef } from '../../components/ui/ReportRef';
 import { StatusPill } from '../../components/ui/StatusPill';
-import { getActions, getProject, reportLabel } from '../../data/store';
+import { getActions, getProject, getProjectDashboard, reportLabel } from '../../data/store';
 import { toast } from '../../lib/toast';
-
-type Tone = 'amber' | 'green' | 'grey' | 'blue';
-const reports: { id: string; status: string; tone: Tone; sub: string }[] = [
-  { id: 'arena', status: 'Drafting 16/19', tone: 'amber', sub: '19 documents uploaded' },
-  { id: 'velodrome', status: 'Submitted · awaiting review', tone: 'blue', sub: 'Submitted 5 Jun' },
-  { id: 'national-tennis-centre', status: 'Not started', tone: 'grey', sub: 'SGRP planned 15 Aug' },
-  { id: 'national-aquatic-centre', status: 'Completed', tone: 'green', sub: 'Approved 2 May' },
-];
-
-const deadlines: { title: string; report: string; day: string; mon: string; rel: string }[] = [
-  {
-    title: 'Readiness scan must pass before submission',
-    report: 'arena',
-    day: '18',
-    mon: 'Jun',
-    rel: 'in 7 days',
-  },
-  { title: 'SGRP submission deadline', report: 'arena', day: '21', mon: 'Jun', rel: 'in 10 days' },
-  {
-    title: 'Stage Gate 4 submission opens',
-    report: 'national-tennis-centre',
-    day: '29',
-    mon: 'Jun',
-    rel: 'in 18 days',
-  },
-];
-
-const tools: { title: string; desc: string; chip: string; tag: string; illus: string; muted?: boolean }[] = [
-  {
-    title: 'Stage Gate Report Co-Pilot',
-    desc: 'Drafts your report from the source documents, with every section traceable back to where it came from.',
-    chip: 'Arena · Stage Gate 3 draft in progress',
-    tag: 'AI',
-    illus: 'linear-gradient(160deg,#EFF6FF,#DBEDFF)',
-  },
-  {
-    title: 'Restructuring Word Engine',
-    desc: 'Turns consultant documents into the QIC template automatically.',
-    chip: '1 consultant document for Arena · Stage Gate 3',
-    tag: 'AI Word add-in',
-    illus: 'linear-gradient(160deg,#E9FAFF,#D2F1FA)',
-  },
-  {
-    title: 'Readiness Scan',
-    desc: 'Checks for missing pieces and flags gaps before you submit.',
-    chip: 'Available once all sections are reviewed',
-    tag: 'AI',
-    illus: 'linear-gradient(160deg,#F3FAE3,#E2F3C6)',
-    muted: true,
-  },
-];
 
 export function ProjectDashboard() {
   const { navigate, selectProject } = useApp();
+  const { reports, deadlines, tools } = getProjectDashboard();
   const openReport = (id: string) => {
     selectProject(id);
     navigate('reports');
@@ -181,8 +131,8 @@ export function ProjectDashboard() {
                   key={d.title}
                   className="deadline-row"
                   type="button"
-                  title={`Open ${reportLabel(d.report)}`}
-                  onClick={() => openReport(d.report)}
+                  title={`Open ${reportLabel(d.reportId)}`}
+                  onClick={() => openReport(d.reportId)}
                 >
                   <span className="deadline-date">
                     <span className="deadline-date__d">{d.day}</span>
@@ -191,7 +141,7 @@ export function ProjectDashboard() {
                   <div className="deadline-body">
                     <p className="deadline-title">{d.title}</p>
                     <p className="deadline-sub">
-                      <ReportRef id={d.report} />
+                      <ReportRef id={d.reportId} />
                     </p>
                   </div>
                   <span className="days-pill">{d.rel}</span>
