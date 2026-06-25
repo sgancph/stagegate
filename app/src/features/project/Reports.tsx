@@ -218,11 +218,13 @@ export function Reports() {
                   onClick={() => navigate('authoring')}
                 >
                   <div className="rp-item__head">
-                    <span className={`dot dot--${d.dot}`} />
                     <div>
                       <p className="rp-item__name">{d.name}</p>
-                      <p className="rp-item__sub">{d.sub}</p>
+                      <p className="rp-item__sub">{d.gate}</p>
                     </div>
+                  </div>
+                  <div className="rp-item__pills">
+                    <StatusPill tone={d.tone}>{d.status}</StatusPill>
                   </div>
                 </button>
               ))}
@@ -240,14 +242,13 @@ export function Reports() {
               {completed.map((c) => (
                 <div key={c.name} className="rp-item">
                   <div className="rp-item__head">
-                    <span className={`dot dot--${c.variant === 'green' ? 'green' : 'orange'}`} />
                     <div>
                       <p className="rp-item__name">{c.name}</p>
                       <p className="rp-item__sub">{c.sub}</p>
                     </div>
                   </div>
                   <div className="rp-item__pills">
-                    <span className={`badge-pill badge-pill--${c.variant}`}>{c.pill}</span>
+                    <StatusPill tone={c.tone}>{c.status}</StatusPill>
                   </div>
                 </div>
               ))}

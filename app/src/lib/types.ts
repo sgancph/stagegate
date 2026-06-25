@@ -35,10 +35,13 @@ export interface ReportAction {
   dueVariant: ActionDue;
 }
 
+/** Canonical status colour, shared by every StatusPill across the app. */
+export type Tone = 'amber' | 'green' | 'grey' | 'blue' | 'red';
+
 export interface DashboardReport {
   id: string;
   status: string;
-  tone: 'amber' | 'green' | 'grey' | 'blue';
+  tone: Tone;
   sub: string;
 }
 
@@ -90,7 +93,7 @@ export interface ActiveReport {
   name: string;
   gate: string;
   /** One tone drives the whole status: the pill and its dot share this colour. */
-  tone: 'amber' | 'green' | 'grey' | 'blue' | 'red';
+  tone: Tone;
   pillText: string;
   timeline: TimelineStep[];
   reviewer: string;
@@ -100,15 +103,16 @@ export interface ActiveReport {
 
 export interface DraftReport {
   name: string;
-  sub: string;
-  dot: string;
+  gate: string;
+  tone: Tone;
+  status: string;
 }
 
 export interface CompletedReport {
   name: string;
   sub: string;
-  pill: string;
-  variant: 'green' | 'amber';
+  tone: Tone;
+  status: string;
 }
 
 export interface MyReportsData {

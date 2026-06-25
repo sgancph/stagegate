@@ -110,27 +110,22 @@ export const MY_REPORTS: MyReportsData = {
     },
   ],
   drafts: [
-    { name: 'Arena', sub: 'Stage Gate 3 · Drafting 16 of 19 sections', dot: 'orange' },
-    { name: 'National Tennis Centre', sub: 'Stage Gate 4 · Not started', dot: 'grey' },
+    { name: 'Arena', gate: 'Stage Gate 3', tone: 'amber', status: 'Drafting 16/19' },
+    { name: 'National Tennis Centre', gate: 'Stage Gate 4', tone: 'grey', status: 'Not started' },
   ],
   completed: [
-    {
-      name: 'National Aquatic Centre',
-      sub: 'Stage Gate 2 · Approved 2 May 2026',
-      pill: 'Approved',
-      variant: 'green',
-    },
+    { name: 'National Aquatic Centre', sub: 'Stage Gate 2 · 2 May 2026', tone: 'green', status: 'Approved' },
     {
       name: 'Sports Park Infrastructure',
-      sub: 'Stage Gate 1 · Approved 14 Mar 2026',
-      pill: 'Approved',
-      variant: 'green',
+      sub: 'Stage Gate 1 · 14 Mar 2026',
+      tone: 'green',
+      status: 'Approved',
     },
     {
       name: 'Music Theme Park',
-      sub: 'Stage Gate 3 · Approved with conditions, 10 Jun 2026',
-      pill: 'Approved w/ conditions',
-      variant: 'amber',
+      sub: 'Stage Gate 3 · 10 Jun 2026',
+      tone: 'amber',
+      status: 'Approved w/ conditions',
     },
   ],
 };
