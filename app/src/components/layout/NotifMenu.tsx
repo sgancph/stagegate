@@ -1,35 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { useApp, type View } from '../../app/AppContext';
+import { useApp } from '../../app/AppContext';
 import { Icon } from '../ui/Icon';
-
-type Note = { t: string; meta: string; read?: boolean };
-const NOTES: Record<'project' | 'secretariat', { items: Note[]; go: View; footer: string }> = {
-  project: {
-    go: 'reports',
-    footer: 'View all in My reports',
-    items: [
-      { t: 'A. ElHusseini requested a change on Arena SG3', meta: 'Review · 2h ago' },
-      { t: 'Velodrome SG2 passed the completeness scan', meta: 'Intake · Yesterday' },
-      { t: 'SGRP Session 15 scheduled for 17 Jun', meta: 'Schedule · 2 days ago', read: true },
-    ],
-  },
-  secretariat: {
-    go: 'reports',
-    footer: 'View all submissions',
-    items: [
-      { t: 'New submission: Arena · Stage Gate 3 arrived in intake', meta: 'Intake · 08:30' },
-      { t: 'Music Theme Park SG3 review outcome synced from Teams', meta: 'Review · 1h ago' },
-      { t: '3 reviews are overdue and need a reminder', meta: 'Action · Today' },
-    ],
-  },
-};
+import { getNotifications } from '../../data/store';
 
 export function NotifMenu() {
   const { persona, navigate } = useApp();
   const [open, setOpen] = useState(false);
   const [clearedPersona, setClearedPersona] = useState<typeof persona | null>(null);
   const wrap = useRef<HTMLDivElement>(null);
-  const cfg = NOTES[persona];
+  const cfg = getNotifications(persona);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -46,7 +25,7 @@ export function NotifMenu() {
     };
   }, []);
   const cleared = clearedPersona === persona;
-  const unread = persona === 'secretariat' ? 3 : 2;
+  const unread = cfg.items.filter((n) => !n.read).length;
   return (
     <div className="notif" ref={wrap}>
       <button

@@ -216,6 +216,18 @@ export interface SecretariatData {
   };
 }
 
+export interface NotificationItem {
+  t: string;
+  meta: string;
+  read?: boolean;
+}
+
+export interface NotificationFeed {
+  items: NotificationItem[];
+  go: View;
+  footer: string;
+}
+
 /** Everything the client needs at boot, served by GET /api/seed. */
 export interface SeedData {
   projects: Project[];
@@ -225,4 +237,5 @@ export interface SeedData {
   myReports: MyReportsData;
   authoring: AuthoringData;
   secretariat: SecretariatData;
+  notifications: Record<Persona, NotificationFeed>;
 }

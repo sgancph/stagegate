@@ -7,6 +7,7 @@ import { PROJECT_DASHBOARD } from './project-dashboard';
 import { MY_REPORTS } from './my-reports';
 import { AUTHORING } from './authoring';
 import { SECRETARIAT } from './secretariat';
+import { NOTIFICATIONS } from './notifications';
 import { getDb } from '../db';
 import { actions as actionsTable, projects as projectsTable, users as usersTable } from '../db/schema';
 
@@ -22,6 +23,7 @@ const extras = {
   myReports: MY_REPORTS,
   authoring: AUTHORING,
   secretariat: SECRETARIAT,
+  notifications: NOTIFICATIONS,
 };
 
 const fixtures = (): SeedData => ({

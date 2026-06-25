@@ -3,6 +3,7 @@ import type {
   MyReportsData,
   Persona,
   Project,
+  NotificationFeed,
   ProjectDashboardData,
   ReportAction,
   SecretariatData,
@@ -59,6 +60,8 @@ export const getMyReports = (): MyReportsData => data().myReports;
 export const getAuthoring = (): AuthoringData => data().authoring;
 
 export const getSecretariat = (): SecretariatData => data().secretariat;
+
+export const getNotifications = (persona: Persona): NotificationFeed => data().notifications[persona];
 
 export function otherPersona(persona: Persona): Persona {
   return persona === 'project' ? 'secretariat' : 'project';
