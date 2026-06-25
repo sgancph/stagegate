@@ -1,58 +1,14 @@
-import { useState, useRef, type ReactNode } from 'react';
+import { useState, useRef } from 'react';
 import { WorkspaceHeader } from './WorkspaceHeader';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { toast } from '../../lib/toast';
 import { useApp } from '../../app/AppContext';
-
-const INITIAL_FILES = [
-  'Concept Design Report - Exterior|PDF · 6.2 MB',
-  'Design Strategy - Interior|PDF · 4.8 MB',
-  'Business Plan|PDF · 3.1 MB',
-  'Financial Model|XLSX · 2.0 MB',
-  'Cost Plan|XLSX · 1.2 MB',
-  'Development Program|PDF · 2.6 MB',
-  'Sales & Leasing Strategy|DOCX · 1.4 MB',
-  'Marketing Strategy|DOCX · 1.1 MB',
-].map((s) => {
-  const [name, meta] = s.split('|');
-  return { name, meta };
-});
-
-const SECTIONS = [
-  '1 · Strategic Case',
-  '2 · Scope & Design',
-  '3 · Commercial & Financial Case',
-  '4 · Delivery & Procurement',
-  '5 · Risk & Assurance',
-  '6 · Operational Readiness',
-];
-const SECTION_BODY: Record<number, ReactNode> = {
-  2: (
-    <p className="ws-prose">
-      Detailed design is complete across all disciplines. The exterior concept has been value-engineered
-      against the approved <strong>Cost Plan</strong>, with a 6% saving reallocated to operational readiness
-      scope.
-    </p>
-  ),
-  3: (
-    <p className="ws-prose">
-      The Arena delivers a projected <strong>IRR of 12.4%</strong> against a total development cost of{' '}
-      <strong>SAR 1.84bn</strong>. Phase 1 contingency is set at 8% of construction value, consistent with the
-      approved Cost Plan. Revenue is underpinned by a blended events calendar and anchor-tenant commitments
-      covering 64% of leasable area.
-    </p>
-  ),
-  4: (
-    <p className="ws-prose">
-      Procurement moves to a two-stage design-and-build with early contractor involvement. The recommended
-      main works contractor shortlist is evidenced in the <strong>Consultant Procurement Strategy</strong>.
-    </p>
-  ),
-};
+import { getAuthoring } from '../../data/store';
 
 export function AuthoringWorkspace() {
   const { selectedProject } = useApp();
-  const [files, setFiles] = useState(INITIAL_FILES);
+  const { files: initialFiles, sections, sectionBodies } = getAuthoring();
+  const [files, setFiles] = useState(initialFiles);
   const [reviewedSections, setReviewedSections] = useState<Set<number>>(() => new Set());
   const [showProjectPlan, setShowProjectPlan] = useState(true);
   const [section, setSection] = useState(2); // 0-indexed → section 3 active
@@ -68,6 +24,8 @@ export function AuthoringWorkspace() {
     toast(`${picked.length} file${picked.length > 1 ? 's' : ''} added`);
     e.target.value = '';
   };
+
+  const sectionBody = sectionBodies.find((b) => b.section === section);
 
   return (
     <div className="view view--authoring is-active">
@@ -172,7 +130,7 @@ export function AuthoringWorkspace() {
 
             <div className="ws-secnav">
               <p className="ws-secnav__label">
-                Section {section + 1} of {SECTIONS.length}
+                Section {section + 1} of {sections.length}
               </p>
               <nav className="ws-pager" aria-label="Report sections">
                 <button
@@ -183,7 +141,7 @@ export function AuthoringWorkspace() {
                 >
                   <Icon name="back" size={14} strokeWidth={2.2} />
                 </button>
-                {SECTIONS.map((label, idx) => (
+                {sections.map((label, idx) => (
                   <button
                     key={label}
                     className={`ws-page${idx === section ? ' is-current' : ''}`}
@@ -197,9 +155,9 @@ export function AuthoringWorkspace() {
                 ))}
                 <button
                   className="ws-page ws-page--nav"
-                  disabled={section === SECTIONS.length - 1}
+                  disabled={section === sections.length - 1}
                   aria-label="Next section"
-                  onClick={() => setSection((s) => Math.min(SECTIONS.length - 1, s + 1))}
+                  onClick={() => setSection((s) => Math.min(sections.length - 1, s + 1))}
                 >
                   <Icon name="chevronRight" size={14} strokeWidth={2.2} />
                 </button>
@@ -217,12 +175,18 @@ export function AuthoringWorkspace() {
             </div>
 
             <div className="ws-sec-head">
-              <h3 className="ws-sec-title">{SECTIONS[section]}</h3>
+              <h3 className="ws-sec-title">{sections[section]}</h3>
               <div className="ws-sec-meta">
                 <span className="ws-pill-soft">{reviewedSections.has(section) ? 'Reviewed' : 'Drafted'}</span>
               </div>
             </div>
-            {SECTION_BODY[section] ?? (
+            {sectionBody ? (
+              <p className="ws-prose">
+                {sectionBody.body.map((part, i) =>
+                  part.strong ? <strong key={i}>{part.text}</strong> : <span key={i}>{part.text}</span>,
+                )}
+              </p>
+            ) : (
               <p className="ws-prose">
                 This section has been drafted from the source deliverables and is ready for your review.
               </p>
@@ -244,7 +208,7 @@ export function AuthoringWorkspace() {
                   title="Copy"
                   onClick={async () => {
                     try {
-                      await navigator.clipboard.writeText(SECTIONS[section]);
+                      await navigator.clipboard.writeText(sections[section]);
                       toast('Section title copied');
                     } catch {
                       toast('Clipboard access is unavailable');

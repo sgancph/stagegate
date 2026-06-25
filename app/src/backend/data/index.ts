@@ -5,6 +5,7 @@ import { USERS } from './users';
 import { ACTIONS } from './actions';
 import { PROJECT_DASHBOARD } from './project-dashboard';
 import { MY_REPORTS } from './my-reports';
+import { AUTHORING } from './authoring';
 import { getDb } from '../db';
 import { actions as actionsTable, projects as projectsTable, users as usersTable } from '../db/schema';
 
@@ -15,7 +16,7 @@ export { PROJECTS, USERS, ACTIONS };
 
 // Collections not yet backed by a database table are served from fixtures and
 // merged with the DB-backed core (projects/users/actions).
-const extras = { projectDashboard: PROJECT_DASHBOARD, myReports: MY_REPORTS };
+const extras = { projectDashboard: PROJECT_DASHBOARD, myReports: MY_REPORTS, authoring: AUTHORING };
 
 const fixtures = (): SeedData => ({
   projects: PROJECTS,

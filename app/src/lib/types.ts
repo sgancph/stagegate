@@ -117,6 +117,23 @@ export interface MyReportsData {
   completed: CompletedReport[];
 }
 
+/** A document with a display name and a "FORMAT · size" meta string. */
+export interface FileRef {
+  name: string;
+  meta: string;
+}
+
+export interface AuthoringSectionBody {
+  section: number; // 0-indexed
+  body: RfiMessagePart[];
+}
+
+export interface AuthoringData {
+  files: FileRef[];
+  sections: string[];
+  sectionBodies: AuthoringSectionBody[];
+}
+
 /** Everything the client needs at boot, served by GET /api/seed. */
 export interface SeedData {
   projects: Project[];
@@ -124,4 +141,5 @@ export interface SeedData {
   actions: ReportAction[];
   projectDashboard: ProjectDashboardData;
   myReports: MyReportsData;
+  authoring: AuthoringData;
 }
