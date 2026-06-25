@@ -45,6 +45,7 @@ export function ChatAssistant() {
     const conversation = [...messages, userMessage];
     setMessages((current) => [...current, userMessage]);
     setDraft('');
+    if (inputRef.current) inputRef.current.style.height = 'auto';
     setError('');
     setLoading(true);
 
@@ -120,10 +121,7 @@ export function ChatAssistant() {
             <span className="ai-chat__mark">
               <Sparkle size={17} />
             </span>
-            <div>
-              <h2>Workspace assistant</h2>
-              <p>Grounded in reports and actions</p>
-            </div>
+            <h2>Workspace assistant</h2>
             <button
               className="ai-chat__close"
               type="button"
@@ -137,7 +135,10 @@ export function ChatAssistant() {
           <div className="ai-chat__messages" ref={listRef} aria-live="polite">
             {messages.length === 0 && (
               <div className="ai-message ai-message--assistant">
-                <p>Ask about reports, stage gates, capital asks, or pending actions in this workspace.</p>
+                <p>
+                  Hi — I can help with the reports, stage gates, capital asks and pending actions in this
+                  workspace. What would you like to know?
+                </p>
               </div>
             )}
             {messages.map((message) => (
@@ -183,10 +184,15 @@ export function ChatAssistant() {
               ref={inputRef}
               value={draft}
               maxLength={2_000}
-              rows={2}
+              rows={1}
               aria-label="Ask about reports and actions"
               placeholder="Ask about reports or actions…"
-              onChange={(event) => setDraft(event.target.value)}
+              onChange={(event) => {
+                setDraft(event.target.value);
+                const el = event.target;
+                el.style.height = 'auto';
+                el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+              }}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' && !event.shiftKey) {
                   event.preventDefault();
