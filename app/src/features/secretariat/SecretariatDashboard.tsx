@@ -1,58 +1,12 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
-import { reportLabel } from '../../data/store';
+import { getSecretariat, reportLabel } from '../../data/store';
 import { toast } from '../../lib/toast';
-
-const kpis = [
-  { label: 'Total submissions', num: '143', tag: '+12 this month', variant: 'green' },
-  { label: 'Awaiting your action', num: '7', tag: '3 overdue', variant: 'amber' },
-  { label: 'Approved (YTD)', num: '61', tag: '43% approval rate', variant: 'green' },
-  { label: 'Avg. review time', num: '4.2d', tag: '−1.3d vs last quarter', variant: 'green' },
-];
-
-const funnel = [
-  { label: 'Intake', num: 34, mod: 'intake' },
-  { label: 'Completeness Scan', num: 28, mod: 'scan' },
-  { label: 'Review', num: 19, mod: 'review' },
-  { label: 'Decision', num: 11, mod: 'decision' },
-  { label: 'Closed', num: 51, mod: 'closed' },
-];
-
-const subs: { name: string; gate: string; chip: string; dot: string; chipMod?: string }[] = [
-  { name: 'Arena', gate: 'Stage Gate 3', chip: 'New intake', dot: 'blue' },
-  { name: 'Sports Park Infrastructure', gate: 'Stage Gate 2', chip: 'In review', dot: 'amber' },
-  { name: 'Velodrome', gate: 'Stage Gate 2', chip: 'In review', dot: 'amber' },
-  { name: 'Music Theme Park', gate: 'Stage Gate 3', chip: 'In review', dot: 'amber' },
-  {
-    name: 'Public Golf Apartments Phase 2',
-    gate: 'Stage Gate 2',
-    chip: 'Incomplete',
-    dot: 'red',
-    chipMod: 'red',
-  },
-];
-
-const recs = [
-  {
-    title: 'Review & send outcome letter',
-    sub: 'Review outcome for Music Theme Park SG3 synced from Teams this morning.',
-    mod: 'blue',
-  },
-  {
-    title: 'Return Public Golf Apartments SG2 to team',
-    sub: 'Completeness scan failed. 2 mandatory documents are missing.',
-    mod: 'amber',
-  },
-];
-
-const panels = [
-  { name: 'Arena · Stage Gate 3', date: '17 Jun', pill: 'Prep needed' },
-  { name: 'Stadium · Stage Gate 5', date: '24 Jun', pill: 'Not started' },
-];
 
 export function SecretariatDashboard() {
   const { navigate, selectProject } = useApp();
+  const { kpis, funnel, submissions: subs, recs, panels } = getSecretariat();
   const [queueView, setQueueView] = useState<'all' | 'mine' | 'overdue'>('mine');
   const openArena = () => {
     selectProject('arena');

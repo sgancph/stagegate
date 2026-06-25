@@ -1,34 +1,12 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
+import { getSecretariat } from '../../data/store';
 import { SecretariatOutcomes } from './SecretariatOutcomes';
-
-const queue = [
-  { name: 'Arena', gate: 'Stage Gate 3', date: 'Received 11 Jun', dot: 'blue' },
-  { name: 'Sports Park Infrastructure', gate: 'Stage Gate 2', date: 'In review', dot: 'amber' },
-  { name: 'Velodrome', gate: 'Stage Gate 2', date: 'In review', dot: 'amber' },
-];
-
-const facts = [
-  { k: 'Sector', v: 'Sports' },
-  { k: 'Stage Gate', v: 'SG3' },
-  { k: 'Capital ask', v: 'SAR 1.84bn' },
-  { k: 'Submitted', v: '11 Jun 2026' },
-];
-
-const docs = [
-  'Executive summary v2.pdf|PDF · 1.2 MB',
-  'Arena stage gate report.pdf|PDF · 8.4 MB',
-  'Financial model.xlsx|XLSX · 2.0 MB',
-  'Cost plan.xlsx|XLSX · 1.2 MB',
-  'Concept design report.pdf|PDF · 6.2 MB',
-].map((s) => {
-  const [name, meta] = s.split('|');
-  return { name, meta };
-});
 
 export function SecretariatIntake() {
   const { navigate } = useApp();
+  const { queue, facts, docs, overview, highlights, decisionSought } = getSecretariat().intake;
   const [tab, setTab] = useState<'intake' | 'outcomes'>('intake');
   return (
     <div className="sec-reports">
@@ -105,34 +83,19 @@ export function SecretariatIntake() {
               </div>
               <div className="sec-sum-block">
                 <h3 className="ws-h">Project overview</h3>
-                <p className="sec-sum-text">
-                  Arena is a 20,000-seat multi-use sports and entertainment venue at the heart of Qiddiya.
-                  This SG3 submission seeks design sign-off and capital release ahead of main works
-                  procurement.
-                </p>
+                <p className="sec-sum-text">{overview}</p>
               </div>
               <div className="sec-sum-block">
                 <h3 className="ws-h">Submission highlights</h3>
                 <ul className="sec-sum-list">
-                  <li>
-                    Detailed design is complete across all stages; value engineering has run for the Arena
-                    SG3.
-                  </li>
-                  <li>
-                    Procurement moves to a two-stage design-and-build with an early contractor involvement
-                    plan.
-                  </li>
-                  <li>
-                    A new operational readiness plan covers event operations, security and crowd movement.
-                  </li>
+                  {highlights.map((h) => (
+                    <li key={h}>{h}</li>
+                  ))}
                 </ul>
               </div>
               <div className="sec-sum-block">
                 <h3 className="ws-h">Decision sought</h3>
-                <p className="sec-sum-text">
-                  Approval to complete detailed design sign-off, appoint the main works contractor, and
-                  release the SAR 1.84bn delivery budget.
-                </p>
+                <p className="sec-sum-text">{decisionSought}</p>
               </div>
               <div className="sec-sum-block">
                 <h3 className="ws-h">Documents submitted</h3>

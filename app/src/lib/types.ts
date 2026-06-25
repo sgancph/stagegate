@@ -134,6 +134,88 @@ export interface AuthoringData {
   sectionBodies: AuthoringSectionBody[];
 }
 
+export interface SecretariatKpi {
+  label: string;
+  num: string;
+  tag: string;
+  variant: string;
+}
+
+export interface FunnelStage {
+  label: string;
+  num: number;
+  mod: string;
+}
+
+export interface SecretariatSubmission {
+  name: string;
+  gate: string;
+  chip: string;
+  dot: string;
+  chipMod?: string;
+}
+
+export interface SecretariatRec {
+  title: string;
+  sub: string;
+  mod: string;
+}
+
+export interface SecretariatPanel {
+  name: string;
+  date: string;
+  pill: string;
+}
+
+export interface IntakeQueueItem {
+  name: string;
+  gate: string;
+  date: string;
+  dot: string;
+}
+
+export interface Fact {
+  k: string;
+  v: string;
+}
+
+export interface PanelMember {
+  initials: string;
+  color: string;
+}
+
+export interface OutcomeItem {
+  name: string;
+  sub: string;
+  date: string;
+  pill: string;
+  variant: 'amber' | 'green';
+  selected?: boolean;
+}
+
+export interface SecretariatData {
+  kpis: SecretariatKpi[];
+  funnel: FunnelStage[];
+  submissions: SecretariatSubmission[];
+  recs: SecretariatRec[];
+  panels: SecretariatPanel[];
+  intake: {
+    queue: IntakeQueueItem[];
+    facts: Fact[];
+    docs: FileRef[];
+    overview: string;
+    highlights: string[];
+    decisionSought: string;
+  };
+  scanPanel: PanelMember[];
+  outcomes: {
+    list: OutcomeItem[];
+    conditions: string[];
+    minutes: string[];
+    minutesSummary: string;
+  };
+}
+
 /** Everything the client needs at boot, served by GET /api/seed. */
 export interface SeedData {
   projects: Project[];
@@ -142,4 +224,5 @@ export interface SeedData {
   projectDashboard: ProjectDashboardData;
   myReports: MyReportsData;
   authoring: AuthoringData;
+  secretariat: SecretariatData;
 }

@@ -1,17 +1,11 @@
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
-import { reportLabel } from '../../data/store';
+import { getSecretariat, reportLabel } from '../../data/store';
 import { toast } from '../../lib/toast';
-
-const panel = [
-  { initials: 'HA', color: '#001B72' },
-  { initials: 'SN', color: '#0072BC' },
-  { initials: 'MR', color: '#3F6A12' },
-  { initials: 'LH', color: '#FF7800' },
-];
 
 export function SecretariatScan() {
   const { navigate } = useApp();
+  const panel = getSecretariat().scanPanel;
   return (
     <div className="sec-scan">
       <div className="ws-head">

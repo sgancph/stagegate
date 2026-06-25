@@ -1,34 +1,9 @@
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { getSecretariat } from '../../data/store';
 import { toast } from '../../lib/toast';
 
-const list = [
-  {
-    name: 'Music Theme Park',
-    sub: 'SG3 · Session 14',
-    date: '10 Jun 2026',
-    pill: 'Conditional',
-    variant: 'amber',
-    selected: true,
-  },
-  {
-    name: 'National Aquatic Centre',
-    sub: 'SG2 · Session 13',
-    date: '2 May 2026',
-    pill: 'Approved',
-    variant: 'green',
-  },
-];
-const conditions = [
-  'Phase 2 contingency justification to be expanded and re-submitted within 30 days.',
-  'Updated operational readiness plan to be evidenced in the QIC platform before SG4.',
-];
-const minutes = [
-  'Committee endorsed the strategic alignment and readiness threshold.',
-  'Two conditions raised; both must be closed and evidenced before SG4 progression.',
-  'Secretariat to monitor condition closure and notify the project team.',
-];
-
 export function SecretariatOutcomes() {
+  const { list, conditions, minutes, minutesSummary } = getSecretariat().outcomes;
   return (
     <div className="sec-out-grid">
       <section className="card sec-out-list">
@@ -106,10 +81,7 @@ export function SecretariatOutcomes() {
             </span>
           </div>
           <div className="sec-out-mins__body">
-            <p className="sec-out-mins__summary">
-              The committee endorsed Music Theme Park SG3 subject to two conditions. Discussion centred on
-              Phase 2 contingency and operational readiness evidencing.
-            </p>
+            <p className="sec-out-mins__summary">{minutesSummary}</p>
             <p className="sec-out-mins__kh">Key points</p>
             <ul className="sec-out-mins__keys">
               {minutes.map((m) => (

@@ -5,6 +5,7 @@ import type {
   Project,
   ProjectDashboardData,
   ReportAction,
+  SecretariatData,
   SeedData,
   UserProfile,
 } from '../lib/types';
@@ -56,6 +57,8 @@ export const getProjectDashboard = (): ProjectDashboardData => data().projectDas
 export const getMyReports = (): MyReportsData => data().myReports;
 
 export const getAuthoring = (): AuthoringData => data().authoring;
+
+export const getSecretariat = (): SecretariatData => data().secretariat;
 
 export function otherPersona(persona: Persona): Persona {
   return persona === 'project' ? 'secretariat' : 'project';
