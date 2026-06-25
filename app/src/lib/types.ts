@@ -65,10 +65,63 @@ export interface ProjectDashboardData {
   tools: AiTool[];
 }
 
+export interface TimelineStep {
+  label: string;
+  date?: string;
+  state: 'done' | 'current' | 'todo';
+  cur?: boolean;
+}
+
+/** A run of reviewer-message text; `strong` parts render emphasised. */
+export interface RfiMessagePart {
+  text: string;
+  strong?: boolean;
+}
+
+export interface Rfi {
+  from: string;
+  meta: string;
+  due: string;
+  message: RfiMessagePart[];
+}
+
+export interface ActiveReport {
+  id: string;
+  name: string;
+  gate: string;
+  dot: string;
+  pillClass: string;
+  pillText: string;
+  timeline: TimelineStep[];
+  reviewer: string;
+  session: string;
+  rfi?: Rfi;
+}
+
+export interface DraftReport {
+  name: string;
+  sub: string;
+  dot: string;
+}
+
+export interface CompletedReport {
+  name: string;
+  sub: string;
+  pill: string;
+  variant: 'green' | 'amber';
+}
+
+export interface MyReportsData {
+  active: ActiveReport[];
+  drafts: DraftReport[];
+  completed: CompletedReport[];
+}
+
 /** Everything the client needs at boot, served by GET /api/seed. */
 export interface SeedData {
   projects: Project[];
   users: Record<Persona, UserProfile>;
   actions: ReportAction[];
   projectDashboard: ProjectDashboardData;
+  myReports: MyReportsData;
 }

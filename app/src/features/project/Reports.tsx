@@ -1,108 +1,21 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
 import { StatusPill } from '../../components/ui/StatusPill';
-import { actionsForReport } from '../../data/store';
+import { actionsForReport, getMyReports } from '../../data/store';
 import { toast } from '../../lib/toast';
 
 type Tab = 'drafts' | 'active' | 'completed';
-type Step = { label: string; date?: string; state: 'done' | 'current' | 'todo'; cur?: boolean };
-
-type ActiveReport = {
-  id: string;
-  name: string;
-  gate: string;
-  dot: string;
-  pillClass: string;
-  pillText: string;
-  timeline: Step[];
-  reviewer: string;
-  session: string;
-  rfi?: { from: string; meta: string; due: string; message: ReactNode };
-};
-
-const ACTIVE: ActiveReport[] = [
-  {
-    id: 'arena',
-    name: 'Arena',
-    gate: 'Stage Gate 3',
-    dot: 'orange',
-    pillClass: 'ws-tag--blue',
-    pillText: 'Review · SGRP Session 15',
-    timeline: [
-      { label: 'Intake', date: '8 Jun', state: 'done' },
-      { label: 'Completeness Scan', date: '9 Jun', state: 'done' },
-      { label: 'Review', state: 'current', cur: true },
-      { label: 'Decision', state: 'todo' },
-      { label: 'Closed', state: 'todo' },
-    ],
-    reviewer: 'A. ElHusseini (CDU lead)',
-    session: 'Session 15 · 17 Jun 2026',
-    rfi: {
-      from: 'A. ElHusseini, CDU reviewer',
-      meta: 'Received 10 Jun · 2 days ago',
-      due: 'Due 14 Jun (2 days)',
-      message: (
-        <>
-          The submission is strong overall and has been progressed to Review. Could you confirm whether the{' '}
-          <strong>contingency justification on page 12 covers Phase 2</strong>. The current narrative only
-          references Phase 1. I need this before Session 15 on 17 Jun.
-        </>
-      ),
-    },
-  },
-  {
-    id: 'velodrome',
-    name: 'Velodrome',
-    gate: 'Stage Gate 2',
-    dot: 'blue',
-    pillClass: 'ws-tag--newblue',
-    pillText: 'Awaiting SGRP review',
-    timeline: [
-      { label: 'Intake', date: '4 Jun', state: 'done' },
-      { label: 'Completeness Scan', date: '5 Jun', state: 'done' },
-      { label: 'Review', state: 'current', cur: true },
-      { label: 'Decision', state: 'todo' },
-      { label: 'Closed', state: 'todo' },
-    ],
-    reviewer: 'Not yet assigned',
-    session: 'Session 16 · 24 Jun 2026',
-  },
-];
-
-const drafts = [
-  { name: 'Arena', sub: 'Stage Gate 3 · Drafting 16 of 19 sections', dot: 'orange' },
-  { name: 'National Tennis Centre', sub: 'Stage Gate 4 · Not started', dot: 'grey' },
-];
-const completed = [
-  {
-    name: 'National Aquatic Centre',
-    sub: 'Stage Gate 2 · Approved 2 May 2026',
-    pill: 'Approved',
-    variant: 'green',
-  },
-  {
-    name: 'Sports Park Infrastructure',
-    sub: 'Stage Gate 1 · Approved 14 Mar 2026',
-    pill: 'Approved',
-    variant: 'green',
-  },
-  {
-    name: 'Music Theme Park',
-    sub: 'Stage Gate 3 · Approved with conditions, 10 Jun 2026',
-    pill: 'Approved w/ conditions',
-    variant: 'amber',
-  },
-];
 
 export function Reports() {
   const { navigate, selectedProjectId } = useApp();
+  const { active, drafts, completed } = getMyReports();
   const [tab, setTab] = useState<Tab>('active');
   // Open the report the user clicked through on, when it's an active one.
   const [selectedId, setSelectedId] = useState(() =>
-    ACTIVE.some((r) => r.id === selectedProjectId) ? selectedProjectId : ACTIVE[0].id,
+    active.some((r) => r.id === selectedProjectId) ? selectedProjectId : active[0].id,
   );
-  const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
+  const selected = active.find((r) => r.id === selectedId) ?? active[0];
 
   return (
     <div className="view view--reports is-active">
@@ -123,7 +36,7 @@ export function Reports() {
           aria-selected={tab === 'drafts'}
           onClick={() => setTab('drafts')}
         >
-          <Icon name="draft" size={15} /> Drafts <span className="rp-tcount">2 drafts</span>
+          <Icon name="draft" size={15} /> Drafts <span className="rp-tcount">{drafts.length} drafts</span>
         </button>
         <button
           className={`ws-tab${tab === 'active' ? ' is-active' : ''}`}
@@ -131,7 +44,8 @@ export function Reports() {
           aria-selected={tab === 'active'}
           onClick={() => setTab('active')}
         >
-          <Icon name="reports" size={15} /> In review <span className="rp-tcount">2 reports</span>
+          <Icon name="reports" size={15} /> In review{' '}
+          <span className="rp-tcount">{active.length} reports</span>
         </button>
         <button
           className={`ws-tab${tab === 'completed' ? ' is-active' : ''}`}
@@ -139,7 +53,8 @@ export function Reports() {
           aria-selected={tab === 'completed'}
           onClick={() => setTab('completed')}
         >
-          <Icon name="shield" size={15} /> Completed <span className="rp-tcount">3 decisions</span>
+          <Icon name="shield" size={15} /> Completed{' '}
+          <span className="rp-tcount">{completed.length} decisions</span>
         </button>
       </div>
 
@@ -150,7 +65,7 @@ export function Reports() {
               <h2 className="ws-h">Active reports</h2>
               <p className="ws-h-sub">Reports currently in the review pipeline.</p>
               <div className="rp-list">
-                {ACTIVE.map((r) => (
+                {active.map((r) => (
                   <button
                     key={r.id}
                     type="button"
@@ -236,7 +151,11 @@ export function Reports() {
                   <div className="rp-rfi__from">
                     <span className="ws-avatar ws-avatar--soft">AE</span> {selected.rfi.from}
                   </div>
-                  <p className="rp-rfi__msg">{selected.rfi.message}</p>
+                  <p className="rp-rfi__msg">
+                    {selected.rfi.message.map((part, i) =>
+                      part.strong ? <strong key={i}>{part.text}</strong> : <span key={i}>{part.text}</span>,
+                    )}
+                  </p>
                 </div>
                 <label className="rp-label" htmlFor="review-response">
                   Your response

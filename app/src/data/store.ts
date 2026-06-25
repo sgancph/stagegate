@@ -1,4 +1,5 @@
 import type {
+  MyReportsData,
   Persona,
   Project,
   ProjectDashboardData,
@@ -50,6 +51,8 @@ export const actionsForReport = (reportId: string): ReportAction[] =>
   getActions().filter((action) => action.reportId === reportId);
 
 export const getProjectDashboard = (): ProjectDashboardData => data().projectDashboard;
+
+export const getMyReports = (): MyReportsData => data().myReports;
 
 export function otherPersona(persona: Persona): Persona {
   return persona === 'project' ? 'secretariat' : 'project';
