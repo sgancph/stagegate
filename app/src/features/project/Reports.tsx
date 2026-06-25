@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon } from '../../components/ui/Icon';
-import { ReportRef } from '../../components/ui/ReportRef';
 import { StatusPill } from '../../components/ui/StatusPill';
-import { actionsForReport, getActions } from '../../data/store';
+import { actionsForReport } from '../../data/store';
 import { toast } from '../../lib/toast';
 
-type Tab = 'actions' | 'drafts' | 'active' | 'completed';
+type Tab = 'drafts' | 'active' | 'completed';
 type Step = { label: string; date?: string; state: 'done' | 'current' | 'todo'; cur?: boolean };
 
 type ActiveReport = {
@@ -19,7 +18,7 @@ type ActiveReport = {
   timeline: Step[];
   reviewer: string;
   session: string;
-  rfi?: { from: string; meta: string; due: string; message: JSX.Element };
+  rfi?: { from: string; meta: string; due: string; message: ReactNode };
 };
 
 const ACTIVE: ActiveReport[] = [
@@ -104,8 +103,6 @@ export function Reports() {
     ACTIVE.some((r) => r.id === selectedProjectId) ? selectedProjectId : ACTIVE[0].id,
   );
   const selected = ACTIVE.find((r) => r.id === selectedId) ?? ACTIVE[0];
-  const reportsWithRfis = ACTIVE.filter((report) => report.rfi);
-  const actionCount = getActions().length + reportsWithRfis.length;
 
   return (
     <div className="view view--reports is-active">
@@ -120,15 +117,6 @@ export function Reports() {
       </div>
 
       <div className="ws-tabs" role="tablist" aria-label="Report status">
-        <button
-          className={`ws-tab${tab === 'actions' ? ' is-active' : ''}`}
-          role="tab"
-          aria-selected={tab === 'actions'}
-          onClick={() => setTab('actions')}
-        >
-          <Icon name="alert" size={15} /> Actions{' '}
-          <span className="rp-tcount rp-tcount--amber">{actionCount} need attention</span>
-        </button>
         <button
           className={`ws-tab${tab === 'drafts' ? ' is-active' : ''}`}
           role="tab"
@@ -154,57 +142,6 @@ export function Reports() {
           <Icon name="shield" size={15} /> Completed <span className="rp-tcount">3 decisions</span>
         </button>
       </div>
-
-      {tab === 'actions' && (
-        <div className="rp-tabpane">
-          <section className="ws-panel">
-            <h2 className="ws-h">Actions across reports</h2>
-            <p className="ws-h-sub">Tasks and reviewer requests that need your attention.</p>
-            <div className="actions">
-              {getActions().map((action) => (
-                <button
-                  key={action.id}
-                  className="action-row"
-                  type="button"
-                  title="Open report"
-                  onClick={() => {
-                    setSelectedId(action.reportId);
-                    setTab('active');
-                  }}
-                >
-                  <div className="action-body">
-                    <p className="action-title">{action.title}</p>
-                    <p className="action-sub">
-                      <ReportRef id={action.reportId} />
-                    </p>
-                  </div>
-                  <StatusPill tone={action.dueVariant}>{action.due}</StatusPill>
-                </button>
-              ))}
-              {reportsWithRfis.map((report) => (
-                <button
-                  key={`${report.id}-rfi`}
-                  className="action-row"
-                  type="button"
-                  title="Open reviewer request"
-                  onClick={() => {
-                    setSelectedId(report.id);
-                    setTab('active');
-                  }}
-                >
-                  <div className="action-body">
-                    <p className="action-title">Respond to reviewer request</p>
-                    <p className="action-sub">
-                      <ReportRef id={report.id} />
-                    </p>
-                  </div>
-                  <StatusPill tone="amber">{report.rfi?.due}</StatusPill>
-                </button>
-              ))}
-            </div>
-          </section>
-        </div>
-      )}
 
       {tab === 'active' && (
         <div className="rp-grid">
@@ -273,18 +210,12 @@ export function Reports() {
                 <p className="ws-h-sub">What you need to do for this report before it can progress.</p>
                 <div className="actions">
                   {actionsForReport(selected.id).map((a) => (
-                    <button
-                      key={a.id}
-                      className="action-row"
-                      type="button"
-                      title="View all actions"
-                      onClick={() => setTab('actions')}
-                    >
+                    <div key={a.id} className="action-row action-row--static">
                       <div className="action-body">
                         <p className="action-title">{a.title}</p>
                       </div>
                       <StatusPill tone={a.dueVariant}>{a.due}</StatusPill>
-                    </button>
+                    </div>
                   ))}
                 </div>
               </section>
@@ -345,7 +276,7 @@ export function Reports() {
               <section className="ws-panel">
                 <div className="rp-infobar">
                   <Icon name="info" size={15} /> {selected.name} passed all completeness checks and is in the
-                  review queue. There's nothing for you to do right now. The SGRP will review the pack at{' '}
+                  review queue. There’s nothing for you to do right now. The SGRP will review the pack at{' '}
                   {selected.session}.
                 </div>
               </section>
@@ -358,7 +289,7 @@ export function Reports() {
         <div className="rp-tabpane">
           <section className="ws-panel">
             <h2 className="ws-h">Drafts</h2>
-            <p className="ws-h-sub">Reports you haven't submitted to the secretariat yet.</p>
+            <p className="ws-h-sub">Reports you haven’t submitted to the secretariat yet.</p>
             <div className="rp-list">
               {drafts.map((d) => (
                 <button

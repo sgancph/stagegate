@@ -1,5 +1,7 @@
+import type { ReactNode } from 'react';
+
 /** Single source for the line-icon set. Stroke icons inherit `currentColor`. */
-const PATHS: Record<string, JSX.Element> = {
+const PATHS: Record<string, ReactNode> = {
   home: (
     <>
       <path d="M3 10.5 12 3l9 7.5" />
@@ -145,6 +147,12 @@ const PATHS: Record<string, JSX.Element> = {
     <>
       <rect x="3" y="5" width="18" height="14" rx="2" />
       <path d="m3 7 9 6 9-6" />
+    </>
+  ),
+  chat: (
+    <>
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.7-5.1A7.5 7.5 0 0 1 3 12V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
+      <path d="M8 10h.01M12 10h.01M16 10h.01" />
     </>
   ),
 };

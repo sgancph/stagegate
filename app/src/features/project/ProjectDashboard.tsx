@@ -107,7 +107,7 @@ export function ProjectDashboard() {
           <div className="card__head">
             <div>
               <h2 className="card__title">My stage gate reports</h2>
-              <p className="card__sub">The reports you're preparing and submitting for approval.</p>
+              <p className="card__sub">The reports you’re preparing and submitting for approval.</p>
             </div>
             <button className="link" onClick={() => navigate('authoring')}>
               <Icon name="plus" size={15} strokeWidth={2} />

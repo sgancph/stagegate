@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, type ReactNode } from 'react';
 import { WorkspaceHeader } from './WorkspaceHeader';
 import { Icon, Sparkle } from '../../components/ui/Icon';
 import { toast } from '../../lib/toast';
@@ -26,7 +26,7 @@ const SECTIONS = [
   '5 · Risk & Assurance',
   '6 · Operational Readiness',
 ];
-const SECTION_BODY: Record<number, JSX.Element> = {
+const SECTION_BODY: Record<number, ReactNode> = {
   2: (
     <p className="ws-prose">
       Detailed design is complete across all disciplines. The exterior concept has been value-engineered

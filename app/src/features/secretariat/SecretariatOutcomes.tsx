@@ -76,7 +76,7 @@ export function SecretariatOutcomes() {
           <p>
             The Stage Gate 3 submission for Music Theme Park was reviewed by the SGRP Committee on 10 June
             2026 and has been granted <strong>conditional endorsement</strong>. The submission demonstrated
-            strong alignment with Qiddiya's strategic objectives and met the required readiness threshold.
+            strong alignment with Qiddiya’s strategic objectives and met the required readiness threshold.
           </p>
           <p>
             This submission cannot proceed to Stage Gate 4 until the following conditions are formally closed

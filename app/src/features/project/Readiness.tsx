@@ -13,8 +13,8 @@ export function Readiness() {
           </span>
           <h3 className="ws-empty__t">Run a readiness scan to see results</h3>
           <p className="ws-empty__d">
-            Confirm the checklist on the left, then run the scan. We'll check your report against the Stage
-            Gate mandatory checklist and show what passes, what's missing, and any advisory warnings right
+            Confirm the checklist on the left, then run the scan. We’ll check your report against the Stage
+            Gate mandatory checklist and show what passes, what’s missing, and any advisory warnings right
             here.
           </p>
           <div className="ws-empty__steps">

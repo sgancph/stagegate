@@ -17,6 +17,7 @@ import { SecretariatScan } from './features/secretariat/SecretariatScan';
 import { Placeholder } from './features/Placeholder';
 import { GuidedTour } from './features/tour/GuidedTour';
 import { Settings } from './features/settings/Settings';
+import { ChatAssistant } from './features/chat/ChatAssistant';
 import { Toaster } from './lib/toast';
 
 const VIEW_TITLES: Record<string, string> = {
@@ -105,6 +106,7 @@ export function App() {
           <AppProvider>
             <Shell />
             <Settings />
+            <ChatAssistant />
             <GuidedTour />
             <Toaster />
           </AppProvider>

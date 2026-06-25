@@ -25,12 +25,12 @@ This is a **clickable prototype** for stakeholder review, not production infrast
 
 ## Repository Layout
 
-The product is a Next.js 14 (App Router), React 18, and TypeScript application under `app/`.
+The product is a Next.js 16 (App Router), React 19, and TypeScript application under `app/`.
 
 - `app/src/app/layout.tsx` and `app/src/app/page.tsx`: App Router entry. `page.tsx` mounts the client SPA (`App.tsx`) via a `dynamic(..., { ssr: false })` import.
 - `app/src/App.tsx`: SPA view composition.
 - `app/src/app/`: App Router routes plus shared state and application context (`AppContext.tsx`). The LLM proxy route is `app/src/app/api/ai/route.ts`.
-- `app/src/middleware.ts`: basic-auth gate (production only).
+- `app/src/proxy.ts`: basic-auth gate (production only).
 - `app/src/components/`: reusable UI organized under `layout/` and `ui/`.
 - `app/src/features/`: workflow-specific screens grouped by domain (`project/`, `secretariat/`, `settings/`, and `tour/`).
 - `app/src/styles.css`: global styles and design tokens.
@@ -59,7 +59,7 @@ Run commands from `app/`:
 
 - `npm ci`: install the locked dependency set.
 - `npm run dev`: start the Next.js development server.
-- `npm run check`: format-check, type-check, and build in one command.
+- `npm run check`: type-check, format-check, and build in one command.
 - `npm run build`: create the production build in `app/.next/`.
 - `npm run start`: serve the production build locally.
 
@@ -73,13 +73,13 @@ No test runner or linter is configured. Run `npm run check` for every code chang
 
 ## Deploy
 
-Production is a single Vercel project (`stagegate`) whose **Root Directory is `app/`** so Vercel detects the Next.js app there. It is aliased to **stagegate.vercel.app**, gated by basic-auth Next middleware (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
+Production is a single Vercel project (`stagegate`) whose **Root Directory is `app/`** so Vercel detects the Next.js app there. It is aliased to **stagegate.vercel.app**, gated by the basic-auth Next proxy (`BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` env). This is the one canonical flow — do not invent variations.
 
 After all changes are committed on `main`, run `./deploy` from the repository root. It validates the app, pushes `main`, builds locally (`vercel build`), ships the prebuilt output (`vercel deploy --prebuilt --prod`), and verifies the expected **401** auth gate. It stops before deployment if the branch is not `main`, the working tree is dirty, validation fails, or the live response is unexpected. The local build relies on the linked project's Root Directory being set to `app/`; a fresh clone must set that in Vercel project settings before its first deploy.
 
 **Multiple agents share `main`.** Before pushing or running `./deploy`, run `git pull --rebase origin main` so you build on the latest commits and don't hit a rejected push or a merge bubble. Commit your own work first (a clean tree), then rebase, then deploy. Only one agent should edit or commit at a time; other agents may inspect or review concurrently.
 
-Do not change `app/src/middleware.ts`, `app/next.config.mjs`, or the Vercel project's Root Directory (build, routing, auth) without a task-specific reason.
+Do not change `app/src/proxy.ts`, `app/next.config.mjs`, or the Vercel project's Root Directory (build, routing, auth) without a task-specific reason.
 
 ## Code Conventions
 

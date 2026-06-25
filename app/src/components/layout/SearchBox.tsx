@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, type ReactNode } from 'react';
 import { Icon, Sparkle } from '../ui/Icon';
 import { getProjects } from '../../data/store';
 import { useApp, type View } from '../../app/AppContext';
@@ -13,7 +13,7 @@ const STATIC_ITEMS: Item[] = [
   { g: 'Activity', t: 'SGRP Session 15', s: '17 Jun 2026', view: 'reports' },
   { g: 'Activity', t: 'Outcome letters', s: 'Committee decisions', view: 'reports' },
 ];
-const GROUP_ICON: Record<string, JSX.Element> = {
+const GROUP_ICON: Record<string, ReactNode> = {
   Projects: <Icon name="reports" size={15} />,
   'AI tools': <Sparkle size={15} />,
   Activity: <Icon name="info" size={15} />,

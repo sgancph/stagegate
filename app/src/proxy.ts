@@ -11,7 +11,7 @@ function challenge(status: number, body: string, authenticate = false) {
   return new NextResponse(body, { status, headers });
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Demo lock applies only to deployed builds; local dev runs open, like the old Vite server.
   if (process.env.NODE_ENV !== 'production') return NextResponse.next();
 

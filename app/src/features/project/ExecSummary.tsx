@@ -124,7 +124,7 @@ export function ExecSummary() {
               </span>
               <h3 className="ws-empty__t">Generate a summary to see it here</h3>
               <p className="ws-empty__d">
-                Choose an output format on the left and generate. We'll draft a committee-ready executive
+                Choose an output format on the left and generate. We’ll draft a committee-ready executive
                 summary from the report details supplied to the AI. Review the output before using it.
               </p>
               <div className="ws-empty__steps">
