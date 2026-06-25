@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../app/AppContext';
 import { Icon, Sparkle } from '../../components/ui/Icon';
+import { StatusPill } from '../../components/ui/StatusPill';
 import { getSecretariat, reportLabel } from '../../data/store';
 import { toast } from '../../lib/toast';
 
@@ -16,7 +17,7 @@ export function SecretariatDashboard() {
     queueView === 'all'
       ? subs
       : queueView === 'overdue'
-        ? subs.filter((submission) => submission.dot === 'red')
+        ? subs.filter((submission) => submission.tone === 'red')
         : subs.slice(0, 3);
   return (
     <div className="sec-dash">
@@ -120,20 +121,12 @@ export function SecretariatDashboard() {
           <div className="sec-subs">
             {visibleSubmissions.map((s) => (
               <button key={s.name} className="sec-sub" type="button" onClick={() => navigate('reports')}>
-                <span
-                  className="dot"
-                  style={{
-                    background: (
-                      { blue: '#0BC0FF', amber: 'var(--amber)', red: 'var(--red)' } as Record<string, string>
-                    )[s.dot],
-                  }}
-                />
                 <div className="sec-sub__text">
                   <p className="sec-sub__name">{s.name}</p>
                   <p className="sec-sub__sub">{s.gate}</p>
                 </div>
                 <div className="sec-sub__act">
-                  <span className={`sec-chip${s.chipMod ? ` sec-chip--${s.chipMod}` : ''}`}>{s.chip}</span>
+                  <StatusPill tone={s.tone}>{s.status}</StatusPill>
                 </div>
               </button>
             ))}

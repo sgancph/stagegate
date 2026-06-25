@@ -200,17 +200,11 @@ export const SECRETARIAT: SecretariatData = {
     { label: 'Closed', num: 51, mod: 'closed' },
   ],
   submissions: [
-    { name: 'Arena', gate: 'Stage Gate 3', chip: 'New intake', dot: 'blue' },
-    { name: 'Sports Park Infrastructure', gate: 'Stage Gate 2', chip: 'In review', dot: 'amber' },
-    { name: 'Velodrome', gate: 'Stage Gate 2', chip: 'In review', dot: 'amber' },
-    { name: 'Music Theme Park', gate: 'Stage Gate 3', chip: 'In review', dot: 'amber' },
-    {
-      name: 'Public Golf Apartments Phase 2',
-      gate: 'Stage Gate 2',
-      chip: 'Incomplete',
-      dot: 'red',
-      chipMod: 'red',
-    },
+    { name: 'Arena', gate: 'Stage Gate 3', tone: 'blue', status: 'New intake' },
+    { name: 'Sports Park Infrastructure', gate: 'Stage Gate 2', tone: 'amber', status: 'In review' },
+    { name: 'Velodrome', gate: 'Stage Gate 2', tone: 'amber', status: 'In review' },
+    { name: 'Music Theme Park', gate: 'Stage Gate 3', tone: 'amber', status: 'In review' },
+    { name: 'Public Golf Apartments Phase 2', gate: 'Stage Gate 2', tone: 'red', status: 'Incomplete' },
   ],
   recs: [
     {

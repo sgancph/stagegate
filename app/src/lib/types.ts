@@ -154,9 +154,8 @@ export interface FunnelStage {
 export interface SecretariatSubmission {
   name: string;
   gate: string;
-  chip: string;
-  dot: string;
-  chipMod?: string;
+  tone: Tone;
+  status: string;
 }
 
 export interface SecretariatRec {
