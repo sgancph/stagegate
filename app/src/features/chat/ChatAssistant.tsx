@@ -9,12 +9,6 @@ type Message = {
   meta?: string;
 };
 
-const WELCOME: Message = {
-  id: 'welcome',
-  role: 'assistant',
-  content: 'Ask about reports, stage gates, capital asks, or pending actions in this workspace.',
-};
-
 const SUGGESTIONS = [
   'What actions are pending for Arena?',
   'Which reports are at Stage Gate 2?',
@@ -24,7 +18,7 @@ const SUGGESTIONS = [
 export function ChatAssistant() {
   const { persona, selectedProjectId } = useApp();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([WELCOME]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [draft, setDraft] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -48,7 +42,7 @@ export function ChatAssistant() {
     if (!content || loading) return;
 
     const userMessage: Message = { id: crypto.randomUUID(), role: 'user', content };
-    const conversation = [...messages.filter((message) => message.id !== 'welcome'), userMessage];
+    const conversation = [...messages, userMessage];
     setMessages((current) => [...current, userMessage]);
     setDraft('');
     setError('');
@@ -141,13 +135,18 @@ export function ChatAssistant() {
           </header>
 
           <div className="ai-chat__messages" ref={listRef} aria-live="polite">
+            {messages.length === 0 && (
+              <div className="ai-message ai-message--assistant">
+                <p>Ask about reports, stage gates, capital asks, or pending actions in this workspace.</p>
+              </div>
+            )}
             {messages.map((message) => (
               <div key={message.id} className={`ai-message ai-message--${message.role}`}>
                 <p>{message.content}</p>
                 {message.meta && <span>{message.meta}</span>}
               </div>
             ))}
-            {messages.length === 1 && (
+            {messages.length === 0 && (
               <div className="ai-chat__suggestions" aria-label="Suggested questions">
                 {SUGGESTIONS.map((suggestion) => (
                   <button

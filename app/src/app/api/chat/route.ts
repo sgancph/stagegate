@@ -9,12 +9,21 @@ type ChatMessage = { role: 'user' | 'assistant'; content: string };
 const badRequest = (error: string) =>
   Response.json({ error }, { status: 400, headers: { 'Cache-Control': 'no-store' } });
 
+const chatResponse = (body: { text: string; model: string; grounding: string }) =>
+  Response.json(body, { headers: { 'Cache-Control': 'no-store' } });
+
 const exactActionAnswer = (reportName: string, actions: { title: string; due: string }[]) =>
   actions.length
     ? `The pending actions for ${reportName} are:\n\n${actions
         .map((action, index) => `${index + 1}. ${action.title} (${action.due})`)
         .join('\n')}`
     : `There are no pending actions recorded for ${reportName}.`;
+
+const reportSummary = (
+  project: { name: string; stageGate: string; sector: string; capitalAsk: string },
+  actions: { title: string; due: string }[],
+) =>
+  `${project.name} is a ${project.sector} report at ${project.stageGate} with a capital ask of ${project.capitalAsk}.\n\n${exactActionAnswer(project.name, actions)}`;
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -55,7 +64,22 @@ export async function POST(request: Request) {
   const focusedActions = focusedProject
     ? seed.actions.filter((action) => action.reportId === focusedProject.id)
     : [];
-  const asksAboutActions = /\bactions?\b/.test(question);
+  const grounding = `${seed.projects.length} reports · ${seed.actions.length} actions`;
+  if (focusedProject && /\bactions?\b/.test(question)) {
+    return chatResponse({
+      text: exactActionAnswer(focusedProject.name, focusedActions),
+      model: 'workspace-data',
+      grounding,
+    });
+  }
+  if (focusedProject && /\b(summarise|summarize|summary|known facts|overview)\b/.test(question)) {
+    return chatResponse({
+      text: reportSummary(focusedProject, focusedActions),
+      model: 'workspace-data',
+      grounding,
+    });
+  }
+
   const reportLines = seed.projects.map(
     (project) =>
       `REPORT | id=${project.id} | name=${project.name} | gate=${project.stageGate} | sector=${project.sector} | capital ask=${project.capitalAsk}`,
@@ -64,13 +88,10 @@ export async function POST(request: Request) {
     const report = seed.projects.find((project) => project.id === action.reportId);
     return `ACTION | id=${action.id} | report=${report?.name ?? action.reportId} | title=${action.title} | due=${action.due}`;
   });
-  const focusLines = focusedActions.map(
-    (action, index) => `${index + 1}. ${action.title} | due=${action.due}`,
-  );
   const groundedMessages = [
     {
       role: 'system' as const,
-      content: `You are the Stage Gate Intelligence assistant for the ${persona} persona. Answer only from the exhaustive workspace records below. Treat every ACTION as belonging to its named REPORT. When asked what, which, or how many records match, check every line and include every match. "Pending actions" means every ACTION record, including due=No deadline. If a requested fact is absent, say it is not available in the workspace; never infer or invent it. Use concise plain language. The currently selected report is ${selectedProject?.name ?? 'not specified'}.\n\nFOCUSED REPORT: ${focusedProject?.name ?? 'none'}\nEXACT ACTION COUNT: ${focusedActions.length}\nIf answering about this report's actions, list all ${focusedActions.length} actions below and do not omit no-deadline actions.\n${focusLines.length ? focusLines.join('\n') : 'No actions recorded.'}\n\nALL WORKSPACE RECORDS\n${[...reportLines, ...actionLines].join('\n')}`,
+      content: `You are the Stage Gate Intelligence assistant for the ${persona} persona. Answer only from the workspace records below. If a requested fact is absent, say it is not available in the workspace. Use concise plain language. The currently selected report is ${selectedProject?.name ?? 'not specified'}.\n\n${[...reportLines, ...actionLines].join('\n')}`,
     },
     ...messages.slice(-8),
   ];
@@ -89,18 +110,5 @@ export async function POST(request: Request) {
 
   if (!response.ok) return response;
   const result = (await response.json()) as { text: string; model: string };
-  if (
-    asksAboutActions &&
-    focusedProject &&
-    focusedActions.some((action) => !result.text.toLowerCase().includes(action.title.toLowerCase()))
-  ) {
-    result.text = exactActionAnswer(focusedProject.name, focusedActions);
-  }
-  return Response.json(
-    {
-      ...result,
-      grounding: `${seed.projects.length} reports · ${seed.actions.length} actions`,
-    },
-    { headers: { 'Cache-Control': 'no-store' } },
-  );
+  return chatResponse({ ...result, grounding });
 }
