@@ -19,6 +19,7 @@ export function WorkspaceHeader({ active }: { active: Tab }) {
         </button>
         <div>
           <h1 className="ws-title">Authoring workspace</h1>
+          <p className="ws-h-sub">Draft, generate and check your Stage Gate report before you submit.</p>
         </div>
         <div className="ws-head-right">
           <span className="ws-projsel-label">Report</span>

@@ -74,14 +74,13 @@ export function Reports() {
                     onClick={() => setSelectedId(r.id)}
                   >
                     <div className="rp-item__head">
-                      <span className={`dot dot--${r.dot}`} />
                       <div>
                         <p className="rp-item__name">{r.name}</p>
                         <p className="rp-item__sub">{r.gate}</p>
                       </div>
                     </div>
                     <div className="rp-item__pills">
-                      <span className={`ws-tag ${r.pillClass}`}>{r.pillText}</span>
+                      <StatusPill tone={r.tone}>{r.pillText}</StatusPill>
                     </div>
                   </button>
                 ))}

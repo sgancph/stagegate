@@ -111,7 +111,7 @@ export function ChatAssistant() {
           aria-controls="ai-assistant"
           onClick={() => setOpen(true)}
         >
-          <Sparkle size={18} />
+          <Sparkle size={16} />
           <span>Ask AI</span>
         </button>
       )}
@@ -191,7 +191,7 @@ export function ChatAssistant() {
                 setDraft(event.target.value);
                 const el = event.target;
                 el.style.height = 'auto';
-                el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+                el.style.height = `${Math.min(el.scrollHeight + 2, 120)}px`;
               }}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' && !event.shiftKey) {

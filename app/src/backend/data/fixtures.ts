@@ -66,9 +66,8 @@ export const MY_REPORTS: MyReportsData = {
       id: 'arena',
       name: 'Arena',
       gate: 'Stage Gate 3',
-      dot: 'orange',
-      pillClass: 'ws-tag--blue',
-      pillText: 'Review · SGRP Session 15',
+      tone: 'blue',
+      pillText: 'In review · SGRP Session 15',
       timeline: [
         { label: 'Intake', date: '8 Jun', state: 'done' },
         { label: 'Completeness Scan', date: '9 Jun', state: 'done' },
@@ -97,8 +96,7 @@ export const MY_REPORTS: MyReportsData = {
       id: 'velodrome',
       name: 'Velodrome',
       gate: 'Stage Gate 2',
-      dot: 'blue',
-      pillClass: 'ws-tag--newblue',
+      tone: 'grey',
       pillText: 'Awaiting SGRP review',
       timeline: [
         { label: 'Intake', date: '4 Jun', state: 'done' },

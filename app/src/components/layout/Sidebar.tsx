@@ -7,7 +7,7 @@ type NavItem = { view: View; label: string; icon: 'home' | 'draft' | 'reports' }
 const NAV: Record<Persona, NavItem[]> = {
   project: [
     { view: 'dashboard', label: 'Home', icon: 'home' },
-    { view: 'authoring', label: 'Drafts', icon: 'draft' },
+    { view: 'authoring', label: 'Authoring', icon: 'draft' },
     { view: 'reports', label: 'My reports', icon: 'reports' },
   ],
   secretariat: [
@@ -16,7 +16,7 @@ const NAV: Record<Persona, NavItem[]> = {
   ],
 };
 
-// authoring sub-views still light up the Drafts icon
+// authoring sub-views still light up the Authoring icon
 const NAV_GROUP: Record<string, View> = { execsummary: 'authoring', readiness: 'authoring', scan: 'reports' };
 
 export function Sidebar() {

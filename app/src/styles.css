@@ -508,7 +508,8 @@ body{
 .ws-draft-title{font-size:15px;font-weight:700;color:var(--heading);margin:0;}
 .ws-draft-sub{font-size:12px;color:var(--muted);margin:3px 0 0;}
 
-.ws-draft-meta__count{font-size:12px;color:var(--muted-2);white-space:nowrap;}
+.ws-draft-meta__count{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--blue-soft);color:var(--muted);font-size:11.5px;font-weight:600;white-space:nowrap;}
+.ws-draft-meta__count strong{color:var(--navy-bar);font-weight:700;}
 .ws-steps{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0 0;}
 .ws-step{width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:0 0 auto;cursor:pointer;transition:transform .14s ease,box-shadow .14s ease;}
 .ws-step:hover{transform:translateY(-2px);box-shadow:0 3px 8px rgba(16,42,67,.16);}
@@ -852,8 +853,8 @@ body{
 .rp-tl__cur{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--amber-pill-text);margin-top:3px;}
 .rp-tl__cur::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--amber);}
 .rp-eyebrow{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin:0 0 6px;}
-.rp-kv__row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;font-size:13px;}
-.rp-kv__k{color:var(--muted);}
+.rp-kv__row{display:flex;align-items:baseline;gap:14px;padding:9px 0;font-size:13px;}
+.rp-kv__k{flex:0 0 132px;color:var(--muted);}
 .rp-kv__v{font-weight:600;color:var(--heading);display:inline-flex;align-items:center;gap:7px;}
 .rp-rfi{border:1.5px solid var(--amber);background:#FFFDF6;}
 .rp-rfi__head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
@@ -1336,7 +1337,7 @@ body{
 .notif__foot{border-top:1px solid var(--border);margin-top:4px;padding:8px 4px 4px;text-align:center;}
 
 /* ===== Grounded AI assistant ===== */
-.ai-launcher{position:fixed;right:24px;bottom:24px;z-index:var(--z-assistant);display:flex;align-items:center;gap:9px;height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--persona,var(--navy-bar));color:#fff;font:700 14px/1 inherit;cursor:pointer;box-shadow:0 12px 30px rgba(0,27,114,.24);transition:transform .14s ease,box-shadow .14s ease,background .14s ease;}
+.ai-launcher{position:fixed;right:24px;bottom:24px;z-index:var(--z-assistant);display:flex;align-items:center;gap:9px;height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--persona,var(--navy-bar));color:#fff;font:700 15px/1 inherit;cursor:pointer;box-shadow:0 12px 30px rgba(0,27,114,.24);transition:transform .14s ease,box-shadow .14s ease,background .14s ease;}
 .ai-launcher:hover{background:var(--navy-btn-hover);transform:translateY(-1px);box-shadow:0 15px 34px rgba(0,27,114,.3);}
 .ai-launcher:focus-visible,.ai-chat button:focus-visible,.ai-chat textarea:focus-visible{outline:2px solid #0BC0FF;outline-offset:2px;}
 .ai-chat{position:fixed;right:24px;bottom:24px;z-index:var(--z-assistant);width:390px;height:min(620px,calc(100vh - 72px));display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(8,18,40,.26);}
@@ -1364,7 +1365,7 @@ body{
 .ai-chat__error{display:flex;align-items:flex-start;gap:8px;padding:9px 11px;border-radius:9px;background:#FCE4E4;color:#9B2C2C;font-size:12px;line-height:1.4;}
 .ai-chat__error svg{flex:0 0 auto;margin-top:1px;}
 .ai-chat__composer{display:flex;align-items:flex-end;gap:8px;padding:12px 12px 8px;background:#fff;border-top:1px solid var(--border);}
-.ai-chat__composer textarea{flex:1;min-height:44px;max-height:120px;resize:none;border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--heading);font:13px/1.45 inherit;}
+.ai-chat__composer textarea{flex:1;max-height:120px;resize:none;border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--heading);font:13px/1.45 inherit;overflow-y:auto;}
 .ai-chat__composer textarea::placeholder{color:var(--muted-2);}
 .ai-chat__composer button{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;border:0;border-radius:10px;background:var(--persona,var(--navy-bar));color:#fff;cursor:pointer;}
 .ai-chat__composer button:disabled{background:var(--grey-soft);color:var(--grey-soft-text);cursor:not-allowed;}

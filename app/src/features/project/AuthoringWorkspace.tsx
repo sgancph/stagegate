@@ -123,7 +123,7 @@ export function AuthoringWorkspace() {
               </div>
               <div className="ws-draft-meta">
                 <span className="ws-draft-meta__count">
-                  {Math.min(19, 16 + reviewedSections.size)} / 19 sections reviewed
+                  <strong>{Math.min(19, 16 + reviewedSections.size)}/19</strong> sections reviewed
                 </span>
               </div>
             </div>

@@ -89,8 +89,8 @@ export interface ActiveReport {
   id: string;
   name: string;
   gate: string;
-  dot: string;
-  pillClass: string;
+  /** One tone drives the whole status: the pill and its dot share this colour. */
+  tone: 'amber' | 'green' | 'grey' | 'blue' | 'red';
   pillText: string;
   timeline: TimelineStep[];
   reviewer: string;
