@@ -3,11 +3,7 @@ import type { Persona, SeedData, UserProfile } from '../../lib/types';
 import { PROJECTS } from './projects';
 import { USERS } from './users';
 import { ACTIONS } from './actions';
-import { PROJECT_DASHBOARD } from './project-dashboard';
-import { MY_REPORTS } from './my-reports';
-import { AUTHORING } from './authoring';
-import { SECRETARIAT } from './secretariat';
-import { NOTIFICATIONS } from './notifications';
+import { AUTHORING, MY_REPORTS, NOTIFICATIONS, PROJECT_DASHBOARD, SECRETARIAT } from './fixtures';
 import { getDb } from '../db';
 import { actions as actionsTable, projects as projectsTable, users as usersTable } from '../db/schema';
 
